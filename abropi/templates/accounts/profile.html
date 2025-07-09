@@ -1,0 +1,292 @@
+<!-- templates/accounts/profile.html (WORKING VERSION - NO CUSTOM TAGS) -->
+{% extends 'base.html' %}
+
+{% block title %}{{ user.get_full_name|default:user.username }}'s Profile - Abropi{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Profile Info -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                <!-- Profile Picture -->
+                <div class="text-center mb-6">
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" 
+                             alt="{{ user.username }}" 
+                             class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-primary-100">
+                    {% else %}
+                        <div class="w-32 h-32 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-primary-100">
+                            <span class="text-white font-bold text-4xl">{{ user.username|first|upper }}</span>
+                        </div>
+                    {% endif %}
+                    
+                    <h1 class="text-2xl font-bold text-gray-900">{{ user.get_full_name|default:user.username }}</h1>
+                    
+                    {% if user.is_verified %}
+                        <span class="inline-flex items-center text-blue-600 mt-2">
+                            <i class="fas fa-check-circle mr-1"></i>Verified Member
+                        </span>
+                    {% endif %}
+                </div>
+
+                <!-- Basic Info -->
+                <div class="space-y-4">
+                    {% if user.bio %}
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-2">About</h3>
+                        <p class="text-gray-600">{{ user.bio }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if user.country_of_origin %}
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-2">Background</h3>
+                        <p class="text-gray-600">
+                            <i class="fas fa-globe mr-2 text-primary-500"></i>From {{ user.get_country_of_origin_display }}
+                        </p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if user.current_country %}
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-2">Current Location</h3>
+                        <p class="text-gray-600">
+                            <i class="fas fa-map-marker-alt mr-2 text-primary-500"></i>{{ user.get_current_country_display }}
+                        </p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if user.immigration_status %}
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-2">Immigration Status</h3>
+                        <p class="text-gray-600">
+                            <i class="fas fa-id-card mr-2 text-primary-500"></i>{{ user.get_immigration_status_display }}
+                        </p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if user.languages_spoken %}
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-2">Languages Spoken</h3>
+                        <p class="text-gray-600">
+                            <i class="fas fa-language mr-2 text-primary-500"></i>{{ user.languages_spoken }}
+                        </p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if user.phone %}
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-2">Phone</h3>
+                        <p class="text-gray-600">
+                            <i class="fas fa-phone mr-2 text-primary-500"></i>{{ user.phone }}
+                        </p>
+                    </div>
+                    {% endif %}
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-2">Member Since</h3>
+                        <p class="text-gray-600">
+                            <i class="fas fa-calendar mr-2 text-primary-500"></i>{{ user.date_joined|date:"F Y" }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Edit Profile Button -->
+                {% if request.user == user %}
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <a href="{% url 'edit_profile' %}" 
+                       class="w-full bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition duration-200 text-center font-medium block">
+                        <i class="fas fa-edit mr-2"></i>Edit Profile
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Stats -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mt-6 border border-gray-100">
+                <h3 class="font-bold text-gray-900 mb-4">Community Stats</h3>
+                
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Active Listings</span>
+                        <span class="font-medium">{{ user_listings.count|default:0 }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Total Views</span>
+                        <span class="font-medium">{{ total_views|default:0 }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Favorites</span>
+                        <span class="font-medium">{{ user_favorites.count|default:0 }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Join Date</span>
+                        <span class="font-medium">{{ user.date_joined|date:"M Y" }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+            <!-- Welcome Message -->
+            <div class="bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl p-6 text-white mb-6">
+                <h2 class="text-2xl font-bold mb-2">
+                    {% if request.user == user %}
+                        Welcome back, {{ user.first_name|default:user.username }}!
+                    {% else %}
+                        {{ user.get_full_name|default:user.username }}'s Profile
+                    {% endif %}
+                </h2>
+                <p class="text-blue-100">
+                    {% if request.user == user %}
+                        Manage your listings and connect with the immigrant community
+                    {% else %}
+                        Community member since {{ user.date_joined|date:"F Y" }}
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- Quick Actions -->
+            {% if request.user == user %}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <a href="{% url 'create_listing' %}" class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition duration-300 text-center">
+                    <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-plus text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">Create Listing</h3>
+                    <p class="text-sm text-gray-600">Share opportunities</p>
+                </a>
+                
+                <a href="{% url 'my_listings' %}" class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition duration-300 text-center">
+                    <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-list text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">My Listings</h3>
+                    <p class="text-sm text-gray-600">{{ user_listings.count|default:0 }} active</p>
+                </a>
+                
+                <a href="{% url 'favorites' %}" class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition duration-300 text-center">
+                    <div class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-heart text-red-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">Favorites</h3>
+                    <p class="text-sm text-gray-600">{{ user_favorites.count|default:0 }} saved</p>
+                </a>
+            </div>
+            {% endif %}
+
+            <!-- Recent Listings -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-gray-900">
+                        {% if request.user == user %}Recent Listings{% else %}{{ user.username }}'s Listings{% endif %}
+                    </h3>
+                    {% if user_listings.count > 3 %}
+                        <a href="{% url 'my_listings' %}" class="text-primary-600 hover:text-primary-800 text-sm font-medium">
+                            View All ({{ user_listings.count }})
+                        </a>
+                    {% endif %}
+                </div>
+                
+                {% if user_listings %}
+                    <div class="space-y-4">
+                        {% for listing in user_listings|slice:":3" %}
+                            <div class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
+                                {% if listing.images.first %}
+                                    <img src="{{ listing.images.first.image.url }}" alt="{{ listing.title }}" class="w-16 h-16 object-cover rounded-lg mr-4">
+                                {% else %}
+                                    <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-image text-gray-400"></i>
+                                    </div>
+                                {% endif %}
+                                
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-gray-900 mb-1">
+                                        <a href="{% url 'listing_detail' listing.pk %}" class="hover:text-primary-600">
+                                            {{ listing.title }}
+                                        </a>
+                                    </h4>
+                                    <p class="text-sm text-gray-600 mb-2">{{ listing.description|truncatewords:10 }}</p>
+                                    <div class="flex items-center justify-between text-xs text-gray-500">
+                                        <span>{{ listing.category.name }}</span>
+                                        <span>{{ listing.created_at|timesince }} ago</span>
+                                        <span class="flex items-center">
+                                            <i class="fas fa-eye mr-1"></i>{{ listing.views_count }}
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                {% if listing.price %}
+                                    <div class="text-right">
+                                        <div class="font-bold text-green-600">${{ listing.price }}</div>
+                                        <div class="text-xs text-gray-500">{{ listing.currency }}</div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-list text-4xl mb-4"></i>
+                        <p class="mb-4">
+                            {% if request.user == user %}
+                                You haven't posted any listings yet
+                            {% else %}
+                                This user hasn't posted any listings yet
+                            {% endif %}
+                        </p>
+                        {% if request.user == user %}
+                            <a href="{% url 'create_listing' %}" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition duration-200">
+                                <i class="fas fa-plus mr-2"></i>Create Your First Listing
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Activity Feed -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Recent Activity</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center p-3 bg-blue-50 rounded-lg">
+                        <div class="bg-blue-100 p-2 rounded-full mr-3">
+                            <i class="fas fa-user text-blue-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-900">Joined Abropi</p>
+                            <p class="text-sm text-gray-600">{{ user.date_joined|date:"F j, Y" }}</p>
+                        </div>
+                    </div>
+                    
+                    {% if user_listings.exists %}
+                    <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                        <div class="bg-green-100 p-2 rounded-full mr-3">
+                            <i class="fas fa-plus text-green-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-900">Posted first listing</p>
+                            <p class="text-sm text-gray-600">{{ user_listings.first.created_at|date:"F j, Y" }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if user.is_verified %}
+                    <div class="flex items-center p-3 bg-purple-50 rounded-lg">
+                        <div class="bg-purple-100 p-2 rounded-full mr-3">
+                            <i class="fas fa-check-circle text-purple-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-900">Account verified</p>
+                            <p class="text-sm text-gray-600">Trusted community member</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

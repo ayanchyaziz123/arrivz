@@ -1,0 +1,73 @@
+<!-- templates/socialaccount/connections.html -->
+{% extends 'base.html' %}
+{% load socialaccount %}
+
+{% block title %}Connected Accounts - Abropi{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto">
+        <div class="text-center mb-8">
+            <div class="mx-auto h-12 w-12 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-lg flex items-center justify-center">
+                <i class="fas fa-link text-white text-xl"></i>
+            </div>
+            <h2 class="mt-6 text-3xl font-bold text-gray-900">Connected Accounts</h2>
+            <p class="mt-2 text-gray-600">Manage your social account connections</p>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+            {% if form.accounts %}
+                <div class="space-y-4 mb-8">
+                    <h3 class="text-lg font-medium text-gray-900">Your Connected Accounts</h3>
+                    {% for base_account in form.accounts %}
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                {% if base_account.get_provider.id == "google" %}
+                                    <div class="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center">
+                                        <i class="fab fa-google text-red-500"></i>
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    <p class="font-medium text-gray-900">{{ base_account.get_provider.name }}</p>
+                                    <p class="text-sm text-gray-600">{{ base_account.extra_data.email|default:base_account.uid }}</p>
+                                </div>
+                            </div>
+                            <form method="post" class="inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="account" value="{{ base_account.id }}">
+                                <button type="submit" 
+                                        name="action_remove"
+                                        class="text-red-600 hover:text-red-800 text-sm font-medium"
+                                        onclick="return confirm('Are you sure you want to disconnect this account?')">
+                                    Disconnect
+                                </button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div>
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Add New Connection</h3>
+                {% get_providers as socialaccount_providers %}
+                {% for provider in socialaccount_providers %}
+                    {% if provider.id == "google" %}
+                        <a href="{% provider_login_url provider.id process="connect" %}" 
+                           class="flex items-center justify-center space-x-3 w-full py-3 px-4 border border-gray-300 rounded-lg bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-200">
+                            <i class="fab fa-google text-red-500"></i>
+                            <span>Connect Google Account</span>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            <div class="mt-8 text-center">
+                <a href="{% url 'user:profile' %}" 
+                   class="text-primary-600 hover:text-primary-800 font-medium">
+                    ← Back to Profile
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

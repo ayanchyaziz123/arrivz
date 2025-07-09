@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Arrivz - Find Your Next Opportunity{% endblock %}</title>
+    <meta name="description" content="{% block description %}Connect with professional opportunities, trusted services, and build your network. Join thousands of immigrants advancing their careers.{% endblock %}">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        /* Arrivz design system with new color palette */
+        :root {
+            --primary-600: #2563eb;        /* Blue primary */
+            --primary-700: #1d4ed8;        /* Darker blue */
+            --primary-50: #eff6ff;         /* Light blue background */
+            --secondary-600: #7c3aed;      /* Purple accent */
+            --secondary-700: #6d28d9;      /* Darker purple */
+            --secondary-50: #f5f3ff;       /* Light purple background */
+            --gray-900: #111827;
+            --gray-800: #1f2937;
+            --gray-700: #374151;
+            --gray-600: #4b5563;
+            --gray-500: #6b7280;
+            --gray-400: #9ca3af;
+            --gray-300: #d1d5db;
+            --gray-200: #e5e7eb;
+            --gray-100: #f3f4f6;
+            --gray-50: #f9fafb;
+            --success-600: #059669;        /* Emerald green for success */
+            --warning-600: #d97706;        /* Amber for warnings */
+            --error-600: #dc2626;          /* Red for errors */
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+            background-color: #f9fafb;
+        }
+        
+        /* Custom container */
+        .max-w-7xl {
+            max-width: 80rem;
+        }
+        
+        /* Arrivz Logo Styles */
+        .arrivz-logo {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .arrivz-logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.1) 100%);
+            border-radius: inherit;
+        }
+        
+        .arrivz-logo-text {
+            color: white;
+            font-weight: 800;
+            font-size: 0.75rem;
+            letter-spacing: -0.025em;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Responsive logo sizes */
+        .arrivz-logo-sm {
+            width: 1.75rem;
+            height: 1.75rem;
+        }
+        
+        .arrivz-logo-md {
+            width: 2rem;
+            height: 2rem;
+        }
+        
+        .arrivz-logo-lg {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+        
+        /* Button variants */
+        .btn-primary {
+            background-color: var(--primary-600);
+            color: white;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-700);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-600);
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--primary-600);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-50);
+            transform: translateY(-1px);
+        }
+        
+        /* Navigation styles */
+        .nav-link {
+            color: var(--gray-700);
+            font-weight: 500;
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-600);
+            background-color: var(--primary-50);
+        }
+        
+        .nav-link.active {
+            color: var(--primary-600);
+            background-color: var(--primary-50);
+        }
+        
+        /* Dropdown styles */
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        /* Mobile menu animation */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        /* Search input styling */
+        .search-input {
+            background: white;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            font-size: 0.875rem;
+            transition: all 0.15s ease;
+            width: 100%;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-600);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        /* Card styles */
+        .card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .card:hover {
+            border-color: var(--gray-300);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Avatar styles */
+        .avatar {
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--primary-600);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        /* Badge styles */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 9999px;
+        }
+        
+        .badge-success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        /* Mobile-first responsive utilities */
+        @media (max-width: 640px) {
+            .max-w-7xl {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .nav-link {
+                padding: 0.75rem 1rem;
+                font-size: 1rem;
+            }
+            
+            .btn-primary,
+            .btn-secondary {
+                padding: 0.875rem 1.25rem;
+                font-size: 0.875rem;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .search-input {
+                font-size: 1rem; /* Prevents zoom on iOS */
+            }
+            
+            .avatar {
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 1rem;
+            }
+            
+            .arrivz-logo-text {
+                font-size: 0.625rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container-mobile {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            /* Hide desktop elements */
+            .hidden-mobile {
+                display: none !important;
+            }
+            
+            /* Show mobile elements */
+            .show-mobile {
+                display: block !important;
+            }
+            
+            /* Mobile navigation adjustments */
+            .nav-mobile {
+                padding: 1rem 0;
+            }
+        }
+        
+        @media (min-width: 768px) and (max-width: 1024px) {
+            /* Tablet adjustments */
+            .nav-link {
+                padding: 0.625rem 0.875rem;
+                font-size: 0.8125rem;
+            }
+        }
+        
+        /* Focus states for accessibility */
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible {
+            outline: 2px solid var(--primary-600);
+            outline-offset: 2px;
+        }
+        
+        /* Loading animation */
+        .loading-dots {
+            display: inline-block;
+        }
+        
+        .loading-dots::after {
+            content: '';
+            animation: loading-dots 1.5s infinite;
+        }
+        
+        @keyframes loading-dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+<!-- Navigation -->
+<nav class="bg-white border-b border-gray-200 sticky top-0 z-50 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-14 sm:h-16">
+            
+            <!-- Logo Section -->
+            <div class="flex items-center flex-shrink-0">
+                <a href="{% url 'home' %}" class="flex items-center space-x-2 sm:space-x-3 group">
+                    <div class="arrivz-logo arrivz-logo-md sm:arrivz-logo-lg group-hover:scale-105 transition-transform">
+                        <span class="arrivz-logo-text">Az</span>
+                    </div>
+                    <div class="hidden xs:block">
+                        <span class="text-lg sm:text-xl font-bold text-gray-900">Arrivz</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden lg:flex items-center space-x-1 flex-1 justify-center">
+                <a href="{% url 'home' %}" class="nav-link">Find work</a>
+                <a href="{% url 'listing_list' %}?category=jobs" class="nav-link">Find talent</a>
+                <a href="{% url 'listing_list' %}?category=housing" class="nav-link">Housing</a>
+                <a href="{% url 'listing_list' %}?category=legal" class="nav-link">Legal services</a>
+                
+                <!-- Browse dropdown -->
+                <div class="relative dropdown">
+                    <button class="nav-link flex items-center">
+                        Browse
+                        <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div class="dropdown-menu absolute top-full left-0 mt-1 w-48 py-2">
+                        <a href="{% url 'listing_list' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">All opportunities</a>
+                        <a href="{% url 'listing_list' %}?category=business" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Business services</a>
+                        <a href="{% url 'listing_list' %}?category=education" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Education</a>
+                        <a href="{% url 'listing_list' %}?category=roommates" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Roommates</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Actions -->
+            <div class="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
+
+                {% if user.is_authenticated %}
+                    <!-- Notifications -->
+                    <button class="hidden sm:block relative p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                        <i class="fas fa-bell text-sm"></i>
+                        <span class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+
+                    <!-- Messages -->
+                    <button class="hidden sm:block p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                        <i class="fas fa-envelope text-sm"></i>
+                    </button>
+
+                    <!-- User Menu -->
+                    <div class="relative dropdown">
+                        <button class="flex items-center space-x-1 sm:space-x-2 p-1 rounded-lg hover:bg-gray-50 transition-colors">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                <span class="text-white font-semibold text-xs sm:text-sm">{{ user.username|first|upper }}</span>
+                            </div>
+                            <div class="hidden lg:block text-left">
+                                <div class="text-sm font-medium text-gray-900">{{ user.first_name|default:user.username|truncatechars:12 }}</div>
+                                <div class="text-xs text-gray-500">{{ user.email|truncatechars:20 }}</div>
+                            </div>
+                            <i class="fas fa-chevron-down text-xs text-gray-400 hidden sm:block"></i>
+                        </button>
+                        
+                        <div class="dropdown-menu absolute right-0 mt-1 w-56 sm:w-64 py-2">
+                            <div class="px-4 py-3 border-b border-gray-100">
+                                <div class="text-sm font-medium text-gray-900">{{ user.get_full_name|default:user.username }}</div>
+                                <div class="text-sm text-gray-500">{{ user.email }}</div>
+                            </div>
+                            <a href="/user/profile/" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
+                                <i class="fas fa-user mr-3 text-blue-600 w-4"></i>
+                                View profile
+                            </a>
+                            <a href="/my-listings/" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
+                                <i class="fas fa-briefcase mr-3 text-purple-600 w-4"></i>
+                                My opportunities
+                            </a>
+                            <a href="/settings/" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
+                                <i class="fas fa-cog mr-3 text-gray-600 w-4"></i>
+                                Settings
+                            </a>
+                            <div class="border-t border-gray-100 my-1"></div>
+                            <a href="/help/" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
+                                <i class="fas fa-question-circle mr-3 text-gray-600 w-4"></i>
+                                Help
+                            </a>
+                            <form method="post" action="/accounts/logout/" class="block">
+                                {% csrf_token %}
+                                <button type="submit" class="w-full flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 text-left">
+                                    <i class="fas fa-sign-out-alt mr-3 text-red-600 w-4"></i>
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% else %}
+                    <!-- Auth buttons -->
+                    <a href="/accounts/login/" class="text-xs sm:text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors hidden sm:block">
+                        Log in
+                    </a>
+                    <a href="/accounts/signup/" class="btn-secondary text-xs sm:text-sm px-3 sm:px-4 py-2 hidden sm:inline-flex">
+                        Sign up
+                    </a>
+                {% endif %}
+
+                <!-- Post opportunity button -->
+                <a href="{% url 'create_listing' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg font-medium text-xs sm:text-sm transition-colors">
+                    Post
+                </a>
+
+                <!-- Mobile menu button -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                    <i class="fas fa-bars text-sm" id="mobile-menu-icon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu" class="mobile-menu fixed inset-0 bg-white z-40 lg:hidden">
+    <div class="flex flex-col h-full">
+        <div class="px-4 py-4 border-b border-gray-200">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="arrivz-logo arrivz-logo-lg">
+                        <span class="arrivz-logo-text">Az</span>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">Arrivz</span>
+                </div>
+                <button onclick="toggleMobileMenu()" class="p-2 text-gray-600 hover:text-blue-600 rounded-lg">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto">
+            <div class="px-4 py-6 space-y-6">
+                
+                {% if user.is_authenticated %}
+                    <!-- User info -->
+                    <div class="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+                        <div class="avatar">
+                            {{ user.username|first|upper }}
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-900">{{ user.get_full_name|default:user.username }}</div>
+                            <div class="text-sm text-gray-500">{{ user.email|truncatechars:25 }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Navigation links -->
+                <div class="space-y-1">
+                    <a href="{% url 'home' %}" class="block px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                        Find work
+                    </a>
+                    <a href="{% url 'listing_list' %}?category=jobs" class="block px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                        Find talent
+                    </a>
+                    <a href="{% url 'listing_list' %}?category=housing" class="block px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                        Housing
+                    </a>
+                    <a href="{% url 'listing_list' %}?category=legal" class="block px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                        Legal services
+                    </a>
+                    <a href="{% url 'listing_list' %}" class="block px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                        Browse all
+                    </a>
+                </div>
+
+                {% if user.is_authenticated %}
+                    <!-- User menu items -->
+                    <div class="border-t border-gray-200 pt-6 space-y-1">
+                        <a href="/profile/" class="flex items-center px-4 py-3 text-base text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                            <i class="fas fa-user mr-3 text-blue-600 w-5"></i>
+                            Profile
+                        </a>
+                        <a href="/my-listings/" class="flex items-center px-4 py-3 text-base text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                            <i class="fas fa-briefcase mr-3 text-purple-600 w-5"></i>
+                            My opportunities
+                        </a>
+                        <a href="/settings/" class="flex items-center px-4 py-3 text-base text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                            <i class="fas fa-cog mr-3 text-gray-600 w-5"></i>
+                            Settings
+                        </a>
+                        <a href="/help/" class="flex items-center px-4 py-3 text-base text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                            <i class="fas fa-question-circle mr-3 text-gray-600 w-5"></i>
+                            Help
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Mobile menu footer -->
+        <div class="border-t border-gray-200 p-4 space-y-3">
+            {% if user.is_authenticated %}
+                <form method="post" action="/accounts/logout/">
+                    {% csrf_token %}
+                    <button type="submit" class="w-full flex items-center justify-center px-4 py-3 text-base font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        Logout
+                    </button>
+                </form>
+            {% else %}
+                <a href="/accounts/login/" class="block w-full text-center px-4 py-3 text-base font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    Log in
+                </a>
+                <a href="/accounts/signup/" class="block w-full text-center px-4 py-3 text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+                    Sign up
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<main class="{% block main_class %}min-h-screen{% endblock %}">
+    {% block content %}
+    <!-- Default content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center">
+            <div class="flex justify-center mb-6">
+                <div class="arrivz-logo w-16 h-16">
+                    <span class="text-2xl font-black">Az</span>
+                </div>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Welcome to Arrivz</h1>
+            <p class="text-xl text-gray-600 mb-8">Connect with professional opportunities and build your network</p>
+            <div class="flex justify-center space-x-4">
+                <button class="btn-primary">Get Started</button>
+                <button class="btn-secondary">Learn More</button>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</main>
+
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-200 mt-12 sm:mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 sm:gap-8">
+            <!-- Company -->
+            <div class="sm:col-span-2 lg:col-span-2">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="arrivz-logo arrivz-logo-lg">
+                        <span class="arrivz-logo-text">Az</span>
+                    </div>
+                    <span class="text-lg font-bold text-gray-900">Arrivz</span>
+                </div>
+                <p class="text-sm text-gray-600 mb-4 max-w-xs">
+                    Connecting talented immigrants with professional opportunities worldwide.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition-colors">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition-colors">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- For Clients -->
+            <div class="lg:col-span-1">
+                <h3 class="text-sm font-semibold text-gray-900 mb-4">For Clients</h3>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">How to hire</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Talent marketplace</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Project catalog</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Housing solutions</a></li>
+                </ul>
+            </div>
+
+            <!-- For Talent -->
+            <div class="lg:col-span-1">
+                <h3 class="text-sm font-semibold text-gray-900 mb-4">For Talent</h3>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">How to find work</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Direct contracts</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Find housing</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Legal services</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div class="lg:col-span-1">
+                <h3 class="text-sm font-semibold text-gray-900 mb-4">Resources</h3>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Help center</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Success stories</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Immigration guide</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Safety</a></li>
+                </ul>
+            </div>
+
+            <!-- Company -->
+            <div class="lg:col-span-1">
+                <h3 class="text-sm font-semibold text-gray-900 mb-4">Company</h3>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">About us</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Careers</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Press</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+                <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-gray-600">
+                    <span>&copy; 2025 Arrivz Inc.</span>
+                    <div class="flex flex-wrap gap-4 sm:gap-6">
+                        <a href="#" class="hover:text-blue-600 transition-colors">Terms of Service</a>
+                        <a href="#" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
+                        <a href="#" class="hover:text-blue-600 transition-colors">Accessibility</a>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-500">
+                    Built with ❤️ for the immigrant community
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script>
+    let isMobileMenuOpen = false;
+
+    function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('mobile-menu-icon');
+        
+        isMobileMenuOpen = !isMobileMenuOpen;
+        
+        if (isMobileMenuOpen) {
+            mobileMenu.classList.add('active');
+            menuIcon.className = 'fas fa-times';
+            document.body.style.overflow = 'hidden';
+        } else {
+            mobileMenu.classList.remove('active');
+            menuIcon.className = 'fas fa-bars';
+            document.body.style.overflow = '';
+        }
+    }
+
+    function handleSearch(value) {
+        if (value.length > 2) {
+            console.log('Searching for:', value);
+            // Implement search functionality here
+            // You can add debouncing and actual search logic
+        }
+    }
+
+    // Close mobile menu when clicking on links
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('#mobile-menu a')) {
+            toggleMobileMenu();
+        }
+        
+        // Close mobile menu when clicking outside
+        if (isMobileMenuOpen && !e.target.closest('#mobile-menu') && !e.target.closest('button[onclick="toggleMobileMenu()"]')) {
+            toggleMobileMenu();
+        }
+    });
+
+    // Keyboard shortcuts and accessibility
+    document.addEventListener('keydown', function(e) {
+        // Escape key to close menus
+        if (e.key === 'Escape') {
+            if (isMobileMenuOpen) {
+                toggleMobileMenu();
+            }
+        }
+    });
+
+    // Enhanced mobile responsiveness
+    function updateMobileLayout() {
+        const isMobile = window.innerWidth < 768;
+        const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+        
+        // Update navigation layout based on screen size
+        const nav = document.querySelector('nav');
+        
+        if (isMobile) {
+            // Ensure mobile menu is properly sized
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu) {
+                mobileMenu.style.width = '100%';
+                mobileMenu.style.height = '100vh';
+            }
+        }
+        
+        // Close mobile menu on resize to desktop
+        if (window.innerWidth >= 1024) {
+            if (isMobileMenuOpen) {
+                toggleMobileMenu();
+            }
+        }
+    }
+
+    // Improved touch handling for mobile
+    function initializeTouchHandlers() {
+        let touchStartX = 0;
+        let touchStartY = 0;
+        
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        
+        document.addEventListener('touchmove', function(e) {
+            if (!touchStartX || !touchStartY) return;
+            
+            const touchEndX = e.touches[0].clientX;
+            const touchEndY = e.touches[0].clientY;
+            
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+            
+            // Swipe to close mobile menu
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX < -50 && isMobileMenuOpen) { // Swipe right
+                    toggleMobileMenu();
+                }
+            }
+        }, { passive: true });
+    }
+
+    // Improved dropdown positioning for mobile
+    function adjustDropdownPosition() {
+        const dropdowns = document.querySelectorAll('.dropdown-menu');
+        
+        dropdowns.forEach(dropdown => {
+            const rect = dropdown.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            
+            // Adjust position if dropdown goes off screen
+            if (rect.right > viewportWidth) {
+                dropdown.style.left = 'auto';
+                dropdown.style.right = '0';
+            }
+            
+            // For mobile, make dropdowns full width
+            if (window.innerWidth < 640) {
+                dropdown.style.left = '0';
+                dropdown.style.right = '0';
+                dropdown.style.width = '100%';
+                dropdown.style.marginTop = '0.5rem';
+            }
+        });
+    }
+
+    // Enhanced resize handler
+    window.addEventListener('resize', function() {
+        updateMobileLayout();
+        adjustDropdownPosition();
+        
+        // Debounce resize events
+        clearTimeout(window.resizeTimeout);
+        window.resizeTimeout = setTimeout(() => {
+            // Additional resize handling if needed
+            console.log('Resize complete:', window.innerWidth);
+        }, 250);
+    });
+
+    // Initialize mobile improvements
+    document.addEventListener('DOMContentLoaded', function() {
+        updateMobileLayout();
+        initializeTouchHandlers();
+        adjustDropdownPosition();
+        
+        // Improve mobile form handling
+        const inputs = document.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            // Prevent zoom on focus for iOS
+            if (window.innerWidth < 768) {
+                input.addEventListener('focus', function() {
+                    this.style.fontSize = '16px';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.style.fontSize = '';
+                });
+            }
+        });
+
+        // Handle viewport changes (iOS Safari address bar)
+        function handleViewportChange() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        handleViewportChange();
+        window.addEventListener('resize', handleViewportChange);
+        window.addEventListener('orientationchange', handleViewportChange);
+
+        // Improve button tap targets for mobile
+        if (window.innerWidth < 768) {
+            const buttons = document.querySelectorAll('button, .btn-primary, .btn-secondary');
+            buttons.forEach(button => {
+                const rect = button.getBoundingClientRect();
+                if (rect.height < 44) { // iOS recommended minimum
+                    button.style.minHeight = '44px';
+                    button.style.display = 'flex';
+                    button.style.alignItems = 'center';
+                    button.style.justifyContent = 'center';
+                }
+            });
+        }
+
+        console.log('Arrivz template initialized successfully');
+    });
+
+    // Smooth scroll behavior for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Add loading state to buttons when clicked
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('.btn-primary, .btn-secondary')) {
+            const button = e.target;
+            const originalText = button.textContent;
+            
+            // Don't add loading state for certain buttons
+            if (button.type === 'submit' && button.form) {
+                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+                button.disabled = true;
+                
+                // Re-enable after form submission attempt
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                }, 3000);
+            }
+        }
+    });
+
+    // Notification system
+    function showNotification(message, type = 'info', duration = 4000) {
+        const existingNotifications = document.querySelectorAll('.notification');
+        existingNotifications.forEach(notification => notification.remove());
+        
+        const notification = document.createElement('div');
+        const colors = {
+            success: 'bg-emerald-600',
+            error: 'bg-red-600',
+            warning: 'bg-amber-600',
+            info: 'bg-blue-600'
+        };
+        
+        notification.className = `notification fixed top-4 right-4 z-50 ${colors[type]} text-white px-6 py-4 rounded-lg shadow-lg max-w-sm transform translate-x-full transition-transform duration-300`;
+        notification.innerHTML = `
+            <div class="flex items-center">
+                <div class="flex-1 font-medium">${message}</div>
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white/80 hover:text-white transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        requestAnimationFrame(() => {
+            notification.classList.remove('translate-x-full');
+        });
+        
+        // Auto remove
+        setTimeout(() => {
+            notification.classList.add('translate-x-full');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
+        }, duration);
+    }
+
+    // Initialize tooltips and other interactive elements
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add hover effects to cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Add ripple effect to buttons (optional enhancement)
+        document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        console.log('Arrivz initialized successfully');
+    });
+
+    // Add CSS for ripple animation
+    if (!document.querySelector('#ripple-style')) {
+        const style = document.createElement('style');
+        style.id = 'ripple-style';
+        style.textContent = `
+            @keyframes ripple {
+                from {
+                    transform: scale(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: scale(1);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Performance monitoring
+    if ('performance' in window) {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                if (perfData) {
+                    const loadTime = perfData.loadEventEnd - perfData.loadEventStart;
+                    if (loadTime > 3000) {
+                        console.warn('Page load time is slow:', loadTime, 'ms');
+                    }
+                }
+            }, 0);
+        });
+    }
+
+</script>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

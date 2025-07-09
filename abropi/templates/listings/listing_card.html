@@ -1,0 +1,135 @@
+<!-- templates/listings/listing_card.html -->
+<div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover border border-gray-100">
+    <div class="relative">
+        {% if listing.images.first %}
+            <img src="{{ listing.images.first.image.url }}" alt="{{ listing.title }}" class="w-full h-48 object-cover">
+        {% else %}
+            <div class="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                <i class="fas fa-image text-gray-400 text-4xl"></i>
+            </div>
+        {% endif %}
+        
+        <div class="absolute top-4 left-4">
+            {% if listing.category.category_type == 'jobs' %}
+                <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    💼 Job
+                </span>
+            {% elif listing.category.category_type == 'housing' %}
+                <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    🏠 Housing
+                </span>
+            {% elif listing.category.category_type == 'legal' %}
+                <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    ⚖️ Legal
+                </span>
+            {% elif listing.category.category_type == 'marketplace' %}
+                <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    🛒 Sale
+                </span>
+            {% else %}
+                <span class="bg-gray-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    {{ listing.category.name }}
+                </span>
+            {% endif %}
+        </div>
+        
+        <div class="absolute top-4 right-4">
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'toggle_favorite' listing.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="bg-white/80 backdrop-blur-sm p-2 rounded-full hover:bg-white transition duration-200">
+                        <i class="fas fa-heart {% if listing in user.favorite_set.all %}text-red-500{% else %}text-gray-600{% endif %}"></i>
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+        
+        {% if listing.is_featured %}
+            <div class="absolute top-4 right-16">
+                <span class="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                    <i class="fas fa-star"></i> FEATURED
+                </span>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="p-6">
+        <h3 class="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
+            <a href="{% url 'listing_detail' listing.pk %}" class="hover:text-primary-600 transition duration-200">
+                {{ listing.title }}
+            </a>
+        </h3>
+        
+        <p class="text-gray-600 mb-4 line-clamp-3">{{ listing.description|truncatewords:20 }}</p>
+        
+        <div class="flex items-center justify-between mb-4">
+            {% if listing.price %}
+                <span class="text-2xl font-bold {% if listing.category.category_type == 'jobs' %}text-green-600{% elif listing.category.category_type == 'housing' %}text-blue-600{% elif listing.category.category_type == 'legal' %}text-purple-600{% else %}text-orange-600{% endif %}">
+                    ${{ listing.price }}
+                    {% if listing.category.category_type == 'jobs' %}/year
+                    {% elif listing.category.category_type == 'housing' %}/month
+                    {% elif listing.category.category_type == 'legal' %}/hour
+                    {% endif %}
+                </span>
+            {% else %}
+                <span class="text-lg font-semibold text-gray-500">Contact for Price</span>
+            {% endif %}
+            
+            <div class="flex items-center text-gray-500 text-sm">
+                <i class="fas fa-map-marker-alt mr-1"></i>
+                {{ listing.city }}, {{ listing.state_province|default:listing.country }}
+            </div>
+        </div>
+        
+        <!-- Additional Info -->
+        <div class="flex items-center justify-between text-sm">
+            <div class="flex items-center">
+                {% if listing.user.profile_picture %}
+                    <img src="{{ listing.user.profile_picture.url }}" alt="User" class="w-6 h-6 rounded-full mr-2 object-cover">
+                {% else %}
+                    <div class="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center mr-2">
+                        <span class="text-white text-xs">{{ listing.user.username|first|upper }}</span>
+                    </div>
+                {% endif %}
+                <span class="text-gray-600">{{ listing.user.first_name|default:listing.user.username }}</span>
+                {% if listing.user.is_verified %}
+                    <i class="fas fa-check-circle text-blue-500 ml-1" title="Verified User"></i>
+                {% endif %}
+            </div>
+            
+            <div class="flex items-center space-x-3 text-gray-500">
+                <span title="Views">
+                    <i class="fas fa-eye"></i> {{ listing.views_count }}
+                </span>
+                <span title="Posted">{{ listing.created_at|timesince }} ago</span>
+            </div>
+        </div>
+        
+        <!-- Special Tags -->
+        <div class="mt-3 flex flex-wrap gap-2">
+            {% if listing.category.category_type == 'jobs' and listing.joblisting.visa_sponsorship %}
+                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                    <i class="fas fa-passport"></i> Visa Sponsorship
+                </span>
+            {% endif %}
+            
+            {% if listing.category.category_type == 'jobs' and listing.joblisting.remote_work %}
+                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
+                    <i class="fas fa-laptop"></i> Remote OK
+                </span>
+            {% endif %}
+            
+            {% if listing.category.category_type == 'housing' and listing.housinglesting.utilities_included %}
+                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs font-medium">
+                    <i class="fas fa-bolt"></i> Utilities Inc.
+                </span>
+            {% endif %}
+            
+            {% if listing.priority == 'urgent' %}
+                <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium animate-pulse">
+                    <i class="fas fa-exclamation"></i> Urgent
+                </span>
+            {% endif %}
+        </div>
+    </div>
+</div>

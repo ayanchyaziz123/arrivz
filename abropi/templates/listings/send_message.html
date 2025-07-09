@@ -1,0 +1,256 @@
+<!-- templates/listings/send_message.html -->
+{% extends 'base.html' %}
+
+{% block title %}Send Message - {{ listing.title }} - Abropi{% endblock %}
+
+{% block content %}
+<div class="px-4 py-6 max-w-md mx-auto sm:max-w-2xl lg:max-w-5xl sm:px-6 lg:px-8">
+    <!-- Mobile Header -->
+    <div class="mb-6">
+        <!-- Mobile Breadcrumb -->
+        <nav class="flex items-center space-x-2 text-sm text-gray-600 mb-4 overflow-x-auto">
+            <a href="{% url 'home' %}" class="hover:text-primary-600 whitespace-nowrap">Home</a>
+            <i class="fas fa-chevron-right text-xs flex-shrink-0"></i>
+            <a href="{% url 'listing_detail' listing.pk %}" class="hover:text-primary-600 truncate">{{ listing.title|truncatechars:20 }}</a>
+            <i class="fas fa-chevron-right text-xs flex-shrink-0"></i>
+            <span class="text-gray-900 whitespace-nowrap">Message</span>
+        </nav>
+        
+        <h1 class="text-xl font-bold text-gray-900 sm:text-2xl lg:text-3xl">Send Message</h1>
+        <p class="text-sm text-gray-600 mt-2 sm:text-base">Contact about "{{ listing.title|truncatechars:40 }}"</p>
+    </div>
+
+    <!-- Mobile-First Layout -->
+    <div class="space-y-6 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
+        <!-- Listing Summary - Mobile First -->
+        <div class="lg:col-span-1 lg:order-2">
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6 lg:sticky lg:top-20">
+                <h3 class="font-semibold text-gray-900 mb-4 text-lg">About This Listing</h3>
+                
+                <!-- Mobile-Optimized Listing Info -->
+                <div class="flex space-x-4 mb-4">
+                    {% if listing.images.first %}
+                    <img src="{{ listing.images.first.image.url }}" 
+                         alt="{{ listing.title }}" 
+                         class="w-20 h-20 object-cover rounded-lg flex-shrink-0 sm:w-24 sm:h-24">
+                    {% endif %}
+                    
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-medium text-gray-900 text-sm sm:text-base truncate">{{ listing.title }}</h4>
+                        {% if listing.price %}
+                        <p class="text-lg font-bold text-primary-600 sm:text-xl">
+                            ${{ listing.price }}
+                            <span class="text-sm font-normal text-gray-500">
+                                {% if listing.category.category_type == 'jobs' %}/year
+                                {% elif listing.category.category_type == 'housing' %}/month
+                                {% elif listing.category.category_type == 'legal' %}/hour
+                                {% endif %}
+                            </span>
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Compact Info -->
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center text-gray-600">
+                        <i class="fas fa-map-marker-alt mr-2 w-4 text-center"></i>
+                        <span class="truncate">{{ listing.location }}, {{ listing.city }}</span>
+                    </div>
+                    
+                    <div class="flex items-center text-gray-600">
+                        <i class="fas fa-calendar mr-2 w-4 text-center"></i>
+                        <span>{{ listing.created_at|timesince }} ago</span>
+                    </div>
+                </div>
+                
+                <!-- Contact Person -->
+                <div class="border-t border-gray-200 pt-4 mt-4">
+                    <div class="flex items-center">
+                        {% if listing.user.profile_picture %}
+                            <img src="{{ listing.user.profile_picture.url }}" 
+                                 alt="{{ listing.user.username }}" 
+                                 class="w-10 h-10 rounded-full object-cover mr-3 flex-shrink-0">
+                        {% else %}
+                            <div class="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                <span class="text-white font-medium text-sm">{{ listing.user.username|first|upper }}</span>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="min-w-0 flex-1">
+                            <p class="font-medium text-gray-900 text-sm truncate">{{ listing.user.get_full_name|default:listing.user.username }}</p>
+                            {% if listing.user.country_of_origin %}
+                            <p class="text-xs text-gray-600 truncate">From {{ listing.user.get_country_of_origin_display }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Message Form - Mobile Optimized -->
+        <div class="lg:col-span-2 lg:order-1">
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6">
+                <form method="post" class="space-y-4 sm:space-y-6">
+                    {% csrf_token %}
+                    
+                    <!-- Mobile-First Form Errors -->
+                    {% if form.errors %}
+                        <div class="p-3 bg-red-50 border border-red-200 rounded-lg sm:p-4">
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <p class="text-red-600 text-sm">{{ error }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Subject -->
+                    <div>
+                        <label for="id_subject" class="block text-sm font-medium text-gray-700 mb-2">
+                            Subject
+                        </label>
+                        <input type="text" 
+                               name="subject" 
+                               id="id_subject"
+                               value="{{ form.subject.value|default:'' }}"
+                               required
+                               class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition duration-200"
+                               placeholder="Message subject">
+                        {% if form.subject.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.subject.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Quick Templates - Mobile First -->
+                    <div class="bg-gray-50 rounded-lg p-3 sm:p-4">
+                        <h4 class="font-medium text-gray-900 mb-3 text-sm sm:text-base">Quick Templates</h4>
+                        <div class="space-y-2">
+                            <button type="button" 
+                                    onclick="fillMessage('Hi! I\'m interested in your {{ listing.category.name|lower }} listing. Can you provide more details?')"
+                                    class="w-full text-left text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 hover:bg-gray-50 transition duration-200 active:bg-gray-100">
+                                💬 "I'm interested in this {{ listing.category.name|lower }}"
+                            </button>
+                            <button type="button" 
+                                    onclick="fillMessage('Is this still available? I\'d like to know more about {{ listing.title }}.')"
+                                    class="w-full text-left text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 hover:bg-gray-50 transition duration-200 active:bg-gray-100">
+                                ❓ "Is this still available?"
+                            </button>
+                            {% if listing.category.category_type == 'housing' %}
+                            <button type="button" 
+                                    onclick="fillMessage('When would be a good time to schedule a viewing for {{ listing.title }}?')"
+                                    class="w-full text-left text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 hover:bg-gray-50 transition duration-200 active:bg-gray-100">
+                                🏠 "Schedule a viewing"
+                            </button>
+                            {% elif listing.category.category_type == 'jobs' %}
+                            <button type="button" 
+                                    onclick="fillMessage('I\'d like to apply for this position. Can you provide more information about the application process?')"
+                                    class="w-full text-left text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 hover:bg-gray-50 transition duration-200 active:bg-gray-100">
+                                💼 "Apply for this job"
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Message -->
+                    <div>
+                        <label for="id_message" class="block text-sm font-medium text-gray-700 mb-2">
+                            Your Message
+                        </label>
+                        <textarea name="message" 
+                                  id="id_message"
+                                  rows="6"
+                                  required
+                                  class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition duration-200 resize-none sm:rows-8"
+                                  placeholder="Write your message here...">{{ form.message.value|default:'' }}</textarea>
+                        {% if form.message.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.message.errors.0 }}</p>
+                        {% endif %}
+                        <p class="mt-1 text-xs text-gray-500">Be clear and specific about your inquiry</p>
+                    </div>
+                    
+                    <!-- Mobile-First Actions -->
+                    <div class="space-y-3 pt-4 border-t border-gray-200 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
+                        <a href="{% url 'listing_detail' listing.pk %}" 
+                           class="inline-flex items-center justify-center w-full text-gray-600 hover:text-gray-900 transition duration-200 text-sm sm:w-auto">
+                            <i class="fas fa-arrow-left mr-2"></i>Back to Listing
+                        </a>
+                        
+                        <div class="flex space-x-3">
+                            <button type="button" 
+                                    onclick="clearForm()"
+                                    class="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-200 text-sm font-medium sm:flex-none">
+                                Clear
+                            </button>
+                            <button type="submit" 
+                                    class="flex-1 bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-200 font-medium text-sm sm:flex-none active:bg-primary-800">
+                                <i class="fas fa-paper-plane mr-2"></i>Send
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Safety Note -->
+    <div class="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4 lg:hidden">
+        <div class="flex items-start">
+            <i class="fas fa-shield-alt text-yellow-500 mt-0.5 mr-3 flex-shrink-0"></i>
+            <div class="text-sm text-yellow-700">
+                <p class="font-medium mb-1">Safety First</p>
+                <p>Never share personal information or send money before meeting in person.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function fillMessage(template) {
+    const messageField = document.getElementById('id_message');
+    messageField.value = template;
+    messageField.focus();
+    
+    // Smooth scroll to message field on mobile
+    if (window.innerWidth < 1024) {
+        messageField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+function clearForm() {
+    document.getElementById('id_message').value = '';
+    document.getElementById('id_subject').value = 'Inquiry about {{ listing.title }}';
+    document.getElementById('id_message').focus();
+}
+
+// Auto-fill subject and mobile optimizations
+document.addEventListener('DOMContentLoaded', function() {
+    const subjectField = document.getElementById('id_subject');
+    const messageField = document.getElementById('id_message');
+    
+    // Auto-fill subject if empty
+    if (!subjectField.value) {
+        subjectField.value = 'Inquiry about {{ listing.title }}';
+    }
+    
+    // Mobile keyboard optimization
+    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        messageField.addEventListener('focus', function() {
+            setTimeout(() => {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
+    }
+    
+    // Prevent form submission on empty message
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        if (!messageField.value.trim()) {
+            e.preventDefault();
+            messageField.focus();
+            alert('Please write a message before sending.');
+        }
+    });
+});
+</script>
+{% endblock %}

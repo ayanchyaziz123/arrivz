@@ -1,0 +1,64 @@
+<!-- templates/socialaccount/login.html -->
+{% extends 'base.html' %}
+{% load socialaccount %}
+
+{% block title %}Continue with Google - Abropi{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div class="text-center">
+            <div class="mx-auto h-12 w-12 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-lg flex items-center justify-center">
+                <i class="fab fa-google text-white text-xl"></i>
+            </div>
+            <h2 class="mt-6 text-3xl font-bold text-gray-900">Continue with Google</h2>
+            <p class="mt-2 text-gray-600">You're about to sign in using your Google account</p>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+            <div class="text-center space-y-4">
+                <div class="flex items-center justify-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                        <i class="fab fa-google text-red-500 text-lg"></i>
+                    </div>
+                    <div class="text-2xl text-gray-400">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="w-10 h-10 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-globe text-white"></i>
+                    </div>
+                </div>
+                
+                <p class="text-gray-600 mb-6">
+                    Click continue to sign in with your Google account and join the Abropi community.
+                </p>
+                
+                <form method="post" class="space-y-4">
+                    {% csrf_token %}
+                    
+                    {% if form %}
+                        {% for field in form %}
+                            {% if field.is_hidden %}
+                                {{ field }}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <button type="submit" 
+                            class="w-full bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition duration-200 font-medium">
+                        <i class="fab fa-google mr-2"></i>
+                        Continue with Google
+                    </button>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <a href="{% url 'account_login' %}" 
+                       class="text-sm text-gray-600 hover:text-primary-600 transition duration-200">
+                        ← Back to login options
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

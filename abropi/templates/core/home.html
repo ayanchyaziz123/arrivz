@@ -1,0 +1,1093 @@
+{% extends 'base.html' %}
+
+{% block title %}Abropi - Your Immigration Journey Starts Here{% endblock %}
+
+{% block description %}The complete platform for immigrants - find jobs, housing, legal help, connect with your community, and build your new life. Trusted by 100,000+ immigrants worldwide.{% endblock %}
+
+{% block content %}
+
+   <!-- Enhanced Location & Origin Navigation Bar -->
+<div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-12">
+            <!-- Left: Current Location -->
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-map-marker-alt text-blue-600 text-sm"></i>
+                    <span class="text-sm font-medium text-gray-700">Current Location:</span>
+                </div>
+                
+                <!-- Country -->
+                <select id="countrySelect" 
+                        class="h-8 px-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white min-w-[100px]">
+                    <option value="">Country</option>
+                    <option value="us">🇺🇸 United States</option>
+                    <option value="ca">🇨🇦 Canada</option>
+                    <option value="uk">🇬🇧 United Kingdom</option>
+                </select>
+
+                <!-- State/Province -->
+                <select id="stateSelect" 
+                        class="h-8 px-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white min-w-[120px] hidden">
+                    <option value="">State/Province</option>
+                </select>
+            </div>
+
+            <!-- Right: Origin & Clear -->
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-globe text-green-600 text-sm"></i>
+                    <span class="text-sm font-medium text-gray-700">From:</span>
+                </div>
+                
+                <!-- Origin Country -->
+                <select id="originSelect" 
+                        class="h-8 px-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white min-w-[140px]">
+                    <option value="">Select Origin</option>
+                    <!-- Popular immigrant origins -->
+                    <option value="mx">🇲🇽 Mexico</option>
+                    <option value="in">🇮🇳 India</option>
+                    <option value="cn">🇨🇳 China</option>
+                    <option value="ph">🇵🇭 Philippines</option>
+                    <option value="vn">🇻🇳 Vietnam</option>
+                    <option value="kr">🇰🇷 South Korea</option>
+                    <option value="co">🇨🇴 Colombia</option>
+                    <option value="br">🇧🇷 Brazil</option>
+                    <option value="ng">🇳🇬 Nigeria</option>
+                    <option value="pk">🇵🇰 Pakistan</option>
+                    <option value="bd">🇧🇩 Bangladesh</option>
+                    <option value="gt">🇬🇹 Guatemala</option>
+                    <option value="sv">🇸🇻 El Salvador</option>
+                    <option value="hn">🇭🇳 Honduras</option>
+                    <option value="cu">🇨🇺 Cuba</option>
+                    <option value="do">🇩🇴 Dominican Republic</option>
+                    <option value="ec">🇪🇨 Ecuador</option>
+                    <option value="pe">🇵🇪 Peru</option>
+                    <option value="ar">🇦🇷 Argentina</option>
+                    <option value="ve">🇻🇪 Venezuela</option>
+                    <option value="ir">🇮🇷 Iran</option>
+                    <option value="iq">🇮🇶 Iraq</option>
+                    <option value="sy">🇸🇾 Syria</option>
+                    <option value="af">🇦🇫 Afghanistan</option>
+                    <option value="so">🇸🇴 Somalia</option>
+                    <option value="et">🇪🇹 Ethiopia</option>
+                    <option value="gh">🇬🇭 Ghana</option>
+                    <option value="pl">🇵🇱 Poland</option>
+                    <option value="ua">🇺🇦 Ukraine</option>
+                    <option value="ru">🇷🇺 Russia</option>
+                    <option value="it">🇮🇹 Italy</option>
+                    <option value="de">🇩🇪 Germany</option>
+                    <option value="fr">🇫🇷 France</option>
+                    <option value="jp">🇯🇵 Japan</option>
+                    <option value="th">🇹🇭 Thailand</option>
+                    <option value="mm">🇲🇲 Myanmar</option>
+                    <option value="kh">🇰🇭 Cambodia</option>
+                    <option value="np">🇳🇵 Nepal</option>
+                    <option value="lk">🇱🇰 Sri Lanka</option>
+                    <option value="other">🌍 Other</option>
+                </select>
+
+                <!-- Clear Filters -->
+                <button id="clearFilters" 
+                        class="h-8 px-3 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors duration-200 flex items-center space-x-1">
+                    <i class="fas fa-times text-xs"></i>
+                    <span>Clear</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Status Bar (shows when filters are active) -->
+<div id="filterStatus" class="bg-blue-50 border-b border-blue-200 px-4 py-2 hidden">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <div class="flex items-center space-x-4 text-sm">
+            <i class="fas fa-filter text-blue-600"></i>
+            <span class="text-blue-800">Active filters:</span>
+            <div id="activeFilters" class="flex items-center space-x-2"></div>
+        </div>
+        <button id="clearAllFilters" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+            Clear all filters
+        </button>
+    </div>
+</div>
+
+    <!-- Main Categories Grid -->
+    <section class="bg-gray-50 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Jobs & Employment -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-briefcase text-blue-600"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-900">Jobs & Employment</h2>
+                    </div>
+                    <div class="space-y-2">
+                        <a href="{% url 'listing_list' %}?category=jobs&type=full-time" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Full-time jobs (2,340)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=jobs&type=part-time" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Part-time jobs (1,250)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=jobs&visa=true" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Jobs with visa sponsorship (890)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=jobs&remote=true" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Remote opportunities (670)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=jobs&entry-level=true" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Entry level positions (1,120)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=jobs&internship=true" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Internships (340)
+                        </a>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <p class="text-xs text-gray-500 mb-2">By industry:</p>
+                        <div class="flex flex-wrap gap-2 text-xs">
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Tech</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Healthcare</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Restaurant</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Construction</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Education</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Housing & Real Estate -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-home text-purple-600"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-900">Housing & Real Estate</h2>
+                    </div>
+                    <div class="space-y-2">
+                        <a href="{% url 'listing_list' %}?category=housing&type=apartment" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Apartments for rent (1,890)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=housing&type=room" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Rooms for rent (970)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=housing&no-credit=true" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            No credit check required (450)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=housing&furnished=true" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Furnished rentals (320)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=housing&temporary=true" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Short-term housing (230)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=housing&shared=true" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Shared housing (560)
+                        </a>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <p class="text-xs text-gray-500 mb-2">By price range:</p>
+                        <div class="flex flex-wrap gap-2 text-xs">
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Under $800</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">$800-1500</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">$1500-2500</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">$2500+</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legal Services -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-balance-scale text-emerald-600"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-900">Legal Services</h2>
+                    </div>
+                    <div class="space-y-2">
+                        <a href="{% url 'listing_list' %}?category=legal&type=immigration" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Immigration lawyers (340)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=legal&type=visa" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Visa assistance (180)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=legal&type=green-card" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Green card help (120)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=legal&type=citizenship" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Citizenship services (90)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=legal&type=document" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Document translation (150)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=legal&free=true" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Free legal clinics (45)
+                        </a>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <p class="text-xs text-gray-500 mb-2">Languages spoken:</p>
+                        <div class="flex flex-wrap gap-2 text-xs">
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Spanish</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Chinese</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Arabic</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Hindi</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community & Social -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-users text-orange-600"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-900">Community & Social</h2>
+                    </div>
+                    <div class="space-y-2">
+                        <a href="{% url 'listing_list' %}?category=community&type=cultural" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Cultural groups (280)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=community&type=language" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Language exchange (150)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=community&type=professional" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Professional networking (190)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=community&type=family" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Family groups (120)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=community&type=religious" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Religious communities (210)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=community&type=sports" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Sports & recreation (95)
+                        </a>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <p class="text-xs text-gray-500 mb-2">By origin:</p>
+                        <div class="flex flex-wrap gap-2 text-xs">
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Latin America</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Asia</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Europe</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Africa</a>
+                        </div>
+                    </div>
+                </div>
+
+               <!-- Buy & Sell -->
+<div class="bg-white rounded-lg border border-gray-200 p-6">
+    <div class="flex items-center mb-4">
+        <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
+            <i class="fas fa-shopping-cart text-indigo-600"></i>
+        </div>
+        <h2 class="text-xl font-bold text-gray-900">Buy & Sell</h2>
+    </div>
+
+    <!-- Category links -->
+    <div class="space-y-2">
+        <a href="{% url 'listing_list' %}?category=buy-sell&type=furniture" class="block text-blue-600 hover:text-blue-700 text-sm">
+            Furniture (320)
+        </a>
+        <a href="{% url 'listing_list' %}?category=buy-sell&type=electronics" class="block text-blue-600 hover:text-blue-700 text-sm">
+            Electronics (410)
+        </a>
+        <a href="{% url 'listing_list' %}?category=buy-sell&type=appliances" class="block text-blue-600 hover:text-blue-700 text-sm">
+            Home appliances (210)
+        </a>
+        <a href="{% url 'listing_list' %}?category=buy-sell&type=clothing" class="block text-blue-600 hover:text-blue-700 text-sm">
+            Clothing &amp; Accessories (165)
+        </a>
+        <a href="{% url 'listing_list' %}?category=buy-sell&type=vehicles" class="block text-blue-600 hover:text-blue-700 text-sm">
+            Vehicles (95)
+        </a>
+        <a href="{% url 'listing_list' %}?category=buy-sell&type=sporting" class="block text-blue-600 hover:text-blue-700 text-sm">
+            Sporting goods (140)
+        </a>
+    </div>
+
+    <!-- Free‑item sub‑section -->
+    <div class="mt-4 pt-4 border-t border-gray-200">
+        <p class="text-xs text-gray-500 mb-2">Free items:</p>
+        <div class="flex flex-wrap gap-2 text-xs">
+            <a href="#" class="text-blue-600 hover:text-blue-700">Curbside pickups</a>
+            <a href="#" class="text-blue-600 hover:text-blue-700">Give‑aways</a>
+            <a href="#" class="text-blue-600 hover:text-blue-700">Swap events</a>
+        </div>
+    </div>
+</div>
+
+                <!-- Essential Services -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-hands-helping text-pink-600"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-900">Essential Services</h2>
+                    </div>
+                    <div class="space-y-2">
+                        <a href="{% url 'listing_list' %}?category=services&type=banking" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Banking & credit help (140)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=services&type=healthcare" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Healthcare navigation (180)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=services&type=tax" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Tax preparation (95)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=services&type=insurance" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Insurance guidance (70)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=services&type=dmv" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            DMV assistance (60)
+                        </a>
+                        <a href="{% url 'listing_list' %}?category=services&type=translation" class="block text-blue-600 hover:text-blue-700 text-sm">
+                            Translation services (110)
+                        </a>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <p class="text-xs text-gray-500 mb-2">Emergency help:</p>
+                        <div class="flex flex-wrap gap-2 text-xs">
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Food assistance</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Emergency housing</a>
+                            <a href="#" class="text-blue-600 hover:text-blue-700">Crisis support</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Cities -->
+    <section class="bg-white py-12 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Browse by Popular Cities</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <div class="text-center">
+                    <h3 class="font-semibold text-gray-900 mb-2">New York</h3>
+                    <div class="space-y-1 text-sm">
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Jobs (2,340)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Housing (890)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Legal (120)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Community (180)</a>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-semibold text-gray-900 mb-2">Los Angeles</h3>
+                    <div class="space-y-1 text-sm">
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Jobs (1,890)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Housing (1,230)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Legal (95)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Community (150)</a>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-semibold text-gray-900 mb-2">Chicago</h3>
+                    <div class="space-y-1 text-sm">
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Jobs (1,450)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Housing (670)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Legal (78)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Community (120)</a>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-semibold text-gray-900 mb-2">Houston</h3>
+                    <div class="space-y-1 text-sm">
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Jobs (1,120)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Housing (560)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Legal (65)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Community (95)</a>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-semibold text-gray-900 mb-2">Miami</h3>
+                    <div class="space-y-1 text-sm">
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Jobs (980)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Housing (780)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Legal (89)</a>
+                        <a href="#" class="block text-blue-600 hover:text-blue-700">Community (140)</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-6">
+                <a href="#" class="text-blue-600 hover:text-blue-700 font-medium">View all cities →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Activity -->
+    <section class="bg-gray-50 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Recent Posts -->
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Recent Posts</h2>
+                    <div class="bg-white rounded-lg border border-gray-200 p-4">
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Software Engineer - Visa Sponsorship Available</h3>
+                                    <p class="text-sm text-gray-600">TechCorp Inc. • New York, NY • $85,000-$120,000</p>
+                                </div>
+                                <span class="text-xs text-gray-500">2h ago</span>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-medium text-gray-900">2BR Apartment - No Credit Check Required</h3>
+                                    <p class="text-sm text-gray-600">Brooklyn, NY • $2,200/month • Pet friendly</p>
+                                </div>
+                                <span class="text-xs text-gray-500">4h ago</span>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Free English Classes Starting Monday</h3>
+                                    <p class="text-sm text-gray-600">Community Center • Queens, NY • All levels welcome</p>
+                                </div>
+                                <span class="text-xs text-gray-500">6h ago</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <a href="{% url 'listing_list' %}" class="text-blue-600 hover:text-blue-700 text-sm font-medium">View all recent posts →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Services -->
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Featured Services</h2>
+                    <div class="bg-white rounded-lg border border-gray-200 p-4">
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3 mt-0.5">
+                                    <i class="fas fa-star text-yellow-600 text-sm"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Rodriguez Immigration Law</h3>
+                                    <p class="text-sm text-gray-600">Immigration attorney • 15+ years experience • Spanish/English</p>
+                                    <p class="text-xs text-blue-600">★★★★★ 4.9 (127 reviews)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3 mt-0.5">
+                                    <i class="fas fa-star text-yellow-600 text-sm"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">Global Skills Training Center</h3>
+                                    <p class="text-sm text-gray-600">IT certification courses • Job placement assistance</p>
+                                    <p class="text-xs text-blue-600">★★★★★ 4.8 (89 reviews)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3 mt-0.5">
+                                    <i class="fas fa-star text-yellow-600 text-sm"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-900">New American Community Center</h3>
+                                    <p class="text-sm text-gray-600">ESL classes • Cultural events • Family support</p>
+                                    <p class="text-xs text-blue-600">★★★★★ 4.9 (203 reviews)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <a href="#" class="text-blue-600 hover:text-blue-700 text-sm font-medium">View all featured →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="bg-blue-600 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center text-white mb-8">
+                <h2 class="text-2xl font-bold mb-2">Trusted by immigrants nationwide</h2>
+                <p class="text-blue-200">Real results from real people building new lives in America</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+                <div>
+                    <div class="text-3xl font-bold mb-1">125K+</div>
+                    <div class="text-blue-200 text-sm">Immigrants helped</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold mb-1">18K+</div>
+                    <div class="text-blue-200 text-sm">Active listings</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold mb-1">50+</div>
+                    <div class="text-blue-200 text-sm">Cities covered</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold mb-1">4.8★</div>
+                    <div class="text-blue-200 text-sm">Average rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Info -->
+    <section class="bg-white py-8 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+                <!-- About -->
+                <div>
+                    <h3 class="font-semibold text-gray-900 mb-3">About Abropi</h3>
+                    <p class="text-gray-600 mb-3">Connecting immigrants with opportunities, services, and community across America. Built by immigrants, for immigrants.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-blue-600 hover:text-blue-700">About us</a>
+                        <a href="#" class="text-blue-600 hover:text-blue-700">Contact</a>
+                        <a href="#" class="text-blue-600 hover:text-blue-700">Help</a>
+                    </div>
+                </div>
+                
+                <!-- Safety & Tips -->
+                <div>
+                    <h3 class="font-semibold text-gray-900 mb-3">Safety & Tips</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li>• Always meet in public places</li>
+                        <li>• Verify credentials before paying</li>
+                        <li>• Trust your instincts</li>
+                        <li>• Report suspicious activity</li>
+                    </ul>
+                    <div class="mt-3">
+                        <a href="#" class="text-blue-600 hover:text-blue-700">Safety guidelines</a>
+                    </div>
+                </div>
+                
+                <!-- Resources -->
+                <div>
+                    <h3 class="font-semibold text-gray-900 mb-3">Immigration Resources</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><a href="#" class="hover:text-blue-600">USCIS official website</a></li>
+                        <li><a href="#" class="hover:text-blue-600">Free legal aid directory</a></li>
+                        <li><a href="#" class="hover:text-blue-600">English learning resources</a></li>
+                        <li><a href="#" class="hover:text-blue-600">Job search tips for immigrants</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 Abropi Inc. • Built with ❤️ for the immigrant community</p>
+                <div class="mt-2 space-x-4">
+                    <a href="#" class="hover:text-blue-600">Privacy Policy</a>
+                    <a href="#" class="hover:text-blue-600">Terms of Service</a>
+                    <a href="#" class="hover:text-blue-600">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Post Floating Button -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <a href="{% url 'create_listing' %}" class="w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg hover:shadow-xl hover:bg-blue-700 transition-all duration-300 flex items-center justify-center group">
+            <i class="fas fa-plus text-lg group-hover:rotate-90 transition-transform duration-300"></i>
+        </a>
+    </div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Clean, information-dense styling */
+    .category-card {
+        transition: all 0.2s ease;
+    }
+    
+    .category-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Link styling for better readability */
+    a {
+        transition: color 0.2s ease;
+    }
+    
+    /* Number styling for counts */
+    .count {
+        font-weight: 500;
+        color: #6b7280;
+    }
+    
+    /* Clean typography */
+    h1, h2, h3 {
+        letter-spacing: -0.025em;
+    }
+    
+    /* Responsive grid improvements */
+    @media (max-width: 768px) {
+        .grid {
+            gap: 1rem;
+        }
+        
+        .category-card {
+            padding: 1rem;
+        }
+        
+        /* Stack navigation items on mobile */
+        .max-w-7xl.mx-auto.px-4.sm\\:px-6.lg\\:px-8 .flex.items-center.justify-between {
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: stretch;
+        }
+        
+        .flex.items-center.space-x-4 {
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+    }
+    
+    /* Focus states for accessibility */
+    select:focus, input:focus {
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    /* Hover effects for city sections */
+    .city-section:hover {
+        background-color: #f9fafb;
+    }
+    
+    /* Filter tag styling */
+    .filter-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.5rem;
+        background-color: #dbeafe;
+        color: #1d4ed8;
+        border-radius: 0.375rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        gap: 0.25rem;
+    }
+    
+    .filter-tag button {
+        color: #1d4ed8;
+        hover: #1e40af;
+    }
+    
+    /* Navigation bar enhancements */
+    .nav-bar {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.95);
+    }
+    
+    /* Smooth transitions for filter status */
+    #filterStatus {
+        transition: all 0.3s ease;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Enhanced Location Management System
+        const LocationManager = {
+            // DOM Elements
+            countrySelect: document.getElementById('countrySelect'),
+            stateSelect: document.getElementById('stateSelect'),
+            originSelect: document.getElementById('originSelect'),
+            clearFilters: document.getElementById('clearFilters'),
+            clearAllFilters: document.getElementById('clearAllFilters'),
+            filterStatus: document.getElementById('filterStatus'),
+            activeFilters: document.getElementById('activeFilters'),
+            
+            // State/Province Data
+            STATES: {
+                us: [
+                    'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
+                    'Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa',
+                    'Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan',
+                    'Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada',
+                    'New Hampshire','New Jersey','New Mexico','New York','North Carolina',
+                    'North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island',
+                    'South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia',
+                    'Washington','West Virginia','Wisconsin','Wyoming'
+                ],
+                ca: [
+                    'Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland & Labrador',
+                    'Nova Scotia','Ontario','Prince Edward Island','Quebec','Saskatchewan',
+                    'Northwest Territories','Nunavut','Yukon'
+                ],
+                uk: [
+                    'England','Northern Ireland','Scotland','Wales'
+                ]
+            },
+            
+            // Country/Origin Names
+            COUNTRY_NAMES: {
+                us: 'United States', ca: 'Canada', uk: 'United Kingdom',
+                mx: 'Mexico', in: 'India', cn: 'China', ph: 'Philippines',
+                vn: 'Vietnam', kr: 'South Korea', co: 'Colombia', br: 'Brazil',
+                ng: 'Nigeria', pk: 'Pakistan', bd: 'Bangladesh', gt: 'Guatemala',
+                sv: 'El Salvador', hn: 'Honduras', cu: 'Cuba', do: 'Dominican Republic',
+                ec: 'Ecuador', pe: 'Peru', ar: 'Argentina', ve: 'Venezuela',
+                ir: 'Iran', iq: 'Iraq', sy: 'Syria', af: 'Afghanistan',
+                so: 'Somalia', et: 'Ethiopia', gh: 'Ghana', pl: 'Poland',
+                ua: 'Ukraine', ru: 'Russia', it: 'Italy', de: 'Germany',
+                fr: 'France', jp: 'Japan', th: 'Thailand', mm: 'Myanmar',
+                kh: 'Cambodia', np: 'Nepal', lk: 'Sri Lanka', other: 'Other'
+            },
+            
+            // Initialize the location manager
+            init() {
+                this.loadSavedFilters();
+                this.setupEventListeners();
+                this.updateFilterDisplay();
+            },
+            
+            // Setup all event listeners
+            setupEventListeners() {
+                // Country change handler
+                this.countrySelect.addEventListener('change', () => {
+                    this.handleCountryChange();
+                    this.saveFilters();
+                    this.updateFilterDisplay();
+                });
+                
+                // State change handler
+                this.stateSelect.addEventListener('change', () => {
+                    this.saveFilters();
+                    this.updateFilterDisplay();
+                });
+                
+                // Origin change handler
+                this.originSelect.addEventListener('change', () => {
+                    this.saveFilters();
+                    this.updateFilterDisplay();
+                });
+                
+                // Clear filters handlers
+                this.clearFilters.addEventListener('click', () => {
+                    this.clearAllFiltersAction();
+                });
+                
+                this.clearAllFilters.addEventListener('click', () => {
+                    this.clearAllFiltersAction();
+                });
+            },
+            
+            // Handle country selection change
+            handleCountryChange() {
+                const countryCode = this.countrySelect.value;
+                this.stateSelect.innerHTML = '<option value="">State/Province</option>';
+                
+                if (this.STATES[countryCode]) {
+                    this.STATES[countryCode].forEach(state => {
+                        const option = document.createElement('option');
+                        option.value = state.toLowerCase().replace(/\s+/g, '-');
+                        option.textContent = state;
+                        this.stateSelect.appendChild(option);
+                    });
+                    this.stateSelect.classList.remove('hidden');
+                } else {
+                    this.stateSelect.classList.add('hidden');
+                    this.stateSelect.value = '';
+                }
+            },
+            
+            // Save current filters to localStorage
+            saveFilters() {
+                const filters = {
+                    country: this.countrySelect.value,
+                    state: this.stateSelect.value,
+                    origin: this.originSelect.value,
+                    timestamp: Date.now()
+                };
+                
+                try {
+                    localStorage.setItem('abropi_location_filters', JSON.stringify(filters));
+                    console.log('Filters saved:', filters);
+                } catch (error) {
+                    console.warn('Could not save filters to localStorage:', error);
+                }
+            },
+            
+            // Load saved filters from localStorage
+            loadSavedFilters() {
+                try {
+                    const saved = localStorage.getItem('abropi_location_filters');
+                    if (saved) {
+                        const filters = JSON.parse(saved);
+                        
+                        // Check if filters are not too old (7 days)
+                        const maxAge = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+                        if (Date.now() - filters.timestamp < maxAge) {
+                            // Restore country
+                            if (filters.country) {
+                                this.countrySelect.value = filters.country;
+                                this.handleCountryChange();
+                            }
+                            
+                            // Restore state (after a short delay to ensure states are populated)
+                            if (filters.state) {
+                                setTimeout(() => {
+                                    this.stateSelect.value = filters.state;
+                                }, 50);
+                            }
+                            
+                            // Restore origin
+                            if (filters.origin) {
+                                this.originSelect.value = filters.origin;
+                            }
+                            
+                            console.log('Filters loaded:', filters);
+                        } else {
+                            // Remove old filters
+                            localStorage.removeItem('abropi_location_filters');
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Could not load filters from localStorage:', error);
+                }
+            },
+            
+            // Clear all filters
+            clearAllFiltersAction() {
+                this.countrySelect.value = '';
+                this.stateSelect.value = '';
+                this.stateSelect.classList.add('hidden');
+                this.originSelect.value = '';
+                
+                // Clear from localStorage
+                try {
+                    localStorage.removeItem('abropi_location_filters');
+                } catch (error) {
+                    console.warn('Could not clear filters from localStorage:', error);
+                }
+                
+                this.updateFilterDisplay();
+                console.log('All filters cleared');
+            },
+            
+            // Update filter display
+            updateFilterDisplay() {
+                const activeFiltersList = [];
+                
+                // Check for active filters
+                if (this.countrySelect.value) {
+                    const countryName = this.COUNTRY_NAMES[this.countrySelect.value] || this.countrySelect.value;
+                    activeFiltersList.push({
+                        type: 'country',
+                        label: `📍 ${countryName}`,
+                        value: this.countrySelect.value
+                    });
+                }
+                
+                if (this.stateSelect.value && !this.stateSelect.classList.contains('hidden')) {
+                    const stateName = this.stateSelect.options[this.stateSelect.selectedIndex].text;
+                    activeFiltersList.push({
+                        type: 'state',
+                        label: `📍 ${stateName}`,
+                        value: this.stateSelect.value
+                    });
+                }
+                
+                if (this.originSelect.value) {
+                    const originName = this.COUNTRY_NAMES[this.originSelect.value] || this.originSelect.value;
+                    activeFiltersList.push({
+                        type: 'origin',
+                        label: `🌍 From ${originName}`,
+                        value: this.originSelect.value
+                    });
+                }
+                
+                // Update filter status bar
+                if (activeFiltersList.length > 0) {
+                    this.filterStatus.classList.remove('hidden');
+                    this.activeFilters.innerHTML = activeFiltersList.map(filter => 
+                        `<span class="filter-tag">
+                            ${filter.label}
+                            <button onclick="LocationManager.removeFilter('${filter.type}')" class="ml-1 hover:text-blue-800">
+                                <i class="fas fa-times text-xs"></i>
+                            </button>
+                        </span>`
+                    ).join('');
+                } else {
+                    this.filterStatus.classList.add('hidden');
+                }
+                
+                // Update URL parameters
+                this.updateUrlParams(activeFiltersList);
+            },
+            
+            // Remove individual filter
+            removeFilter(filterType) {
+                switch(filterType) {
+                    case 'country':
+                        this.countrySelect.value = '';
+                        this.stateSelect.value = '';
+                        this.stateSelect.classList.add('hidden');
+                        break;
+                    case 'state':
+                        this.stateSelect.value = '';
+                        break;
+                    case 'origin':
+                        this.originSelect.value = '';
+                        break;
+                }
+                this.saveFilters();
+                this.updateFilterDisplay();
+            },
+            
+            // Update URL parameters
+            updateUrlParams(filters) {
+                const url = new URL(window.location);
+                
+                // Clear existing location params
+                url.searchParams.delete('country');
+                url.searchParams.delete('state');
+                url.searchParams.delete('origin');
+                
+                // Add current filters
+                filters.forEach(filter => {
+                    url.searchParams.set(filter.type, filter.value);
+                });
+                
+                // Update URL without page reload
+                window.history.replaceState({}, '', url);
+            },
+            
+            // Get current filters for API calls
+            getCurrentFilters() {
+                return {
+                    country: this.countrySelect.value,
+                    state: this.stateSelect.value,
+                    origin: this.originSelect.value
+                };
+            }
+        };
+        
+        // Initialize the location manager
+        LocationManager.init();
+        
+        // Make LocationManager globally accessible
+        window.LocationManager = LocationManager;
+        
+        // Enhanced link handling with filters
+        const categoryLinks = document.querySelectorAll('a[href*="listing_list"]');
+        categoryLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const filters = LocationManager.getCurrentFilters();
+                const hasFilters = filters.country || filters.state || filters.origin;
+                
+                if (hasFilters) {
+                    e.preventDefault();
+                    
+                    const url = new URL(this.href, window.location.origin);
+                    
+                    // Add filter parameters
+                    if (filters.country) url.searchParams.set('country', filters.country);
+                    if (filters.state) url.searchParams.set('state', filters.state);
+                    if (filters.origin) url.searchParams.set('origin', filters.origin);
+                    
+                    window.location.href = url.toString();
+                }
+            });
+        });
+        
+        // Search functionality with filters
+        const searchButton = document.querySelector('button');
+        const searchInput = document.querySelector('input[type="text"]');
+        
+        function performSearch() {
+            const query = searchInput?.value.trim();
+            const filters = LocationManager.getCurrentFilters();
+            
+            if (query) {
+                let url = "{% url 'listing_list' %}";
+                const params = new URLSearchParams();
+                
+                params.append('q', query);
+                if (filters.country) params.append('country', filters.country);
+                if (filters.state) params.append('state', filters.state);
+                if (filters.origin) params.append('origin', filters.origin);
+                
+                url += '?' + params.toString();
+                window.location.href = url;
+            }
+        }
+        
+        if (searchButton) searchButton.addEventListener('click', performSearch);
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+        }
+        
+        // Rest of the original functionality
+        // Animate numbers on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statsNumbers = entry.target.querySelectorAll('.text-3xl');
+                    statsNumbers.forEach(stat => {
+                        animateNumber(stat);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        const statsSection = document.querySelector('.bg-blue-600 .grid');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+        
+        // Add hover effects to cards
+        const cards = document.querySelectorAll('.bg-white.rounded-lg');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '';
+            });
+        });
+        
+        // Keyboard navigation for better accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '/' && !e.target.matches('input, textarea, select')) {
+                e.preventDefault();
+                const searchInput = document.querySelector('input[type="text"]');
+                if (searchInput) searchInput.focus();
+            }
+        });
+        
+        console.log('Abropi Enhanced Navigation initialized');
+    });
+    
+    // Helper function for number animation
+    function animateNumber(element) {
+        const text = element.textContent;
+        const number = parseFloat(text.replace(/[^\d.]/g, ''));
+        const suffix = text.replace(/[\d.]/g, '');
+        let current = 0;
+        const increment = number / 50;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= number) {
+                element.textContent = number + suffix;
+                clearInterval(timer);
+            } else {
+                if (suffix.includes('K')) {
+                    element.textContent = Math.floor(current) + suffix;
+                } else {
+                    element.textContent = Math.floor(current * 10) / 10 + suffix;
+                }
+            }
+        }, 30);
+    }
+</script>
+{% endblock %}

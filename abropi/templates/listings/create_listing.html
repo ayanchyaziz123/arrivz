@@ -1,0 +1,1830 @@
+<!-- templates/listings/create_listing.html - Fixed field names and category handling -->
+{% extends 'base.html' %}
+
+{% block title %}Post a Listing - Abropi{% endblock %}
+
+{% block content %}
+<div class="px-4 py-6 max-w-md mx-auto sm:max-w-2xl lg:max-w-5xl sm:px-6 lg:px-8">
+    <!-- Mobile Header -->
+    <div class="mb-6">
+        <!-- Mobile Breadcrumb -->
+        <nav class="flex items-center space-x-2 text-sm text-gray-600 mb-4 overflow-x-auto">
+            <a href="{% url 'home' %}" class="hover:text-primary-600 whitespace-nowrap">Home</a>
+            <i class="fas fa-chevron-right text-xs flex-shrink-0"></i>
+            <span class="text-gray-900 whitespace-nowrap">Post Listing</span>
+        </nav>
+
+        <h1 class="text-xl font-bold text-gray-900 sm:text-2xl lg:text-3xl">Post a New Listing</h1>
+        <p class="text-sm text-gray-600 mt-2 sm:text-base">Share opportunities with the immigrant community</p>
+    </div>
+
+    <!-- Mobile-First Layout -->
+    <div class="space-y-6 lg:grid lg:grid-cols-4 lg:gap-8 lg:space-y-0">
+
+        <!-- Mobile Progress Indicator -->
+        <div class="lg:hidden bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+            <div class="flex items-center justify-between text-xs text-gray-600 mb-2">
+                <span>Step <span id="currentStep">1</span> of 5</span>
+                <span><span id="completedFields">0</span>/7 completed</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div id="progressBar" class="bg-primary-600 h-2 rounded-full transition-all duration-300"
+                    style="width: 8%"></div>
+            </div>
+        </div>
+
+        <!-- Left Sidebar: Tips & Preview (Desktop only) -->
+        <div class="lg:col-span-1 lg:order-2">
+            <div class="hidden lg:block bg-white rounded-lg shadow-md border border-gray-200 p-6 sticky top-20">
+                <h3 class="font-semibold text-gray-900 mb-4 text-lg">💡 Tips</h3>
+
+                <div class="space-y-4 text-sm">
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-check-circle text-green-500 mt-0.5 flex-shrink-0"></i>
+                        <div>
+                            <p class="font-medium text-gray-900">Clear Title</p>
+                            <p class="text-gray-600">Be specific and descriptive</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-check-circle text-green-500 mt-0.5 flex-shrink-0"></i>
+                        <div>
+                            <p class="font-medium text-gray-900">Add Photos</p>
+                            <p class="text-gray-600">Listings with photos get 5x more views</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-check-circle text-green-500 mt-0.5 flex-shrink-0"></i>
+                        <div>
+                            <p class="font-medium text-gray-900">Complete Details</p>
+                            <p class="text-gray-600">More info builds trust</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Category Preview -->
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <h4 class="font-medium text-gray-900 mb-3">Popular Categories</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center justify-between">
+                            <span>💼 Jobs</span>
+                            <span class="text-gray-500">25% of listings</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>🏠 Housing</span>
+                            <span class="text-gray-500">30% of listings</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>⚖️ Legal</span>
+                            <span class="text-gray-500">15% of listings</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Form -->
+        <div class="lg:col-span-3 lg:order-1">
+            <form method="post" enctype="multipart/form-data" id="listingForm" class="space-y-6">
+                {% csrf_token %}
+
+                <!-- Form Errors (Mobile-Optimized) -->
+                {% if messages %}
+                <div class="p-3 bg-red-50 border border-red-200 rounded-lg sm:p-4">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+                        <h3 class="text-sm font-medium text-red-800">Please fix the following:</h3>
+                    </div>
+                    {% for message in messages %}
+                    <p class="text-red-600 text-sm ml-6">{{ message }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Step 1: Basic Information -->
+                <div class="form-step bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6" data-step="1">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-8 h-8 bg-primary-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                            1</div>
+                        <h2 class="text-lg font-bold text-gray-900 sm:text-xl">Basic Information</h2>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="mb-4">
+                        <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                            Title <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" name="title" id="title" required
+                            class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                            placeholder="Enter a clear, descriptive title" oninput="updateProgress()">
+                        <p class="mt-1 text-xs text-gray-500">Example: "2BR Apartment Near Downtown" or "Software
+                            Developer Position"</p>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="mb-4">
+                        <label for="category" class="block text-sm font-medium text-gray-700 mb-2">
+                            Category <span class="text-red-500">*</span>
+                        </label>
+                        <select name="category" id="category" required
+                            class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                            onchange="toggleCategoryFields(); updateProgress();">
+                            <option value="">Select a category</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">
+                                {% if category.category_type == 'jobs' %}💼
+                                {% elif category.category_type == 'housing' %}🏠
+                                {% elif category.category_type == 'roommates' %}👥
+                                {% elif category.category_type == 'legal' %}⚖️
+                                {% elif category.category_type == 'marketplace' %}🛒
+                                {% elif category.category_type == 'services' %}🔧
+                                {% elif category.category_type == 'business' %}🏢
+                                {% elif category.category_type == 'education' %}🎓
+                                {% endif %}
+                                {{ category.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                            Description <span class="text-red-500">*</span>
+                        </label>
+                        <textarea name="description" id="description" rows="4" required
+                            class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
+                            placeholder="Provide detailed information about your listing..."
+                            oninput="updateProgress(); updateCharCount(this, 'descCharCount')"></textarea>
+                        <div class="flex justify-between mt-1">
+                            <p class="text-xs text-gray-500">Be specific and include key details</p>
+                            <span id="descCharCount" class="text-xs text-gray-400">0 characters</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Location & Address -->
+                <div class="form-step bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6" data-step="2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3"
+                            id="step2-indicator">2</div>
+                        <h2 class="text-lg font-bold text-gray-900 sm:text-xl">Location & Address</h2>
+                    </div>
+
+                    <!-- Location Fields -->
+                    <div class="space-y-4 mb-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="country" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Country <span class="text-red-500">*</span>
+                                </label>
+                                <select name="country" id="country" required
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    onchange="loadStatesForCountry(); updateProgress()">
+                                    <option value="">Select country</option>
+                                    {% for country in countries %}
+                                    <option value="{{ country.id }}">{{ country.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="state_province" class="block text-sm font-medium text-gray-700 mb-2">
+                                    State/Province <span class="text-red-500">*</span>
+                                </label>
+                                <select name="state_province" id="state_province" required
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    onchange="loadCitiesForState(); updateProgress()" disabled>
+                                    <option value="">Select country first</option>
+                                </select>
+                                <div id="state-loading" class="hidden text-xs text-blue-600 mt-1">
+                                    <i class="fas fa-spinner fa-spin mr-1"></i>Loading states...
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="city" class="block text-sm font-medium text-gray-700 mb-2">
+                                    City <span class="text-red-500">*</span>
+                                </label>
+                                <select name="city" id="city" required
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    onchange="updateProgress()" disabled>
+                                    <option value="">Select state first</option>
+                                </select>
+                                <div id="city-loading" class="hidden text-xs text-blue-600 mt-1">
+                                    <i class="fas fa-spinner fa-spin mr-1"></i>Loading cities...
+                                </div>
+                                <!-- Manual city input option -->
+                                <div class="mt-2">
+                                    <label class="flex items-center text-xs text-gray-600">
+                                        <input type="checkbox" id="manual-city-toggle" class="mr-2"
+                                            onchange="toggleManualCityInput()">
+                                        City not listed? Enter manually
+                                    </label>
+                                </div>
+                                <input type="text" name="city_manual" id="city_manual"
+                                    class="hidden w-full px-3 py-2 mt-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="Enter city name" oninput="updateProgress()">
+                            </div>
+
+                            <div>
+                                <label for="neighborhood" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Neighborhood/District
+                                </label>
+                                <input type="text" name="neighborhood" id="neighborhood"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="Manhattan, Downtown" oninput="updateProgress()">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="address_line_1" class="block text-sm font-medium text-gray-700 mb-2">
+                                Address Line 1
+                            </label>
+                            <input type="text" name="address_line_1" id="address_line_1"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="123 Main Street" oninput="updateProgress()">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="address_line_2" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Address Line 2 (Optional)
+                                </label>
+                                <input type="text" name="address_line_2" id="address_line_2"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="Apt 4B, Suite 200">
+                            </div>
+
+                            <div>
+                                <label for="zip_code" class="block text-sm font-medium text-gray-700 mb-2">
+                                    ZIP/Postal Code
+                                </label>
+                                <input type="text" name="zip_code" id="zip_code"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="10001">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Contact Information -->
+                <div class="form-step bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6" data-step="3">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3"
+                            id="step3-indicator">3</div>
+                        <h2 class="text-lg font-bold text-gray-900 sm:text-xl">Contact Information</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label for="contact_email" class="block text-sm font-medium text-gray-700 mb-2">
+                                Contact Email <span class="text-red-500">*</span>
+                            </label>
+                            <input type="email" name="contact_email" id="contact_email" required
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="your@email.com" value="{{ user.email }}" oninput="updateProgress()">
+                        </div>
+
+                        <div>
+                            <label for="contact_phone" class="block text-sm font-medium text-gray-700 mb-2">
+                                Contact Phone
+                            </label>
+                            <input type="tel" name="contact_phone" id="contact_phone"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="+1 (555) 123-4567" oninput="updateProgress()">
+                        </div>
+
+                        <div>
+                            <label for="website_url" class="block text-sm font-medium text-gray-700 mb-2">
+                                Website URL (Optional)
+                            </label>
+                            <input type="url" name="website_url" id="website_url"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="https://yourwebsite.com">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Images & Media -->
+                <div class="form-step bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6" data-step="4">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3"
+                            id="step4-indicator">4</div>
+                        <h2 class="text-lg font-bold text-gray-900 sm:text-xl">Images & Media</h2>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            Photos (Recommended)
+                        </label>
+
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center bg-gray-50">
+                            <div class="space-y-3">
+                                <div class="text-3xl text-gray-400">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <div>
+                                    <label for="images" class="cursor-pointer">
+                                        <span
+                                            class="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition text-sm font-medium">
+                                            <i class="fas fa-upload mr-2"></i>Choose Photos
+                                        </span>
+                                        <p class="mt-2 text-sm text-gray-600">
+                                            PNG, JPG up to 5MB each (max 10 images)
+                                        </p>
+                                    </label>
+                                    <input id="images" name="images" type="file" multiple accept="image/*"
+                                        class="sr-only" onchange="handleImageUpload(this)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="image-preview"
+                            class="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 hidden">
+                            <!-- Image previews will appear here -->
+                        </div>
+
+                        <p class="mt-2 text-xs text-gray-500">💡 Listings with photos get 5x more responses!</p>
+                    </div>
+                </div>
+
+                <!-- Category-Specific Fields -->
+
+                <!-- Job Fields -->
+                <div id="job-fields"
+                    class="form-step bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 hidden"
+                    data-step="5">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                            5</div>
+                        <h2 class="text-lg font-bold text-gray-900 sm:text-xl">Job Details</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="company_name" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Company Name
+                                </label>
+                                <input type="text" name="company_name" id="company_name"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="Acme Corp">
+                            </div>
+
+                            <div>
+                                <label for="job_type" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Job Type
+                                </label>
+                                <select name="job_type" id="job_type"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                    <option value="full_time">Full Time</option>
+                                    <option value="part_time">Part Time</option>
+                                    <option value="contract">Contract</option>
+                                    <option value="temporary">Temporary</option>
+                                    <option value="internship">Internship</option>
+                                    <option value="freelance">Freelance</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="salary_min" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Minimum Salary ($)
+                                </label>
+                                <input type="number" name="salary_min" id="salary_min"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="50000">
+                            </div>
+
+                            <div>
+                                <label for="salary_max" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Maximum Salary ($)
+                                </label>
+                                <input type="number" name="salary_max" id="salary_max"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="80000">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="salary_period" class="block text-sm font-medium text-gray-700 mb-2">
+                                Salary Period
+                            </label>
+                            <select name="salary_period" id="salary_period"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                <option value="yearly">Per Year</option>
+                                <option value="monthly">Per Month</option>
+                                <option value="weekly">Per Week</option>
+                                <option value="daily">Per Day</option>
+                                <option value="hourly">Per Hour</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="requirements" class="block text-sm font-medium text-gray-700 mb-2">
+                                Requirements
+                            </label>
+                            <textarea name="requirements" id="requirements" rows="3"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="Bachelor's degree, 3+ years experience..."></textarea>
+                        </div>
+
+                        <div>
+                            <label for="benefits" class="block text-sm font-medium text-gray-700 mb-2">
+                                Benefits
+                            </label>
+                            <textarea name="benefits" id="benefits" rows="3"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="Health insurance, 401k, vacation time..."></textarea>
+                        </div>
+
+                        <div class="space-y-3 pt-4 border-t">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="visa_sponsorship"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Visa Sponsorship Available</strong>
+                                    <p class="text-gray-600">We can sponsor work visas for qualified candidates</p>
+                                </span>
+                            </label>
+
+                            <label class="flex items-start">
+                                <input type="checkbox" name="remote_work"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Remote Work OK</strong>
+                                    <p class="text-gray-600">This position allows remote work</p>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Housing Fields -->
+                <div id="housing-fields"
+                    class="form-step bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 hidden"
+                    data-step="5">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                            5</div>
+                        <h2 class="text-lg font-bold text-gray-900 sm:text-xl">Property Details</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label for="housing_type" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Property Type
+                                </label>
+                                <select name="housing_type" id="housing_type"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                    <option value="apartment">Apartment</option>
+                                    <option value="house">House</option>
+                                    <option value="room">Room</option>
+                                    <option value="studio">Studio</option>
+                                    <option value="condo">Condo</option>
+                                    <option value="shared">Shared Housing</option>
+                                    <option value="basement">Basement</option>
+                                    <option value="townhouse">Townhouse</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="bedrooms" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Bedrooms
+                                </label>
+                                <input type="number" name="bedrooms" id="bedrooms" min="0" max="10"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="2">
+                            </div>
+
+                            <div>
+                                <label for="bathrooms" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Bathrooms
+                                </label>
+                                <input type="number" name="bathrooms" id="bathrooms" min="0" max="10" step="0.5"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="1.5">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label for="rent" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Monthly Rent ($)
+                                </label>
+                                <input type="number" name="rent" id="rent" step="0.01"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="1500">
+                            </div>
+
+                            <div>
+                                <label for="security_deposit" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Security Deposit ($)
+                                </label>
+                                <input type="number" name="security_deposit" id="security_deposit" step="0.01"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="1500">
+                            </div>
+
+                            <div>
+                                <label for="square_footage" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Square Footage
+                                </label>
+                                <input type="number" name="square_footage" id="square_footage"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="800">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="available_date" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Available Date
+                                </label>
+                                <input type="date" name="available_date" id="available_date"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                            </div>
+
+                            <div>
+                                <label for="lease_duration" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Lease Duration (months)
+                                </label>
+                                <input type="number" name="lease_duration" id="lease_duration" min="1" max="24"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="12">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="amenities" class="block text-sm font-medium text-gray-700 mb-2">
+                                Amenities
+                            </label>
+                            <textarea name="amenities" id="amenities" rows="3"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="Air conditioning, dishwasher, parking, gym..."></textarea>
+                        </div>
+
+                        <div class="space-y-3 pt-4 border-t">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="utilities_included"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Utilities Included</strong>
+                                    <p class="text-gray-600">Water, electricity, internet included in rent</p>
+                                </span>
+                            </label>
+
+                            <label class="flex items-start">
+                                <input type="checkbox" name="furnished"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Furnished</strong>
+                                    <p class="text-gray-600">Property comes with furniture</p>
+                                </span>
+                            </label>
+
+                            <label class="flex items-start">
+                                <input type="checkbox" name="pets_allowed"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Pets Allowed</strong>
+                                    <p class="text-gray-600">Pets are welcome</p>
+                                </span>
+                            </label>
+
+                            <label class="flex items-start">
+                                <input type="checkbox" name="parking_available"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Parking Available</strong>
+                                    <p class="text-gray-600">Parking space included or available</p>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roommate Fields -->
+                <div id="roommate-fields"
+                    class="form-step bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 hidden"
+                    data-step="5">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                            5</div>
+                        <h2 class="text-lg font-bold text-gray-900 sm:text-xl">Roommate Details</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="room_type" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Room Type
+                                </label>
+                                <select name="room_type" id="room_type"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                    <option value="private">Private Room</option>
+                                    <option value="shared">Shared Room</option>
+                                    <option value="master">Master Bedroom</option>
+                                    <option value="studio">Studio Share</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="gender_preference" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Gender Preference
+                                </label>
+                                <select name="gender_preference" id="gender_preference"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                    <option value="any">Any</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="non_binary">Non-binary</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="roommate_rent" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Monthly Rent per Person ($)
+                                </label>
+                                <input type="number" name="roommate_rent" id="roommate_rent" step="0.01"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="750">
+                            </div>
+
+                            <div>
+                                <label for="move_in_date" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Preferred Move-in Date
+                                </label>
+                                <input type="date" name="move_in_date" id="move_in_date"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="roommate_preferences" class="block text-sm font-medium text-gray-700 mb-2">
+                                Roommate Preferences
+                            </label>
+                            <textarea name="roommate_preferences" id="roommate_preferences" rows="3"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="Looking for clean, quiet, professional roommate..."></textarea>
+                        </div>
+
+                        <div class="space-y-3 pt-4 border-t">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="smoking_allowed"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Smoking Allowed</strong>
+                                    <p class="text-gray-600">Smoking is permitted</p>
+                                </span>
+                            </label>
+
+                            <label class="flex items-start">
+                                <input type="checkbox" name="pets_allowed_roommate"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Pets Allowed</strong>
+                                    <p class="text-gray-600">Pets are welcome</p>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marketplace Fields -->
+                <div id="marketplace-fields"
+                    class="form-step bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 hidden"
+                    data-step="5">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                            5</div>
+                        <h2 class="text-lg font-bold text-gray-900 sm:text-xl">Item Details</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="item_category" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Item Category
+                                </label>
+                                <select name="item_category" id="item_category"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                    <option value="electronics">Electronics</option>
+                                    <option value="furniture">Furniture</option>
+                                    <option value="clothing">Clothing</option>
+                                    <option value="books">Books</option>
+                                    <option value="appliances">Appliances</option>
+                                    <option value="tools">Tools</option>
+                                    <option value="sports">Sports & Recreation</option>
+                                    <option value="automotive">Automotive</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="condition" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Condition
+                                </label>
+                                <select name="condition" id="condition"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                    <option value="new">New</option>
+                                    <option value="like_new">Like New</option>
+                                    <option value="excellent">Excellent</option>
+                                    <option value="good">Good</option>
+                                    <option value="fair">Fair</option>
+                                    <option value="poor">Poor</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="brand" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Brand
+                                </label>
+                                <input type="text" name="brand" id="brand"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="Apple, Samsung, IKEA...">
+                            </div>
+
+                            <div>
+                                <label for="model" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Model
+                                </label>
+                                <input type="text" name="model" id="model"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="iPhone 15, MALM Dresser...">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="price" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Price ($)
+                                </label>
+                                <input type="number" name="price" id="price" step="0.01"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="100.00">
+                            </div>
+
+                            <div>
+                                <label for="original_price" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Original Price ($)
+                                </label>
+                                <input type="number" name="original_price" id="original_price" step="0.01"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="150.00">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="reason_for_selling" class="block text-sm font-medium text-gray-700 mb-2">
+                                Reason for Selling
+                            </label>
+                            <textarea name="reason_for_selling" id="reason_for_selling" rows="2"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="Moving, upgrading, no longer needed..."></textarea>
+                        </div>
+
+                        <div class="space-y-3 pt-4 border-t">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="accepting_trades"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Accept Trades</strong>
+                                    <p class="text-gray-600">Open to trading for other items</p>
+                                </span>
+                            </label>
+
+                            <label class="flex items-start">
+                                <input type="checkbox" name="negotiable_price"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Price Negotiable</strong>
+                                    <p class="text-gray-600">Price is open to negotiation</p>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legal Fields - Fixed field names to match LawyerListing model -->
+                <div id="legal-fields"
+                    class="form-step bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 hidden"
+                    data-step="5">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                            5</div>
+                        <h2 class="text-lg font-bold text-gray-900 sm:text-xl">Legal Service Details</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="law_firm" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Law Firm/Practice Name
+                                </label>
+                                <input type="text" name="law_firm" id="law_firm"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="Immigration Law Partners">
+                            </div>
+
+                            <div>
+                                <label for="years_experience" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Years of Experience
+                                </label>
+                                <input type="number" name="years_experience" id="years_experience" min="0" max="50"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="10">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="pricing_model" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Pricing Model
+                                </label>
+                                <select name="pricing_model" id="pricing_model"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                    <option value="hourly">Hourly Rate</option>
+                                    <option value="flat_fee">Flat Fee</option>
+                                    <option value="contingency">Contingency Fee</option>
+                                    <option value="retainer">Retainer</option>
+                                    <option value="consultation_only">Consultation Only</option>
+                                    <option value="pro_bono">Pro Bono</option>
+                                    <option value="varies">Varies by Case</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="hourly_rate" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Hourly Rate ($)
+                                </label>
+                                <input type="number" name="hourly_rate" id="hourly_rate" step="0.01"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="250.00">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="consultation_fee" class="block text-sm font-medium text-gray-700 mb-2">
+                                Consultation Fee ($)
+                            </label>
+                            <input type="number" name="consultation_fee" id="consultation_fee" step="0.01"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="100.00">
+                            <p class="mt-1 text-xs text-gray-500">Leave blank if consultation is free</p>
+                        </div>
+
+                        <div>
+                            <label for="specializations" class="block text-sm font-medium text-gray-700 mb-2">
+                                Specializations
+                            </label>
+                            <input type="text" name="specializations" id="specializations"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="Immigration Law, Employment Law, Family Law">
+                        </div>
+
+                        <div>
+                            <label for="bar_admissions" class="block text-sm font-medium text-gray-700 mb-2">
+                                Bar Admissions
+                            </label>
+                            <input type="text" name="bar_admissions" id="bar_admissions"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="New York, California, Texas">
+                            <p class="mt-1 text-xs text-gray-500">States/countries where you are licensed to practice
+                            </p>
+                        </div>
+
+                        <div>
+                            <label for="languages" class="block text-sm font-medium text-gray-700 mb-2">
+                                Languages Spoken
+                            </label>
+                            <input type="text" name="languages" id="languages"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="English, Spanish, Mandarin">
+                        </div>
+
+                        <div>
+                            <label for="license_number" class="block text-sm font-medium text-gray-700 mb-2">
+                                License Number (Optional)
+                            </label>
+                            <input type="text" name="license_number" id="license_number"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="123456789">
+                        </div>
+
+                        <div class="space-y-3 pt-4 border-t">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="accepts_pro_bono"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Accepts Pro Bono Cases</strong>
+                                    <p class="text-gray-600">Available for free consultation/services for qualifying
+                                        clients</p>
+                                </span>
+                            </label>
+
+                            <label class="flex items-start">
+                                <input type="checkbox" name="free_consultation"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Free Initial Consultation</strong>
+                                    <p class="text-gray-600">Offers free first consultation</p>
+                                </span>
+                            </label>
+
+                            <label class="flex items-start">
+                                <input type="checkbox" name="offers_payment_plans"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Offers Payment Plans</strong>
+                                    <p class="text-gray-600">Flexible payment options available</p>
+                                </span>
+                            </label>
+
+                            <label class="flex items-start">
+                                <input type="checkbox" name="virtual_consultations"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Virtual Consultations</strong>
+                                    <p class="text-gray-600">Available for remote consultations via video call</p>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Services Fields -->
+                <div id="services-fields"
+                    class="form-step bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 hidden"
+                    data-step="5">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                            5</div>
+                        <h2 class="text-lg font-bold text-gray-900 sm:text-xl">Service Details</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="service_category" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Service Category
+                                </label>
+                                <select name="service_category" id="service_category"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                    <option value="consulting">Consulting</option>
+                                    <option value="tutoring">Tutoring</option>
+                                    <option value="translation">Translation</option>
+                                    <option value="tax_prep">Tax Preparation</option>
+                                    <option value="home_services">Home Services</option>
+                                    <option value="photography">Photography</option>
+                                    <option value="design">Design</option>
+                                    <option value="tech_support">Tech Support</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="pricing_type" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Pricing Type
+                                </label>
+                                <select name="pricing_type" id="pricing_type"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                    <option value="hourly">Per Hour</option>
+                                    <option value="project">Per Project</option>
+                                    <option value="session">Per Session</option>
+                                    <option value="package">Package Deal</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="service_price" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Price ($)
+                                </label>
+                                <input type="number" name="service_price" id="service_price" step="0.01"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="50.00">
+                            </div>
+
+                            <div>
+                                <label for="experience_years" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Years of Experience
+                                </label>
+                                <input type="number" name="experience_years" id="experience_years" min="0" max="50"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="5">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="qualifications" class="block text-sm font-medium text-gray-700 mb-2">
+                                Qualifications & Certifications
+                            </label>
+                            <textarea name="qualifications" id="qualifications" rows="3"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                placeholder="CPA, MBA, Google Certified..."></textarea>
+                        </div>
+
+                        <div class="space-y-3 pt-4 border-t">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="remote_service"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Remote Service Available</strong>
+                                    <p class="text-gray-600">Can provide service remotely/online</p>
+                                </span>
+                            </label>
+
+                            <label class="flex items-start">
+                                <input type="checkbox" name="emergency_available"
+                                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm">
+                                    <strong class="text-gray-900">Emergency Service</strong>
+                                    <p class="text-gray-600">Available for urgent/emergency requests</p>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Final Step: Listing Options -->
+                <div class="form-step bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6" data-step="5">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3"
+                            id="final-step-indicator">5</div>
+                        <h2 class="text-lg font-bold text-gray-900 sm:text-xl">Final Details</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="priority" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Priority Level
+                                </label>
+                                <select name="priority" id="priority"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                    <option value="normal">🔵 Normal</option>
+                                    <option value="high">🟡 High Priority (+$5)</option>
+                                    <option value="urgent">🔴 Urgent (+$10)</option>
+                                </select>
+                                <p class="mt-1 text-xs text-gray-500">Higher priority listings appear first in search
+                                    results</p>
+                            </div>
+
+                            <div>
+                                <label for="expires_at" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Expiration Date (Optional)
+                                </label>
+                                <input type="date" name="expires_at" id="expires_at"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                <p class="mt-1 text-xs text-gray-500">Leave blank for no expiration</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="auto_renew" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Auto Renewal
+                                </label>
+                                <select name="auto_renew" id="auto_renew"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                    <option value="false">No Auto Renewal</option>
+                                    <option value="true">Auto Renew When Expired</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="renewal_period_days" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Renewal Period (Days)
+                                </label>
+                                <input type="number" name="renewal_period_days" id="renewal_period_days" min="1"
+                                    max="365"
+                                    class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                    placeholder="30" value="30">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="publish_at" class="block text-sm font-medium text-gray-700 mb-2">
+                                Schedule Publication (Optional)
+                            </label>
+                            <input type="datetime-local" name="publish_at" id="publish_at"
+                                class="w-full px-3 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                            <p class="mt-1 text-xs text-gray-500">Leave blank to publish immediately</p>
+                        </div>
+
+                        <!-- Visibility Settings -->
+                        <div class="pt-4 border-t">
+                            <h3 class="font-medium text-gray-900 mb-3">Visibility Settings</h3>
+                            <div class="space-y-4">
+                                <!-- Visibility Level -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                                        Who can see this listing? <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="space-y-3">
+                                        <label
+                                            class="flex items-start p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                            <input type="radio" name="visibility" value="public"
+                                                class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 mt-1"
+                                                checked>
+                                            <span class="ml-3 flex-1">
+                                                <div class="flex items-center">
+                                                    <i class="fas fa-globe text-blue-500 mr-2"></i>
+                                                    <strong class="text-gray-900">Public</strong>
+                                                </div>
+                                                <p class="text-sm text-gray-600 mt-1">
+                                                    Visible to everyone, including non-registered visitors. Maximum
+                                                    exposure and reach.
+                                                </p>
+                                                <p class="text-xs text-green-600 mt-1">
+                                                    <i class="fas fa-thumbs-up mr-1"></i>Recommended for jobs, housing,
+                                                    general services
+                                                </p>
+                                            </span>
+                                        </label>
+
+                                        <label
+                                            class="flex items-start p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                            <input type="radio" name="visibility" value="community"
+                                                class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 mt-1">
+                                            <span class="ml-3 flex-1">
+                                                <div class="flex items-center">
+                                                    <i class="fas fa-users text-purple-500 mr-2"></i>
+                                                    <strong class="text-gray-900">Only Your Community People</strong>
+                                                </div>
+                                                <p class="text-sm text-gray-600 mt-1">
+                                                    Based on your profile community settings. Perfect for cultural
+                                                    connections and community-specific needs.
+                                                </p>
+                                                <p class="text-xs text-purple-600 mt-1">
+                                                    <i class="fas fa-heart mr-1"></i>Great for language exchange,
+                                                    cultural events, community services
+                                                </p>
+                                            </span>
+                                        </label>
+
+                                        <label
+                                            class="flex items-start p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                            <input type="radio" name="visibility" value="same_origin"
+                                                class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 mt-1">
+                                            <span class="ml-3 flex-1">
+                                                <div class="flex items-center">
+                                                    <i class="fas fa-flag text-orange-500 mr-2"></i>
+                                                    <strong class="text-gray-900">Only Your Origin Country</strong>
+                                                </div>
+                                                <p class="text-sm text-gray-600 mt-1">
+                                                    Only visible to people from your country of origin. Perfect for
+                                                    homeland-specific services and connections.
+                                                </p>
+                                                <p class="text-xs text-orange-600 mt-1">
+                                                    <i class="fas fa-home mr-1"></i>Best for language tutoring, cultural
+                                                    events, homeland traditions
+                                                </p>
+                                            </span>
+                                        </label>
+
+                                        <label
+                                            class="flex items-start p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                            <input type="radio" name="visibility" value="verified_only"
+                                                class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 mt-1">
+                                            <span class="ml-3 flex-1">
+                                                <div class="flex items-center">
+                                                    <i class="fas fa-user-check text-green-500 mr-2"></i>
+                                                    <strong class="text-gray-900">Verified Users Only</strong>
+                                                </div>
+                                                <p class="text-sm text-gray-600 mt-1">
+                                                    Only verified community members can see this listing. Highest level
+                                                    of privacy and trust.
+                                                </p>
+                                                <p class="text-xs text-green-600 mt-1">
+                                                    <i class="fas fa-lock mr-1"></i>Most secure for sensitive listings
+                                                </p>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Featured Listing Option -->
+                                <div class="pt-3 border-t">
+                                    <label class="flex items-start">
+                                        <input type="checkbox" name="is_featured"
+                                            class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1">
+                                        <span class="ml-3 text-sm">
+                                            <strong class="text-gray-900">Featured Listing (+$15)</strong>
+                                            <p class="text-gray-600">Appears in featured section on homepage for
+                                                increased visibility</p>
+                                            <p class="text-xs text-blue-600 mt-1">
+                                                <i class="fas fa-star mr-1"></i>3x more views on average
+                                            </p>
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <!-- Admin Approval - Now mandatory -->
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-4">
+                                    <div class="flex items-start">
+                                        <i class="fas fa-shield-alt text-blue-600 mt-0.5 mr-3 flex-shrink-0"></i>
+                                        <div>
+                                            <h4 class="font-medium text-blue-900">Admin Review Required</h4>
+                                            <p class="text-sm text-blue-700 mt-1">
+                                                All listings must be reviewed and approved by our moderation team before
+                                                becoming visible to ensure quality and safety for our community.
+                                            </p>
+                                            <p class="text-xs text-blue-600 mt-2">
+                                                ⏱️ Review typically takes 2-24 hours
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- Hidden input to ensure admin approval is always required -->
+                                    <input type="hidden" name="requires_approval" value="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Submit Actions -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+                    <div class="space-y-4">
+                        <!-- Preview Button (Mobile) -->
+                        <button type="button" onclick="showPreview()"
+                            class="w-full lg:hidden border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition duration-200 font-medium text-sm">
+                            <i class="fas fa-eye mr-2"></i>Preview Listing
+                        </button>
+
+                        <!-- Submit Buttons -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button type="submit" name="status" value="draft"
+                                class="border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition duration-200 font-medium text-sm">
+                                <i class="fas fa-save mr-2"></i>Save as Draft
+                            </button>
+
+                            <button type="submit" name="status" value="pending"
+                                class="bg-primary-600 text-white py-3 px-4 rounded-lg hover:bg-primary-700 transition duration-200 font-medium text-sm">
+                                <i class="fas fa-paper-plane mr-2"></i>Submit for Review
+                            </button>
+                        </div>
+
+                        <!-- Remove the "Publish Now" button since all listings need approval -->
+                        <div class="text-center pt-3">
+                            <p class="text-xs text-gray-500">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                All listings require admin approval before going live
+                            </p>
+                        </div>
+
+                        <!-- Cancel Link -->
+                        <div class="text-center pt-2">
+                            <a href="{% url 'home' %}"
+                                class="text-gray-600 hover:text-gray-900 transition duration-200 text-sm">
+                                <i class="fas fa-times mr-1"></i>Cancel and return home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Safety Notice -->
+    <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4 lg:hidden">
+        <div class="flex items-start">
+            <i class="fas fa-info-circle text-blue-500 mt-0.5 mr-3 flex-shrink-0"></i>
+            <div class="text-sm text-blue-700">
+                <p class="font-medium mb-1">Listing Guidelines</p>
+                <ul class="space-y-1">
+                    <li>• Be honest and accurate in your descriptions</li>
+                    <li>• Include clear contact information</li>
+                    <li>• Follow local laws and regulations</li>
+                    <li>• Respect community guidelines</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile Preview Modal -->
+<div id="previewModal" class="hidden fixed inset-0 bg-black/50 z-50 lg:hidden">
+    <div class="fixed bottom-0 left-0 right-0 bg-white rounded-t-xl max-h-96 overflow-y-auto">
+        <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+            <h3 class="font-bold text-gray-900">Preview</h3>
+            <button onclick="hidePreview()" class="text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="previewContent" class="p-4">
+            <!-- Preview content will be inserted here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dynamic location loading functions
+    async function loadStatesForCountry() {
+        const countrySelect = document.getElementById('country');
+        const stateSelect = document.getElementById('state_province');
+        const citySelect = document.getElementById('city');
+        const stateLoading = document.getElementById('state-loading');
+
+        const countryId = countrySelect.value;
+
+        // Reset dependent dropdowns
+        stateSelect.innerHTML = '<option value="">Select state/province</option>';
+        stateSelect.disabled = true;
+        citySelect.innerHTML = '<option value="">Select state first</option>';
+        citySelect.disabled = true;
+
+        if (!countryId) {
+            stateSelect.innerHTML = '<option value="">Select country first</option>';
+            return;
+        }
+
+        // Show loading indicator
+        stateLoading.classList.remove('hidden');
+
+        try {
+            // Use the AJAX endpoint from your views
+            const response = await fetch(`/listings/ajax/states-for-country/?country_id=${countryId}`);
+            const data = await response.json();
+
+            if (response.ok && data.states) {
+                stateSelect.innerHTML = '<option value="">Select state/province</option>';
+
+                data.states.forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state.id;
+                    option.textContent = state.short_name ? `${state.name} (${state.short_name})` : state.name;
+                    stateSelect.appendChild(option);
+                });
+
+                stateSelect.disabled = false;
+            } else {
+                stateSelect.innerHTML = '<option value="">Error loading states</option>';
+                console.error('Error loading states:', data.error || 'Unknown error');
+            }
+        } catch (error) {
+            console.error('Network error loading states:', error);
+            stateSelect.innerHTML = '<option value="">Error loading states</option>';
+        } finally {
+            stateLoading.classList.add('hidden');
+        }
+    }
+
+    async function loadCitiesForState() {
+        const stateSelect = document.getElementById('state_province');
+        const citySelect = document.getElementById('city');
+        const cityLoading = document.getElementById('city-loading');
+
+        const stateId = stateSelect.value;
+
+        // Reset city dropdown
+        citySelect.innerHTML = '<option value="">Select city</option>';
+        citySelect.disabled = true;
+
+        if (!stateId) {
+            citySelect.innerHTML = '<option value="">Select state first</option>';
+            return;
+        }
+
+        // Show loading indicator
+        cityLoading.classList.remove('hidden');
+
+        try {
+            const response = await fetch(`/listings/ajax/cities-for-state/?state_id=${stateId}`);
+            const data = await response.json();
+
+            if (response.ok && data.cities) {
+                citySelect.innerHTML = '<option value="">Select city</option>';
+
+                // Add "Other" option first
+                const otherOption = document.createElement('option');
+                otherOption.value = 'other';
+                otherOption.textContent = '🏙️ City not listed? Select this to enter manually';
+                citySelect.appendChild(otherOption);
+
+                data.cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.id;
+                    option.textContent = city.name;
+                    citySelect.appendChild(option);
+                });
+
+                citySelect.disabled = false;
+            } else {
+                citySelect.innerHTML = '<option value="">Error loading cities</option>';
+                console.error('Error loading cities:', data.error || 'Unknown error');
+            }
+        } catch (error) {
+            console.error('Network error loading cities:', error);
+            citySelect.innerHTML = '<option value="">Error loading cities</option>';
+        } finally {
+            cityLoading.classList.add('hidden');
+        }
+    }
+
+    function toggleManualCityInput() {
+        const toggle = document.getElementById('manual-city-toggle');
+        const citySelect = document.getElementById('city');
+        const manualInput = document.getElementById('city_manual');
+
+        if (toggle.checked) {
+            citySelect.classList.add('hidden');
+            manualInput.classList.remove('hidden');
+            manualInput.required = true;
+            citySelect.required = false;
+            manualInput.focus();
+        } else {
+            citySelect.classList.remove('hidden');
+            manualInput.classList.add('hidden');
+            manualInput.required = false;
+            citySelect.required = true;
+            manualInput.value = '';
+        }
+        updateProgress();
+    }
+
+    // Update the updateProgress function to handle both city inputs
+    function updateProgress() {
+        const requiredFields = [
+            'title', 'category', 'description', 'country', 'state_province', 'contact_email'
+        ];
+
+        let completed = 0;
+
+        // Check required fields
+        requiredFields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            if (field && field.value.trim() !== '') {
+                completed++;
+            }
+        });
+
+        // Check city field (either dropdown or manual input)
+        const citySelect = document.getElementById('city');
+        const cityManual = document.getElementById('city_manual');
+        const manualToggle = document.getElementById('manual-city-toggle');
+
+        if (manualToggle && manualToggle.checked) {
+            // Manual city input is active
+            if (cityManual && cityManual.value.trim() !== '') {
+                completed++;
+            }
+        } else {
+            // City dropdown is active
+            if (citySelect && citySelect.value !== '' && citySelect.value !== 'other') {
+                completed++;
+            }
+        }
+
+        completedFields = completed;
+
+        // Update progress bar
+        const progressBar = document.getElementById('progressBar');
+        const progressPercent = (completed / totalFields) * 100;
+        if (progressBar) {
+            progressBar.style.width = progressPercent + '%';
+        }
+
+        // Update counters
+        const completedSpan = document.getElementById('completedFields');
+        if (completedSpan) {
+            completedSpan.textContent = completed;
+        }
+
+        // Update step indicators
+        updateStepIndicators();
+    }
+
+    function updateStepIndicators() {
+        const title = document.getElementById('title').value;
+        const category = document.getElementById('category').value;
+        const description = document.getElementById('description').value;
+        const country = document.getElementById('country').value;
+        const state = document.getElementById('state_province').value;
+        const email = document.getElementById('contact_email').value;
+
+        // Check city (either dropdown or manual)
+        const citySelect = document.getElementById('city');
+        const cityManual = document.getElementById('city_manual');
+        const manualToggle = document.getElementById('manual-city-toggle');
+
+        let hasCity = false;
+        if (manualToggle && manualToggle.checked) {
+            hasCity = cityManual && cityManual.value.trim() !== '';
+        } else {
+            hasCity = citySelect && citySelect.value !== '' && citySelect.value !== 'other';
+        }
+
+        // Step 1: Basic info
+        if (title && category && description) {
+            document.querySelector('[data-step="1"] .w-8').className = 'w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3';
+        }
+
+        // Step 2: Location
+        if (country && state && hasCity) {
+            const step2 = document.getElementById('step2-indicator');
+            if (step2) step2.className = 'w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3';
+        }
+
+        // Step 3: Contact
+        if (email) {
+            const step3 = document.getElementById('step3-indicator');
+            if (step3) step3.className = 'w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3';
+        }
+
+        // Step 4: Images (optional but encouraged)
+        const images = document.getElementById('images');
+        if (images && images.files && images.files.length > 0) {
+            const step4 = document.getElementById('step4-indicator');
+            if (step4) step4.className = 'w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3';
+        }
+    }
+
+    // Category field toggling - Fixed to work with database category IDs
+    function toggleCategoryFields() {
+        const categorySelect = document.getElementById('category');
+        const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+
+        // Get the category type from the option text (we'll need to identify by emoji or text)
+        let categoryType = '';
+        if (selectedOption && selectedOption.text) {
+            const text = selectedOption.text.toLowerCase();
+            if (text.includes('💼') || text.includes('job')) categoryType = 'jobs';
+            else if (text.includes('🏠') || text.includes('housing')) categoryType = 'housing';
+            else if (text.includes('👥') || text.includes('roommate')) categoryType = 'roommates';
+            else if (text.includes('🛒') || text.includes('marketplace')) categoryType = 'marketplace';
+            else if (text.includes('⚖️') || text.includes('legal')) categoryType = 'legal';
+            else if (text.includes('🔧') || text.includes('service')) categoryType = 'services';
+        }
+
+        // Hide all category-specific sections
+        document.getElementById('job-fields').classList.add('hidden');
+        document.getElementById('housing-fields').classList.add('hidden');
+        document.getElementById('roommate-fields').classList.add('hidden');
+        document.getElementById('marketplace-fields').classList.add('hidden');
+        document.getElementById('legal-fields').classList.add('hidden');
+        document.getElementById('services-fields').classList.add('hidden');
+
+        // Show relevant section
+        switch (categoryType) {
+            case 'jobs':
+                document.getElementById('job-fields').classList.remove('hidden');
+                break;
+            case 'housing':
+                document.getElementById('housing-fields').classList.remove('hidden');
+                break;
+            case 'roommates':
+                document.getElementById('roommate-fields').classList.remove('hidden');
+                break;
+            case 'marketplace':
+                document.getElementById('marketplace-fields').classList.remove('hidden');
+                break;
+            case 'legal':
+                document.getElementById('legal-fields').classList.remove('hidden');
+                break;
+            case 'services':
+                document.getElementById('services-fields').classList.remove('hidden');
+                break;
+        }
+
+        // Update current step display
+        updateCurrentStep();
+    }
+
+    function updateCurrentStep() {
+        const category = document.getElementById('category').value;
+        const currentStepSpan = document.getElementById('currentStep');
+
+        if (category) {
+            if (currentStepSpan) currentStepSpan.textContent = '5';
+        } else {
+            if (currentStepSpan) currentStepSpan.textContent = '4';
+        }
+    }
+
+    // Character count
+    function updateCharCount(element, countId) {
+        const count = element.value.length;
+        const counter = document.getElementById(countId);
+        if (counter) {
+            counter.textContent = count + ' characters';
+            if (count > 500) {
+                counter.className = 'text-xs text-red-500';
+            } else if (count > 300) {
+                counter.className = 'text-xs text-yellow-600';
+            } else {
+                counter.className = 'text-xs text-gray-400';
+            }
+        }
+    }
+
+    // Image upload handling
+    function handleImageUpload(input) {
+        const files = input.files;
+        const previewContainer = document.getElementById('image-preview');
+
+        if (files.length > 0) {
+            previewContainer.classList.remove('hidden');
+            previewContainer.innerHTML = '';
+
+            Array.from(files).slice(0, 10).forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const div = document.createElement('div');
+                        div.className = 'relative group';
+                        div.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview ${index + 1}" 
+                             class="w-full h-20 sm:h-24 object-cover rounded-lg">
+                        <button type="button" onclick="removeImage(this)" 
+                                class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition">
+                            ×
+                        </button>
+                        <div class="absolute bottom-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
+                            ${index + 1}
+                        </div>
+                    `;
+                        previewContainer.appendChild(div);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Update progress
+            updateProgress();
+        } else {
+            previewContainer.classList.add('hidden');
+        }
+    }
+
+    function removeImage(button) {
+        button.parentElement.remove();
+        const previewContainer = document.getElementById('image-preview');
+        if (previewContainer.children.length === 0) {
+            previewContainer.classList.add('hidden');
+        }
+    }
+
+    // Mobile preview
+    function showPreview() {
+        const modal = document.getElementById('previewModal');
+        const content = document.getElementById('previewContent');
+
+        const title = document.getElementById('title').value || 'Untitled Listing';
+        const categorySelect = document.getElementById('category');
+        const categoryText = categorySelect.options[categorySelect.selectedIndex]?.text || 'Uncategorized';
+        const description = document.getElementById('description').value || 'No description provided';
+        const city = document.getElementById('city').value || 'Location not specified';
+        const price = document.getElementById('price') ? document.getElementById('price').value : '';
+
+        content.innerHTML = `
+        <div class="space-y-3">
+            <div>
+                <h4 class="font-medium text-gray-900">${title}</h4>
+                <p class="text-sm text-gray-600">${categoryText}</p>
+            </div>
+            <p class="text-sm text-gray-700">${description}</p>
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600">📍 ${city}</span>
+                ${price ? `<span class="font-bold text-primary-600">${price}</span>` : ''}
+            </div>
+        </div>
+    `;
+
+        modal.classList.remove('hidden');
+    }
+
+    function hidePreview() {
+        document.getElementById('previewModal').classList.add('hidden');
+    }
+
+    // Form validation and submission
+    document.addEventListener('DOMContentLoaded', function () {
+        // Set minimum dates
+        const today = new Date().toISOString().split('T')[0];
+        const expiresField = document.getElementById('expires_at');
+        if (expiresField) {
+            expiresField.min = today;
+        }
+
+        const publishField = document.getElementById('publish_at');
+        if (publishField) {
+            publishField.min = new Date().toISOString().slice(0, 16);
+        }
+
+        const availableDateField = document.getElementById('available_date');
+        if (availableDateField) {
+            availableDateField.min = today;
+        }
+
+        const moveInDateField = document.getElementById('move_in_date');
+        if (moveInDateField) {
+            moveInDateField.min = today;
+        }
+
+        // Auto-focus first field
+        const titleField = document.getElementById('title');
+        if (titleField) {
+            titleField.focus();
+        }
+
+        // Form submission validation
+        const form = document.getElementById('listingForm');
+        form.addEventListener('submit', function (e) {
+            const title = document.getElementById('title').value.trim();
+            const category = document.getElementById('category').value;
+            const description = document.getElementById('description').value.trim();
+            const country = document.getElementById('country').value;
+            const state_province = document.getElementById('state_province').value;
+            const email = document.getElementById('contact_email').value.trim();
+
+            // Check city (either dropdown or manual input)
+            const citySelect = document.getElementById('city');
+            const cityManual = document.getElementById('city_manual');
+            const manualToggle = document.getElementById('manual-city-toggle');
+
+            let hasValidCity = false;
+            if (manualToggle && manualToggle.checked) {
+                hasValidCity = cityManual && cityManual.value.trim() !== '';
+            } else {
+                hasValidCity = citySelect && citySelect.value !== '' && citySelect.value !== 'other';
+            }
+
+            if (!title || !category || !description || !country || !state_province || !hasValidCity || !email) {
+                e.preventDefault();
+                alert('Please fill in all required fields (marked with *)');
+                return false;
+            }
+
+            // If manual city is being used, copy its value to a hidden field or modify the name
+            if (manualToggle && manualToggle.checked && cityManual.value.trim()) {
+                // Create a hidden input with the manual city value using the expected field name
+                let hiddenCityInput = document.getElementById('hidden-city-input');
+                if (!hiddenCityInput) {
+                    hiddenCityInput = document.createElement('input');
+                    hiddenCityInput.type = 'hidden';
+                    hiddenCityInput.id = 'hidden-city-input';
+                    hiddenCityInput.name = 'city';
+                    form.appendChild(hiddenCityInput);
+                }
+                hiddenCityInput.value = cityManual.value.trim();
+
+                // Disable the city select so it doesn't submit
+                citySelect.disabled = true;
+            }
+
+            // Show loading state
+            const submitBtn = e.submitter;
+            if (submitBtn) {
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+                submitBtn.disabled = true;
+
+                // Re-enable after 30 seconds as fallback
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 30000);
+            }
+        });
+
+        // Initialize progress
+        updateProgress();
+    });
+
+    // Auto-save functionality (optional)
+    let autoSaveTimeout;
+    function autoSave() {
+        clearTimeout(autoSaveTimeout);
+        autoSaveTimeout = setTimeout(() => {
+            // Implement auto-save logic here
+            console.log('Auto-saving draft...');
+        }, 30000); // Auto-save every 30 seconds
+    }
+
+    // Add auto-save listeners to form fields
+    document.querySelectorAll('input, select, textarea').forEach(field => {
+        field.addEventListener('input', autoSave);
+    });
+</script>
+{% endblock %}

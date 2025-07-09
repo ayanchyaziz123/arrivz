@@ -1,0 +1,35 @@
+<!-- templates/listings/favorites.html -->
+{% extends 'base.html' %}
+
+{% block title %}My Favorites - Abropi{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">My Favorites</h1>
+        <p class="text-lg text-gray-600">Listings you've saved for later</p>
+    </div>
+
+    {% if favorites %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for favorite in favorites %}
+                {% with listing=favorite.listing %}
+                    {% include 'listings/listing_card.html' %}
+                {% endwith %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-16">
+            <div class="text-6xl text-gray-300 mb-4">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h3 class="text-xl font-medium text-gray-900 mb-2">No favorites yet</h3>
+            <p class="text-gray-600 mb-6">Save listings you're interested in by clicking the heart icon</p>
+            <a href="{% url 'listing_list' %}" 
+               class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition duration-200">
+                <i class="fas fa-search mr-2"></i>Browse Listings
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

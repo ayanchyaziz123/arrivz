@@ -1,0 +1,810 @@
+{% extends 'base.html' %}
+
+{% block title %}Browse Opportunities - Abropi{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen">
+    <!-- Upwork-style Header -->
+    <section class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Browse Opportunities</h1>
+                <p class="text-lg text-gray-600 mb-8">Discover thousands of job opportunities, housing options, and professional services tailored for immigrants</p>
+                
+                <!-- Quick Stats Bar -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                    <div class="text-center p-4 bg-blue-50 rounded-lg border border-blue-100">
+                        <div class="text-2xl font-bold text-blue-600">{{ listings.count|default:"0" }}</div>
+                        <div class="text-sm text-gray-600">Total Results</div>
+                    </div>
+                    <div class="text-center p-4 bg-purple-50 rounded-lg border border-purple-100">
+                        <div class="text-2xl font-bold text-purple-600">{{ job_count|default:"0" }}</div>
+                        <div class="text-sm text-gray-600">Jobs</div>
+                    </div>
+                    <div class="text-center p-4 bg-emerald-50 rounded-lg border border-emerald-100">
+                        <div class="text-2xl font-bold text-emerald-600">{{ housing_count|default:"0" }}</div>
+                        <div class="text-sm text-gray-600">Housing</div>
+                    </div>
+                    <div class="text-center p-4 bg-orange-50 rounded-lg border border-orange-100">
+                        <div class="text-2xl font-bold text-orange-600">{{ service_count|default:"0" }}</div>
+                        <div class="text-sm text-gray-600">Services</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Upwork-style Filters Section -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+                    <i class="fas fa-sliders-h mr-3 text-blue-600"></i>
+                    Filter & Search
+                </h2>
+                <a href="{% url 'listing_list' %}" class="text-sm text-gray-500 hover:text-blue-600 transition-colors">
+                    <i class="fas fa-times mr-1"></i>Clear all
+                </a>
+            </div>
+            
+            <form method="GET" class="space-y-6">
+                <!-- Main Search Bar -->
+                <div class="relative">
+                    <input type="text" name="q" value="{{ request.GET.q }}" 
+                           placeholder="Search for jobs, housing, services..." 
+                           class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-lg">
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+                
+                <!-- Primary Filters Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                        <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <select name="category" id="category" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white">
+                            <option value="">All Categories</option>
+                            <option value="jobs" {% if request.GET.category == 'jobs' %}selected{% endif %}>💼 Jobs & Careers</option>
+                            <option value="housing" {% if request.GET.category == 'housing' %}selected{% endif %}>🏠 Housing & Rentals</option>
+                            <option value="legal" {% if request.GET.category == 'legal' %}selected{% endif %}>⚖️ Legal Services</option>
+                            <option value="community" {% if request.GET.category == 'community' %}selected{% endif %}>👥 Community</option>
+                            <option value="education" {% if request.GET.category == 'education' %}selected{% endif %}>🎓 Education</option>
+                            <option value="services" {% if request.GET.category == 'services' %}selected{% endif %}>🛠️ Essential Services</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="location" class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                        <div class="relative">
+                            <input type="text" name="location" id="location" value="{{ request.GET.location }}" 
+                                   placeholder="City, State or ZIP" 
+                                   class="w-full px-3 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                            <i class="fas fa-map-marker-alt absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="min_price" class="block text-sm font-medium text-gray-700 mb-2">Min Price</label>
+                        <div class="relative">
+                            <input type="number" name="min_price" id="min_price" value="{{ request.GET.min_price }}" 
+                                   placeholder="Any" 
+                                   class="w-full px-3 py-2 pl-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="max_price" class="block text-sm font-medium text-gray-700 mb-2">Max Price</label>
+                        <div class="relative">
+                            <input type="number" name="max_price" id="max_price" value="{{ request.GET.max_price }}" 
+                                   placeholder="Any" 
+                                   class="w-full px-3 py-2 pl-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Special Filters for Immigrants -->
+                <div class="border-t border-gray-200 pt-6">
+                    <h3 class="text-sm font-medium text-gray-700 mb-4">Special Filters for Immigrants</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 transition-colors cursor-pointer">
+                            <input type="checkbox" name="visa_sponsorship" {% if request.GET.visa_sponsorship %}checked{% endif %} 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <span class="ml-3 text-sm text-gray-700">
+                                <i class="fas fa-passport text-blue-600 mr-2"></i>Visa Sponsorship
+                            </span>
+                        </label>
+                        
+                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 transition-colors cursor-pointer">
+                            <input type="checkbox" name="no_credit_check" {% if request.GET.no_credit_check %}checked{% endif %} 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <span class="ml-3 text-sm text-gray-700">
+                                <i class="fas fa-credit-card text-emerald-600 mr-2"></i>No Credit Check
+                            </span>
+                        </label>
+                        
+                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 transition-colors cursor-pointer">
+                            <input type="checkbox" name="english_friendly" {% if request.GET.english_friendly %}checked{% endif %} 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <span class="ml-3 text-sm text-gray-700">
+                                <i class="fas fa-language text-purple-600 mr-2"></i>English Friendly
+                            </span>
+                        </label>
+                        
+                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 transition-colors cursor-pointer">
+                            <input type="checkbox" name="remote_work" {% if request.GET.remote_work %}checked{% endif %} 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <span class="ml-3 text-sm text-gray-700">
+                                <i class="fas fa-laptop text-indigo-600 mr-2"></i>Remote Work
+                            </span>
+                        </label>
+                        
+                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 transition-colors cursor-pointer">
+                            <input type="checkbox" name="featured" {% if request.GET.featured %}checked{% endif %} 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <span class="ml-3 text-sm text-gray-700">
+                                <i class="fas fa-star text-yellow-600 mr-2"></i>Featured Only
+                            </span>
+                        </label>
+                        
+                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 transition-colors cursor-pointer">
+                            <input type="checkbox" name="urgent" {% if request.GET.urgent %}checked{% endif %} 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <span class="ml-3 text-sm text-gray-700">
+                                <i class="fas fa-exclamation-circle text-red-600 mr-2"></i>Urgent
+                            </span>
+                        </label>
+                        
+                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 transition-colors cursor-pointer">
+                            <input type="checkbox" name="pets_allowed" {% if request.GET.pets_allowed %}checked{% endif %} 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <span class="ml-3 text-sm text-gray-700">
+                                <i class="fas fa-paw text-orange-600 mr-2"></i>Pets OK
+                            </span>
+                        </label>
+                        
+                        <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 transition-colors cursor-pointer">
+                            <input type="checkbox" name="furnished" {% if request.GET.furnished %}checked{% endif %} 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <span class="ml-3 text-sm text-gray-700">
+                                <i class="fas fa-couch text-pink-600 mr-2"></i>Furnished
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-between items-center pt-6 border-t border-gray-200">
+                    <button type="submit" class="w-full sm:w-auto bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium text-lg">
+                        <i class="fas fa-search mr-2"></i>Search Opportunities
+                    </button>
+                    
+                    <a href="{% url 'listing_list' %}" class="text-gray-500 hover:text-blue-600 font-medium transition-colors">
+                        <i class="fas fa-refresh mr-1"></i>Reset All Filters
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Results Header with Sort -->
+        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-900">
+                    {{ listings.count|default:"0" }} opportunities found
+                    {% if request.GET.location %}
+                        <span class="text-gray-600">in {{ request.GET.location }}</span>
+                    {% endif %}
+                </h2>
+                {% if request.GET.category %}
+                    <p class="text-gray-600 mt-1 flex items-center">
+                        <i class="fas fa-folder mr-2"></i>Category: {{ request.GET.category|title }}
+                    </p>
+                {% endif %}
+                {% if request.GET.q %}
+                    <p class="text-gray-600 mt-1 flex items-center">
+                        <i class="fas fa-search mr-2"></i>Search: "{{ request.GET.q }}"
+                    </p>
+                {% endif %}
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <!-- View Toggle -->
+                <div class="flex bg-gray-100 rounded-lg p-1">
+                    <button class="px-3 py-1 rounded-md bg-white shadow-sm text-gray-700">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="px-3 py-1 rounded-md text-gray-500">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+                
+                <!-- Sort Dropdown -->
+                <div class="relative">
+                    <select name="sort" onchange="updateSort(this.value)" class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                        <option value="-created_at">Newest First</option>
+                        <option value="created_at">Oldest First</option>
+                        <option value="price">Price: Low to High</option>
+                        <option value="-price">Price: High to Low</option>
+                        <option value="title">Title: A to Z</option>
+                        <option value="-views_count">Most Popular</option>
+                    </select>
+                    <i class="fas fa-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Listings Grid -->
+        {% if listings %}
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+                {% for listing in listings %}
+                    <article class="bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 cursor-pointer group" onclick="window.location.href='{{ listing.get_absolute_url }}'">
+                        <div class="p-6">
+                            <!-- Header with Image and Basic Info -->
+                            <div class="flex gap-4 mb-4">
+                                <!-- Category Icon/Image -->
+                                {% with primary_image=listing.images.all|first %}
+                                    {% if primary_image %}
+                                        <div class="w-14 h-14 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
+                                            <img src="{{ primary_image.image.url }}" 
+                                                 alt="{{ listing.title }}"
+                                                 class="w-full h-full object-cover"
+                                                 onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;w-full h-full bg-gray-100 flex items-center justify-center&quot;><i class=&quot;fas fa-image text-gray-400&quot;></i></div>';">
+                                        </div>
+                                    {% else %}
+                                        <div class="w-14 h-14 flex-shrink-0 rounded-lg flex items-center justify-center
+                                            {% if listing.category.category_type == 'jobs' %}bg-blue-100{% elif listing.category.category_type == 'housing' %}bg-emerald-100{% elif listing.category.category_type == 'legal' %}bg-purple-100{% elif listing.category.category_type == 'community' %}bg-orange-100{% elif listing.category.category_type == 'education' %}bg-indigo-100{% elif listing.category.category_type == 'services' %}bg-pink-100{% else %}bg-gray-100{% endif %}">
+                                            <i class="text-xl
+                                                {% if listing.category.category_type == 'jobs' %}fas fa-briefcase text-blue-600{% elif listing.category.category_type == 'housing' %}fas fa-home text-emerald-600{% elif listing.category.category_type == 'legal' %}fas fa-balance-scale text-purple-600{% elif listing.category.category_type == 'community' %}fas fa-users text-orange-600{% elif listing.category.category_type == 'education' %}fas fa-graduation-cap text-indigo-600{% elif listing.category.category_type == 'services' %}fas fa-hands-helping text-pink-600{% else %}fas fa-folder text-gray-500{% endif %}"></i>
+                                        </div>
+                                    {% endif %}
+                                {% endwith %}
+                                
+                                <!-- Priority Badge -->
+                                <div class="flex-1">
+                                    {% if listing.featured or listing.priority == 'urgent' %}
+                                        <div class="flex gap-2 mb-2">
+                                            {% if listing.featured %}
+                                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                    <i class="fas fa-star mr-1"></i>Featured
+                                                </span>
+                                            {% endif %}
+                                            {% if listing.priority == 'urgent' %}
+                                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                    <i class="fas fa-exclamation-circle mr-1"></i>Urgent
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <!-- Title -->
+                            <h3 class="font-bold text-gray-900 text-lg mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                                {{ listing.title }}
+                            </h3>
+                            
+                            <!-- Price -->
+                            {% if listing.price %}
+                                <div class="text-2xl font-bold text-blue-600 mb-3">
+                                    {% if listing.category.category_type == 'housing' and listing.housinglisting %}
+                                        ${{ listing.price|floatformat:0 }}<span class="text-sm font-normal text-gray-500">/month</span>
+                                    {% elif listing.category.category_type == 'jobs' and listing.joblisting %}
+                                        {% if listing.joblisting.salary_min and listing.joblisting.salary_max %}
+                                            ${{ listing.joblisting.salary_min|floatformat:0 }}-{{ listing.joblisting.salary_max|floatformat:0 }}
+                                        {% else %}
+                                            ${{ listing.price|floatformat:0 }}
+                                        {% endif %}
+                                    {% else %}
+                                        ${{ listing.price|floatformat:0 }}
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Location -->
+                            <div class="flex items-center text-gray-600 mb-3">
+                                <i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>
+                                <span>{{ listing.city }}{% if listing.state_province %}, {{ listing.state_province }}{% endif %}</span>
+                            </div>
+                            
+                            <!-- Category-specific Details -->
+                            {% if listing.category.category_type == 'jobs' and listing.joblisting %}
+                                <div class="space-y-2 mb-4">
+                                    <div class="flex items-center text-sm text-gray-600">
+                                        <i class="fas fa-building mr-2 text-gray-400 w-4"></i>
+                                        <span>{{ listing.joblisting.company_name|default:"Company" }}</span>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2">
+                                        {% if listing.joblisting.remote_work %}
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                <i class="fas fa-laptop mr-1"></i>Remote
+                                            </span>
+                                        {% endif %}
+                                        {% if listing.joblisting.visa_sponsorship %}
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                <i class="fas fa-passport mr-1"></i>Visa Sponsor
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% elif listing.category.category_type == 'housing' and listing.housinglisting %}
+                                <div class="space-y-2 mb-4">
+                                    <div class="flex items-center text-sm text-gray-600">
+                                        <i class="fas fa-bed mr-2 text-gray-400 w-4"></i>
+                                        <span>{{ listing.housinglisting.bedrooms }} bed, {{ listing.housinglisting.bathrooms }} bath</span>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2">
+                                        {% if listing.housinglisting.furnished %}
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                                <i class="fas fa-couch mr-1"></i>Furnished
+                                            </span>
+                                        {% endif %}
+                                        {% if listing.housinglisting.pets_allowed %}
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                                                <i class="fas fa-paw mr-1"></i>Pets OK
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% elif listing.category.category_type == 'legal' and listing.lawyerlisting %}
+                                <div class="space-y-2 mb-4">
+                                    <div class="flex items-center text-sm text-gray-600">
+                                        <i class="fas fa-gavel mr-2 text-gray-400 w-4"></i>
+                                        <span>{{ listing.lawyerlisting.years_experience }}+ years experience</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Footer -->
+                            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                <div class="flex items-center gap-3 text-xs text-gray-500">
+                                    <span class="flex items-center">
+                                        <i class="fas fa-clock mr-1"></i>
+                                        {{ listing.created_at|timesince }} ago
+                                    </span>
+                                    {% if listing.views_count > 0 %}
+                                        <span class="flex items-center">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            {{ listing.views_count }} views
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <div class="text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <div class="flex justify-center">
+                <nav class="flex items-center space-x-1">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" class="px-3 py-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    {% endif %}
+                    
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if num == page_obj.number %}
+                            <span class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium">{{ num }}</span>
+                        {% elif num == page_obj.number|add:'-1' or num == page_obj.number|add:'1' %}
+                            <a href="?page={{ num }}" class="px-3 py-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">{{ num }}</a>
+                        {% elif num == 1 or num == page_obj.paginator.num_pages %}
+                            <a href="?page={{ num }}" class="px-3 py-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">{{ num }}</a>
+                        {% elif num == page_obj.number|add:'-2' or num == page_obj.number|add:'2' %}
+                            <span class="px-3 py-2 text-gray-400">...</span>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    {% endif %}
+                </nav>
+            </div>
+            {% endif %}
+        {% else %}
+            <!-- No Results State -->
+            <div class="text-center py-16">
+                <div class="max-w-md mx-auto">
+                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-search text-gray-400 text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">No opportunities found</h3>
+                    <p class="text-gray-600 mb-8">
+                        {% if request.GET.location or request.GET.category %}
+                            We couldn't find any listings matching your criteria. Try adjusting your filters or searching in a different area.
+                        {% else %}
+                            Be the first to post an opportunity in your area and help build the community!
+                        {% endif %}
+                    </p>
+                    <div class="space-y-4">
+                        <a href="{% url 'create_listing' %}" class="inline-flex items-center bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium text-lg">
+                            <i class="fas fa-plus mr-2"></i>Post the First Listing
+                        </a>
+                        <br>
+                        <a href="{% url 'listing_list' %}" class="inline-flex items-center text-gray-600 hover:text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-50 transition-colors font-medium">
+                            <i class="fas fa-search mr-2"></i>Browse All Categories
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Floating Create Button -->
+<div class="fixed bottom-6 right-6 z-50">
+    <a href="{% url 'create_listing' %}" class="w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg hover:shadow-xl hover:bg-blue-700 transition-all duration-300 flex items-center justify-center group">
+        <i class="fas fa-plus text-lg group-hover:rotate-90 transition-transform duration-300"></i>
+    </a>
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Upwork-style design enhancements */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    /* Enhanced card hover effects */
+    article.group:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    /* Smooth transitions */
+    * {
+        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms;
+    }
+    
+    /* Focus states for accessibility */
+    input:focus, select:focus, button:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    /* Custom checkbox styling */
+    input[type="checkbox"]:checked {
+        background-color: #2563eb;
+        border-color: #2563eb;
+    }
+    
+    /* Enhanced filter labels */
+    label:has(input[type="checkbox"]):hover {
+        background-color: #eff6ff;
+        border-color: #93c5fd;
+    }
+    
+    /* Select dropdown styling */
+    select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.5rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem;
+    }
+    
+    /* Responsive improvements */
+    @media (max-width: 768px) {
+        .grid-cols-1.lg\\:grid-cols-2.xl\\:grid-cols-3 {
+            grid-template-columns: 1fr;
+        }
+        
+        article {
+            margin-bottom: 1rem;
+        }
+        
+        .group:hover {
+            transform: none;
+        }
+    }
+    
+    /* Loading animation for cards */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-fade-in {
+        animation: fadeInUp 0.5s ease-out forwards;
+    }
+    
+    /* Price styling enhancements */
+    .price-display {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    /* Category icon styling */
+    .category-icon {
+        background: linear-gradient(135deg, currentColor, currentColor);
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+    }
+    
+    /* Badge improvements */
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        font-weight: 500;
+        font-size: 0.75rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        border: 1px solid;
+    }
+    
+    .badge-featured {
+        background-color: #fef3c7;
+        color: #92400e;
+        border-color: #f59e0b;
+    }
+    
+    .badge-urgent {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border-color: #ef4444;
+    }
+    
+    /* Search input enhancements */
+    .search-input {
+        background: linear-gradient(135deg, #ffffff, #f8fafc);
+        border: 2px solid #e5e7eb;
+    }
+    
+    .search-input:focus {
+        background: #ffffff;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function updateSort(value) {
+        const url = new URL(window.location);
+        url.searchParams.set('sort', value);
+        window.location.href = url.toString();
+    }
+
+    // Enhanced page initialization
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeListingPage();
+    });
+
+    function initializeListingPage() {
+        // Animate cards on load
+        const cards = document.querySelectorAll('article');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.classList.add('animate-fade-in');
+            }, index * 100);
+        });
+
+        // Form validation
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const minPrice = document.getElementById('min_price').value;
+                const maxPrice = document.getElementById('max_price').value;
+                
+                if (minPrice && maxPrice && parseInt(minPrice) > parseInt(maxPrice)) {
+                    e.preventDefault();
+                    showNotification('Minimum price cannot be greater than maximum price', 'error');
+                }
+            });
+        }
+
+        // Enhanced search functionality
+        const searchInput = document.querySelector('input[name="q"]');
+        if (searchInput) {
+            let searchTimeout;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    // Could implement live search here
+                    console.log('Search query:', this.value);
+                }, 500);
+            });
+        }
+
+        // Filter change tracking
+        const filterInputs = document.querySelectorAll('select, input[type="checkbox"]');
+        filterInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                updateFilterCount();
+            });
+        });
+
+        // Location autocomplete
+        initializeLocationAutocomplete();
+        
+        // Keyboard shortcuts
+        initializeKeyboardShortcuts();
+    }
+
+    function initializeLocationAutocomplete() {
+        const locationInput = document.getElementById('location');
+        if (locationInput) {
+            const cities = [
+                'New York, NY', 'Los Angeles, CA', 'Chicago, IL', 'Houston, TX',
+                'Phoenix, AZ', 'Philadelphia, PA', 'San Antonio, TX', 'San Diego, CA',
+                'Dallas, TX', 'San Jose, CA', 'Austin, TX', 'Jacksonville, FL',
+                'Fort Worth, TX', 'Columbus, OH', 'Charlotte, NC', 'San Francisco, CA',
+                'Indianapolis, IN', 'Seattle, WA', 'Denver, CO', 'Washington, DC',
+                'Boston, MA', 'El Paso, TX', 'Detroit, MI', 'Nashville, TN',
+                'Portland, OR', 'Memphis, TN', 'Oklahoma City, OK', 'Las Vegas, NV',
+                'Louisville, KY', 'Baltimore, MD', 'Milwaukee, WI', 'Albuquerque, NM',
+                'Tucson, AZ', 'Fresno, CA', 'Sacramento, CA', 'Mesa, AZ',
+                'Kansas City, MO', 'Atlanta, GA', 'Long Beach, CA', 'Colorado Springs, CO',
+                'Raleigh, NC', 'Miami, FL', 'Virginia Beach, VA', 'Omaha, NE',
+                'Oakland, CA', 'Minneapolis, MN', 'Tulsa, OK', 'Arlington, TX',
+                'Tampa, FL', 'New Orleans, LA'
+            ];
+            
+            const datalist = document.createElement('datalist');
+            datalist.id = 'cities';
+            cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                datalist.appendChild(option);
+            });
+            document.body.appendChild(datalist);
+            locationInput.setAttribute('list', 'cities');
+        }
+    }
+
+    function initializeKeyboardShortcuts() {
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + / to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+                e.preventDefault();
+                document.querySelector('input[name="q"]').focus();
+            }
+            
+            // Ctrl/Cmd + K to focus location
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('location').focus();
+            }
+            
+            // Enter to submit form when in any input
+            if (e.key === 'Enter' && e.target.matches('input, select')) {
+                const form = e.target.closest('form');
+                if (form && !e.target.matches('button')) {
+                    form.submit();
+                }
+            }
+        });
+    }
+
+    function updateFilterCount() {
+        const activeFilters = document.querySelectorAll('input[type="checkbox"]:checked').length;
+        const selectFilters = document.querySelectorAll('select').length;
+        
+        // Update filter count in UI (could add a badge showing active filter count)
+        console.log('Active filters:', activeFilters);
+    }
+
+    // Notification system
+    function showNotification(message, type = 'info', duration = 4000) {
+        const existingNotifications = document.querySelectorAll('.notification');
+        existingNotifications.forEach(notification => notification.remove());
+        
+        const notification = document.createElement('div');
+        const bgColor = type === 'success' ? 'bg-emerald-600' :
+                       type === 'error' ? 'bg-red-600' :
+                       type === 'warning' ? 'bg-amber-600' :
+                       'bg-blue-600';
+        
+        notification.className = `notification fixed top-4 right-4 z-50 ${bgColor} text-white px-6 py-4 rounded-lg shadow-lg max-w-sm transform translate-x-full transition-transform duration-300`;
+        notification.innerHTML = `
+            <div class="flex items-center">
+                <div class="flex-1 font-medium">${message}</div>
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white/80 hover:text-white transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        requestAnimationFrame(() => {
+            notification.classList.remove('translate-x-full');
+        });
+        
+        // Auto remove
+        setTimeout(() => {
+            notification.classList.add('translate-x-full');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
+        }, duration);
+    }
+
+    // Enhanced card interactions
+    function enhanceCardInteractions() {
+        const cards = document.querySelectorAll('article');
+        cards.forEach(card => {
+            // Add click tracking
+            card.addEventListener('click', function() {
+                const title = this.querySelector('h3').textContent;
+                console.log('Card clicked:', title);
+                // Add analytics tracking here
+            });
+            
+            // Enhanced hover effects
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+                this.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '';
+            });
+        });
+    }
+
+    // Performance optimization for large lists
+    function optimizePerformance() {
+        // Lazy load images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+    }
+
+    // Initialize all enhancements
+    document.addEventListener('DOMContentLoaded', function() {
+        enhanceCardInteractions();
+        optimizePerformance();
+    });
+
+    console.log('Abropi listing page with blue design initialized');
+</script>
+{% endblock %}
