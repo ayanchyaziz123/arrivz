@@ -1,0 +1,896 @@
+INFO 2025-07-09 19:24:45,502 autoreload 89317 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-09 19:25:37,351 autoreload 89425 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-09 19:26:33,655 basehttp 89425 6130020352 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+ERROR 2025-07-09 19:26:33,905 log 89425 6146846720 Internal Server Error: /api/auth/login/
+Traceback (most recent call last):
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/views/generic/base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/abropi/accounts/api_views.py", line 42, in post
+    if serializer.is_valid():
+       ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/serializers.py", line 447, in run_validation
+    value = self.validate(value)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/abropi/accounts/serializers.py", line 83, in validate
+    models.Q(email=email_or_username) | models.Q(username=email_or_username)
+    ^^^^^^
+NameError: name 'models' is not defined
+ERROR 2025-07-09 19:26:33,907 basehttp 89425 6146846720 "POST /api/auth/login/ HTTP/1.1" 500 111627
+INFO 2025-07-09 19:31:09,935 autoreload 89649 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-09 19:31:12,149 autoreload 89649 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/accounts/api_urls.py changed, reloading.
+INFO 2025-07-09 19:31:12,418 autoreload 89656 8468154432 Watching for file changes with StatReloader
+ERROR 2025-07-09 19:31:28,694 log 89656 6193197056 Internal Server Error: /api/auth/login/
+Traceback (most recent call last):
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: token_blacklist_outstandingtoken
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/views/generic/base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/abropi/accounts/api_views.py", line 47, in post
+    tokens = serializer.create_tokens(user)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/abropi/accounts/serializers.py", line 113, in create_tokens
+    refresh = RefreshToken.for_user(user)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework_simplejwt/tokens.py", line 331, in for_user
+    OutstandingToken.objects.create(
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/models/query.py", line 663, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/models/base.py", line 902, in save
+    self.save_base(
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/models/base.py", line 1008, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/models/base.py", line 1169, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/models/base.py", line 1210, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/models/query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: token_blacklist_outstandingtoken
+ERROR 2025-07-09 19:31:28,697 basehttp 89656 6193197056 "POST /api/auth/login/ HTTP/1.1" 500 201462
+INFO 2025-07-09 19:32:50,923 autoreload 89716 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-09 19:32:53,148 autoreload 89716 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/accounts/api_urls.py changed, reloading.
+INFO 2025-07-09 19:32:53,426 autoreload 89723 8468154432 Watching for file changes with StatReloader
+ERROR 2025-07-09 19:33:11,048 log 89723 6201634816 Internal Server Error: /api/auth/login/
+Traceback (most recent call last):
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/views/generic/base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/abropi/accounts/api_views.py", line 54, in post
+    user_data = user_serializer.data
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/serializers.py", line 573, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/serializers.py", line 525, in to_representation
+    for field in fields:
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/serializers.py", line 386, in _readable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/serializers.py", line 374, in fields
+    for key, value in self.get_fields().items():
+                      ^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/serializers.py", line 1105, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/serializers.py", line 1251, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rahmanazizur/Desktop/abropi/venv/lib/python3.12/site-packages/rest_framework/serializers.py", line 1369, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `avatar` is not valid for model `CustomUser` in `accounts.serializers.UserSerializer`.
+ERROR 2025-07-09 19:33:11,049 basehttp 89723 6201634816 "POST /api/auth/login/ HTTP/1.1" 500 149675
+INFO 2025-07-09 19:35:00,162 autoreload 89723 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/accounts/serializers.py changed, reloading.
+INFO 2025-07-09 19:35:00,701 autoreload 89778 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-09 19:35:02,899 autoreload 89778 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/accounts/serializers.py changed, reloading.
+INFO 2025-07-09 19:35:03,348 autoreload 89789 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-09 19:36:13,109 basehttp 89789 6134034432 "POST /api/auth/login/ HTTP/1.1" 200 1093
+INFO 2025-07-09 19:41:29,600 basehttp 89789 6134034432 "OPTIONS /api/auth/logout/ HTTP/1.1" 200 0
+INFO 2025-07-09 19:41:29,621 basehttp 89789 6150860800 "POST /api/auth/logout/ HTTP/1.1" 200 31
+WARNING 2025-07-09 19:41:40,191 log 89789 6134034432 Bad Request: /api/auth/login/
+WARNING 2025-07-09 19:41:40,191 basehttp 89789 6134034432 "POST /api/auth/login/ HTTP/1.1" 400 179
+INFO 2025-07-09 19:41:53,576 basehttp 89789 6134034432 "POST /api/auth/login/ HTTP/1.1" 200 1093
+INFO 2025-07-09 19:59:03,966 basehttp 89789 6134034432 "POST /api/auth/logout/ HTTP/1.1" 200 31
+INFO 2025-07-09 19:59:14,051 basehttp 89789 6134034432 "POST /api/auth/login/ HTTP/1.1" 200 1093
+INFO 2025-07-09 20:05:33,237 basehttp 89789 6134034432 "POST /api/auth/logout/ HTTP/1.1" 200 31
+INFO 2025-07-09 20:09:04,181 basehttp 89789 6134034432 "POST /api/auth/login/ HTTP/1.1" 200 1094
+INFO 2025-07-09 20:10:20,505 basehttp 89789 6134034432 "POST /api/auth/logout/ HTTP/1.1" 200 31
+INFO 2025-07-09 23:29:16,572 basehttp 89789 6134034432 "POST /api/auth/login/ HTTP/1.1" 200 1094
+INFO 2025-07-09 23:42:03,534 basehttp 89789 6134034432 "POST /api/auth/logout/ HTTP/1.1" 200 31
+INFO 2025-07-09 23:50:37,279 basehttp 89789 6134034432 "POST /api/auth/login/ HTTP/1.1" 200 1093
+INFO 2025-07-09 23:50:53,663 basehttp 89789 6134034432 "POST /api/auth/logout/ HTTP/1.1" 200 31
+INFO 2025-07-10 02:53:27,217 autoreload 96051 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-10 02:54:57,055 basehttp 96051 6168784896 "OPTIONS /api/auth/register/ HTTP/1.1" 200 0
+WARNING 2025-07-10 02:54:57,115 log 96051 6185611264 Bad Request: /api/auth/register/
+WARNING 2025-07-10 02:54:57,116 basehttp 96051 6185611264 "POST /api/auth/register/ HTTP/1.1" 400 162
+WARNING 2025-07-10 03:01:01,986 log 96051 6168784896 Bad Request: /api/auth/register/
+WARNING 2025-07-10 03:01:01,988 basehttp 96051 6168784896 "POST /api/auth/register/ HTTP/1.1" 400 162
+WARNING 2025-07-10 03:17:48,782 log 96051 6168784896 Bad Request: /api/auth/register/
+WARNING 2025-07-10 03:17:48,783 basehttp 96051 6168784896 "POST /api/auth/register/ HTTP/1.1" 400 121
+INFO 2025-07-10 03:24:02,876 autoreload 96051 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/accounts/api_views.py changed, reloading.
+INFO 2025-07-10 03:24:03,472 autoreload 96788 8468154432 Watching for file changes with StatReloader
+WARNING 2025-07-10 03:24:12,284 log 96788 6192377856 Bad Request: /api/auth/register/
+WARNING 2025-07-10 03:24:12,285 basehttp 96788 6192377856 "POST /api/auth/register/ HTTP/1.1" 400 358
+INFO 2025-07-10 03:24:36,632 basehttp 96788 6192377856 "POST /api/auth/register/ HTTP/1.1" 201 1128
+INFO 2025-07-10 03:57:11,270 basehttp 96788 6192377856 "OPTIONS /api/listings/categories/ HTTP/1.1" 200 0
+INFO 2025-07-10 03:57:11,272 basehttp 96788 6209204224 "OPTIONS /api/listings/countries/ HTTP/1.1" 200 0
+INFO 2025-07-10 03:57:11,272 basehttp 96788 6226030592 "OPTIONS /api/listings/categories/ HTTP/1.1" 200 0
+INFO 2025-07-10 03:57:11,276 basehttp 96788 6242856960 "OPTIONS /api/listings/countries/ HTTP/1.1" 200 0
+WARNING 2025-07-10 03:57:11,294 log 96788 6276509696 Not Found: /api/listings/countries/
+WARNING 2025-07-10 03:57:11,296 log 96788 6259683328 Not Found: /api/listings/categories/
+WARNING 2025-07-10 03:57:11,296 basehttp 96788 6259683328 "GET /api/listings/categories/ HTTP/1.1" 404 8146
+WARNING 2025-07-10 03:57:11,296 basehttp 96788 6276509696 "GET /api/listings/countries/ HTTP/1.1" 404 8143
+WARNING 2025-07-10 03:57:11,300 log 96788 6259683328 Not Found: /api/listings/categories/
+WARNING 2025-07-10 03:57:11,302 log 96788 6293336064 Not Found: /api/listings/countries/
+WARNING 2025-07-10 03:57:11,302 basehttp 96788 6293336064 "GET /api/listings/countries/ HTTP/1.1" 404 8143
+WARNING 2025-07-10 03:57:11,302 basehttp 96788 6259683328 "GET /api/listings/categories/ HTTP/1.1" 404 8146
+WARNING 2025-07-10 04:01:31,318 log 96788 6192377856 Not Found: /api/listings/categories/
+WARNING 2025-07-10 04:01:31,325 log 96788 6209204224 Not Found: /api/listings/countries/
+WARNING 2025-07-10 04:01:31,330 basehttp 96788 6209204224 "GET /api/listings/countries/ HTTP/1.1" 404 8143
+WARNING 2025-07-10 04:01:31,330 basehttp 96788 6192377856 "GET /api/listings/categories/ HTTP/1.1" 404 8146
+WARNING 2025-07-10 04:01:31,334 log 96788 6209204224 Not Found: /api/listings/countries/
+WARNING 2025-07-10 04:01:31,335 log 96788 6192377856 Not Found: /api/listings/categories/
+WARNING 2025-07-10 04:01:31,336 basehttp 96788 6192377856 "GET /api/listings/categories/ HTTP/1.1" 404 8146
+WARNING 2025-07-10 04:01:31,336 basehttp 96788 6209204224 "GET /api/listings/countries/ HTTP/1.1" 404 8143
+INFO 2025-07-10 04:04:30,698 autoreload 96788 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/abropi/urls.py changed, reloading.
+INFO 2025-07-10 04:04:31,417 autoreload 98067 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-10 04:05:17,469 autoreload 98067 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-10 04:05:18,017 autoreload 98170 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-10 04:07:18,496 autoreload 98170 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-10 04:07:19,077 autoreload 98280 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-10 04:08:04,732 autoreload 98410 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-10 04:08:06,948 autoreload 98410 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/abropi/settings.py changed, reloading.
+INFO 2025-07-10 04:08:07,233 autoreload 98420 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-10 04:08:21,625 basehttp 98420 6130429952 "GET /api/listings/categories/ HTTP/1.1" 200 256
+INFO 2025-07-10 04:08:21,625 basehttp 98420 6147256320 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-10 04:08:21,630 basehttp 98420 6147256320 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-10 04:08:21,631 basehttp 98420 6130429952 "GET /api/listings/categories/ HTTP/1.1" 200 256
+INFO 2025-07-10 04:16:28,156 autoreload 98420 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-10 04:16:29,274 autoreload 99016 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-10 04:18:11,019 autoreload 99016 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-10 04:18:11,638 autoreload 99159 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-10 04:20:20,199 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:20:20,200 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:20:20,208 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:20:20,209 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:20:40,777 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:20:40,779 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:20:40,788 basehttp 99159 6143733760 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:20:40,795 basehttp 99159 6126907392 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:21:12,155 basehttp 99159 6126907392 "OPTIONS /api/listings/countries/1/states/ HTTP/1.1" 200 0
+INFO 2025-07-10 04:21:12,302 basehttp 99159 6143733760 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+INFO 2025-07-10 04:21:13,920 basehttp 99159 6126907392 "OPTIONS /api/listings/states/1/cities/ HTTP/1.1" 200 0
+INFO 2025-07-10 04:21:13,940 basehttp 99159 6143733760 "GET /api/listings/states/1/cities/ HTTP/1.1" 200 2
+INFO 2025-07-10 04:23:51,192 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:23:51,194 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:23:51,198 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:23:51,199 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+WARNING 2025-07-10 04:25:33,262 log 99159 6126907392 Unauthorized: /api/listings/categories/
+WARNING 2025-07-10 04:25:33,262 log 99159 6143733760 Unauthorized: /api/listings/countries/
+WARNING 2025-07-10 04:25:33,263 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 401 172
+WARNING 2025-07-10 04:25:33,264 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 401 172
+INFO 2025-07-10 04:25:37,404 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:25:37,405 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:25:37,414 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:25:37,415 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:25:52,891 basehttp 99159 6126907392 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+INFO 2025-07-10 04:25:54,226 basehttp 99159 6126907392 "GET /api/listings/states/1/cities/ HTTP/1.1" 200 2
+INFO 2025-07-10 04:27:00,349 basehttp 99159 6126907392 "OPTIONS /api/listings/ HTTP/1.1" 200 0
+WARNING 2025-07-10 04:27:00,362 log 99159 6143733760 Unauthorized: /api/listings/
+WARNING 2025-07-10 04:27:00,363 basehttp 99159 6143733760 "POST /api/listings/ HTTP/1.1" 401 58
+INFO 2025-07-10 04:29:49,355 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:29:49,357 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:29:49,360 basehttp 99159 6177386496 "GET /api/listings/states/1/cities/ HTTP/1.1" 200 2
+INFO 2025-07-10 04:29:49,361 basehttp 99159 6160560128 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+WARNING 2025-07-10 04:29:54,771 log 99159 6126907392 Unauthorized: /api/listings/
+WARNING 2025-07-10 04:29:54,772 basehttp 99159 6126907392 "POST /api/listings/ HTTP/1.1" 401 58
+INFO 2025-07-10 04:29:56,167 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:29:56,167 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:29:56,170 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:29:56,171 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:30:20,900 basehttp 99159 6126907392 "GET / HTTP/1.1" 200 94007
+INFO 2025-07-10 04:30:25,768 basehttp 99159 6126907392 "GET /admin/ HTTP/1.1" 200 28106
+INFO 2025-07-10 04:30:25,811 basehttp 99159 6143733760 "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:25,812 basehttp 99159 6160560128 "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:25,812 basehttp 99159 6194212864 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:25,812 basehttp 99159 6126907392 "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:25,813 basehttp 99159 6177386496 "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:25,814 basehttp 99159 6211039232 "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:25,818 basehttp 99159 6211039232 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:25,823 basehttp 99159 6177386496 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:25,824 basehttp 99159 6211039232 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:25,824 basehttp 99159 6177386496 "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:36,224 basehttp 99159 6126907392 "GET /admin/listings/listing/ HTTP/1.1" 200 29068
+INFO 2025-07-10 04:30:36,259 basehttp 99159 6177386496 "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:36,262 basehttp 99159 6211039232 "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:36,263 basehttp 99159 6194212864 "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:36,264 basehttp 99159 6177386496 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:36,265 basehttp 99159 6211039232 "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:36,265 basehttp 99159 6194212864 "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:36,267 basehttp 99159 6177386496 "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:36,268 basehttp 99159 6194212864 "GET /static/admin/img/search.svg HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:36,272 basehttp 99159 6126907392 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-10 04:30:36,274 basehttp 99159 6160560128 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2025-07-10 04:30:36,274 basehttp 99159 6143733760 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-07-10 04:30:36,276 basehttp 99159 6143733760 "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:36,292 basehttp 99159 6143733760 "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:36,293 basehttp 99159 6126907392 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:36,293 basehttp 99159 6160560128 "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+INFO 2025-07-10 04:30:55,733 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:30:55,733 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:30:55,738 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:30:55,738 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:32:15,643 basehttp 99159 6126907392 "GET /admin/listings/joblisting/ HTTP/1.1" 200 26189
+INFO 2025-07-10 04:32:15,690 basehttp 99159 6143733760 "GET /static/admin/img/icon-yes.svg HTTP/1.1" 304 0
+INFO 2025-07-10 04:32:15,693 basehttp 99159 6126907392 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-10 04:32:18,490 basehttp 99159 6126907392 "GET /admin/listings/lawyerlisting/ HTTP/1.1" 200 25979
+INFO 2025-07-10 04:32:18,536 basehttp 99159 6126907392 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-10 04:32:23,747 basehttp 99159 6126907392 "GET /admin/listings/joblisting/ HTTP/1.1" 200 26189
+INFO 2025-07-10 04:32:23,770 basehttp 99159 6126907392 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-10 04:32:59,179 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:32:59,179 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:32:59,185 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:32:59,185 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:33:14,374 basehttp 99159 6126907392 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+INFO 2025-07-10 04:33:14,691 basehttp 99159 6126907392 "GET /api/listings/states/1/cities/ HTTP/1.1" 200 2
+WARNING 2025-07-10 04:33:44,464 log 99159 6126907392 Unauthorized: /api/listings/
+WARNING 2025-07-10 04:33:44,466 basehttp 99159 6126907392 "POST /api/listings/ HTTP/1.1" 401 58
+INFO 2025-07-10 04:33:45,050 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:33:45,050 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:33:45,055 basehttp 99159 6126907392 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:33:45,055 basehttp 99159 6143733760 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:39:21,300 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:39:21,301 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:39:28,187 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:39:28,187 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:39:28,196 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:39:28,197 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:39:51,354 basehttp 99159 6126907392 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+INFO 2025-07-10 04:39:52,870 basehttp 99159 6126907392 "GET /api/listings/states/1/cities/ HTTP/1.1" 200 2
+WARNING 2025-07-10 04:40:11,344 log 99159 6126907392 Unauthorized: /api/listings/
+WARNING 2025-07-10 04:40:11,345 basehttp 99159 6126907392 "POST /api/listings/ HTTP/1.1" 401 58
+INFO 2025-07-10 04:40:12,297 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:40:12,297 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:40:12,302 basehttp 99159 6143733760 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:40:12,303 basehttp 99159 6126907392 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:40:36,664 basehttp 99159 6126907392 "OPTIONS /api/auth/logout/ HTTP/1.1" 200 0
+WARNING 2025-07-10 04:40:36,679 log 99159 6143733760 Not Found: /api/auth/logout/
+WARNING 2025-07-10 04:40:36,679 basehttp 99159 6143733760 "POST /api/auth/logout/ HTTP/1.1" 404 8344
+INFO 2025-07-10 04:40:48,664 basehttp 99159 6126907392 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+WARNING 2025-07-10 04:40:48,682 log 99159 6143733760 Not Found: /api/auth/login/
+WARNING 2025-07-10 04:40:48,683 basehttp 99159 6143733760 "POST /api/auth/login/ HTTP/1.1" 404 8341
+INFO 2025-07-10 04:42:16,001 autoreload 99159 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/abropi/urls.py changed, reloading.
+INFO 2025-07-10 04:42:16,819 autoreload 362 8468154432 Watching for file changes with StatReloader
+WARNING 2025-07-10 04:46:10,874 log 362 6168047616 Not Found: /api/auth/login/
+WARNING 2025-07-10 04:46:10,875 basehttp 362 6168047616 "POST /api/auth/login/ HTTP/1.1" 404 8341
+WARNING 2025-07-10 04:47:28,219 log 362 6168047616 Not Found: /api/auth/login/
+WARNING 2025-07-10 04:47:28,220 basehttp 362 6168047616 "POST /api/auth/login/ HTTP/1.1" 404 8341
+INFO 2025-07-10 04:48:38,599 basehttp 362 6168047616 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+WARNING 2025-07-10 04:48:38,620 log 362 6325039104 Not Found: /api/auth/login/
+WARNING 2025-07-10 04:48:38,620 basehttp 362 6325039104 "POST /api/auth/login/ HTTP/1.1" 404 8341
+INFO 2025-07-10 04:49:25,221 basehttp 362 6168047616 "GET /admin/listings/joblisting/ HTTP/1.1" 200 26189
+INFO 2025-07-10 04:49:25,273 basehttp 362 6168047616 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-07-10 04:50:34,407 log 362 6168047616 Not Found: /api/auth/login/
+WARNING 2025-07-10 04:50:34,408 basehttp 362 6168047616 "POST /api/auth/login/ HTTP/1.1" 404 8341
+INFO 2025-07-10 04:51:54,277 autoreload 362 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/accounts/api_urls.py changed, reloading.
+INFO 2025-07-10 04:51:55,118 autoreload 1255 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-10 04:51:57,167 basehttp 1255 6162935808 "POST /api/auth/login/ HTTP/1.1" 200 1094
+INFO 2025-07-10 04:52:13,243 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:52:13,244 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:52:13,250 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:52:13,250 basehttp 1255 6196588544 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:52:36,255 basehttp 1255 6162935808 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+INFO 2025-07-10 04:52:37,211 basehttp 1255 6162935808 "OPTIONS /api/listings/states/2/cities/ HTTP/1.1" 200 0
+INFO 2025-07-10 04:52:37,276 basehttp 1255 6179762176 "GET /api/listings/states/2/cities/ HTTP/1.1" 200 190
+INFO 2025-07-10 04:52:38,799 basehttp 1255 6179762176 "GET /api/listings/states/1/cities/ HTTP/1.1" 200 2
+INFO 2025-07-10 04:52:43,622 basehttp 1255 6162935808 "GET /api/listings/states/2/cities/ HTTP/1.1" 200 190
+INFO 2025-07-10 04:52:47,579 basehttp 1255 6162935808 "GET /api/listings/states/1/cities/ HTTP/1.1" 200 2
+WARNING 2025-07-10 04:52:58,612 log 1255 6162935808 Method Not Allowed: /api/listings/
+WARNING 2025-07-10 04:52:58,613 basehttp 1255 6162935808 "POST /api/listings/ HTTP/1.1" 405 41
+INFO 2025-07-10 04:56:09,206 basehttp 1255 6213414912 "GET /api/listings/states/1/cities/ HTTP/1.1" 200 2
+INFO 2025-07-10 04:56:09,210 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 04:56:09,212 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 04:56:09,226 basehttp 1255 6196588544 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+WARNING 2025-07-10 04:56:15,285 log 1255 6162935808 Method Not Allowed: /api/listings/
+WARNING 2025-07-10 04:56:15,287 basehttp 1255 6162935808 "POST /api/listings/ HTTP/1.1" 405 41
+WARNING 2025-07-10 04:56:21,017 log 1255 6162935808 Method Not Allowed: /api/listings/
+WARNING 2025-07-10 04:56:21,019 basehttp 1255 6162935808 "POST /api/listings/ HTTP/1.1" 405 41
+WARNING 2025-07-10 04:56:49,159 log 1255 6162935808 Method Not Allowed: /api/listings/
+WARNING 2025-07-10 04:56:49,161 basehttp 1255 6162935808 "POST /api/listings/ HTTP/1.1" 405 41
+WARNING 2025-07-10 04:57:01,670 log 1255 6162935808 Method Not Allowed: /api/listings/
+WARNING 2025-07-10 04:57:01,671 basehttp 1255 6162935808 "POST /api/listings/ HTTP/1.1" 405 41
+INFO 2025-07-10 05:16:58,492 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 05:16:58,493 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 05:16:58,499 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 05:16:58,502 basehttp 1255 6162935808 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 05:17:12,863 basehttp 1255 6162935808 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+INFO 2025-07-10 05:17:14,337 basehttp 1255 6162935808 "GET /api/listings/states/1/cities/ HTTP/1.1" 200 2
+INFO 2025-07-10 05:22:48,916 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 05:22:48,920 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 05:23:28,782 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 05:23:28,783 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 05:24:56,884 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 05:24:56,885 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 05:24:56,896 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 05:24:56,897 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 05:24:58,144 basehttp 1255 6196588544 "OPTIONS /api/listings/categories/legal/fields/ HTTP/1.1" 200 0
+INFO 2025-07-10 05:24:58,155 basehttp 1255 6162935808 "GET /api/listings/categories/legal/fields/ HTTP/1.1" 200 640
+INFO 2025-07-10 05:24:58,162 basehttp 1255 6162935808 "GET /api/listings/categories/legal/fields/ HTTP/1.1" 200 640
+INFO 2025-07-10 05:25:24,306 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 05:25:24,306 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 05:25:24,312 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-10 05:25:24,314 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-10 05:25:25,557 basehttp 1255 6196588544 "OPTIONS /api/listings/categories/jobs/fields/ HTTP/1.1" 200 0
+INFO 2025-07-10 05:25:25,562 basehttp 1255 6162935808 "GET /api/listings/categories/jobs/fields/ HTTP/1.1" 200 1122
+INFO 2025-07-10 05:25:25,568 basehttp 1255 6162935808 "GET /api/listings/categories/jobs/fields/ HTTP/1.1" 200 1122
+INFO 2025-07-11 03:00:52,110 basehttp 1255 6162935808 "OPTIONS /api/auth/logout/ HTTP/1.1" 200 0
+WARNING 2025-07-11 03:00:52,130 log 1255 6179762176 Unauthorized: /api/auth/logout/
+WARNING 2025-07-11 03:00:52,131 basehttp 1255 6179762176 "POST /api/auth/logout/ HTTP/1.1" 401 172
+INFO 2025-07-11 03:01:02,649 basehttp 1255 6162935808 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2025-07-11 03:01:02,900 basehttp 1255 6179762176 "POST /api/auth/login/ HTTP/1.1" 200 1093
+INFO 2025-07-11 03:01:50,990 basehttp 1255 6162935808 "OPTIONS /api/listings/categories/ HTTP/1.1" 200 0
+INFO 2025-07-11 03:01:50,992 basehttp 1255 6179762176 "OPTIONS /api/listings/countries/ HTTP/1.1" 200 0
+INFO 2025-07-11 03:01:50,992 basehttp 1255 6196588544 "OPTIONS /api/listings/categories/ HTTP/1.1" 200 0
+INFO 2025-07-11 03:01:50,996 basehttp 1255 6213414912 "OPTIONS /api/listings/countries/ HTTP/1.1" 200 0
+INFO 2025-07-11 03:01:51,009 basehttp 1255 6247067648 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:01:51,010 basehttp 1255 6230241280 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-11 03:01:51,014 basehttp 1255 6230241280 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-11 03:01:51,014 basehttp 1255 6247067648 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:01:52,848 basehttp 1255 6247067648 "GET /api/listings/categories/legal/fields/ HTTP/1.1" 200 640
+INFO 2025-07-11 03:01:52,854 basehttp 1255 6247067648 "GET /api/listings/categories/legal/fields/ HTTP/1.1" 200 640
+INFO 2025-07-11 03:30:21,094 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:30:21,095 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-11 03:30:21,100 basehttp 1255 6196588544 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:30:21,101 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-11 03:30:21,104 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-11 03:30:21,105 basehttp 1255 6196588544 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:30:21,108 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-11 03:30:21,110 basehttp 1255 6196588544 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:30:39,579 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:30:39,579 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-11 03:30:39,584 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-11 03:30:39,587 basehttp 1255 6162935808 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:31:01,304 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:31:01,304 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-11 03:31:01,309 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:31:01,310 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-11 03:33:43,928 basehttp 1255 6162935808 "OPTIONS /api/listings/countries/1/states/ HTTP/1.1" 200 0
+INFO 2025-07-11 03:33:43,975 basehttp 1255 6179762176 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+INFO 2025-07-11 03:35:46,601 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:35:46,602 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-11 03:35:46,614 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:35:46,617 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 206
+INFO 2025-07-11 03:36:58,525 basehttp 1255 6162935808 "GET / HTTP/1.1" 200 88616
+INFO 2025-07-11 03:37:03,447 basehttp 1255 6162935808 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-07-11 03:37:03,483 basehttp 1255 6162935808 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4168
+INFO 2025-07-11 03:37:03,527 basehttp 1255 6162935808 "GET /static/admin/css/login.css HTTP/1.1" 304 0
+INFO 2025-07-11 03:37:04,913 basehttp 1255 6162935808 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-07-11 03:37:04,929 basehttp 1255 6162935808 "GET /admin/ HTTP/1.1" 200 28106
+INFO 2025-07-11 03:37:08,104 basehttp 1255 6162935808 "GET /admin/listings/category/add/ HTTP/1.1" 200 25613
+INFO 2025-07-11 03:37:08,179 basehttp 1255 6179762176 "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+INFO 2025-07-11 03:37:08,180 basehttp 1255 6196588544 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2025-07-11 03:37:08,184 basehttp 1255 6196588544 "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+INFO 2025-07-11 03:37:08,187 basehttp 1255 6196588544 "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+INFO 2025-07-11 03:37:08,189 basehttp 1255 6162935808 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 03:37:23,242 basehttp 1255 6162935808 "POST /admin/listings/category/add/ HTTP/1.1" 302 0
+INFO 2025-07-11 03:37:23,308 basehttp 1255 6162935808 "GET /admin/listings/category/ HTTP/1.1" 200 27948
+INFO 2025-07-11 03:37:23,376 basehttp 1255 6162935808 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 03:37:39,113 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:37:39,114 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:37:39,131 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:37:39,131 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:37:40,550 basehttp 1255 6162935808 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:37:40,554 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:37:40,564 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:37:40,565 basehttp 1255 6162935808 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:39:51,771 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:39:51,771 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:39:51,776 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:39:51,777 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:42:50,552 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:42:50,553 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:42:50,556 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:42:50,557 basehttp 1255 6162935808 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:45:23,024 basehttp 1255 6162935808 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+INFO 2025-07-11 03:51:25,157 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:51:25,158 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:51:25,161 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:51:25,163 basehttp 1255 6162935808 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:51:25,166 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:51:25,170 basehttp 1255 6162935808 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:51:25,172 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:51:25,174 basehttp 1255 6196588544 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:55:57,985 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:55:57,986 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:55:58,000 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:55:58,007 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:55:58,017 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 03:55:58,048 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:55:58,079 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 03:55:58,084 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+WARNING 2025-07-11 04:03:34,088 log 1255 6179762176 Unauthorized: /api/listings/countries/
+WARNING 2025-07-11 04:03:34,089 log 1255 6162935808 Unauthorized: /api/listings/categories/
+WARNING 2025-07-11 04:03:34,091 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 401 172
+WARNING 2025-07-11 04:03:34,092 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 401 172
+WARNING 2025-07-11 04:03:34,099 log 1255 6162935808 Unauthorized: /api/listings/categories/
+WARNING 2025-07-11 04:03:34,101 log 1255 6196588544 Unauthorized: /api/listings/countries/
+WARNING 2025-07-11 04:03:34,101 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 401 172
+WARNING 2025-07-11 04:03:34,101 basehttp 1255 6196588544 "GET /api/listings/countries/ HTTP/1.1" 401 172
+WARNING 2025-07-11 04:03:34,105 log 1255 6179762176 Unauthorized: /api/listings/categories/
+WARNING 2025-07-11 04:03:34,107 log 1255 6162935808 Unauthorized: /api/listings/countries/
+WARNING 2025-07-11 04:03:34,108 basehttp 1255 6162935808 "GET /api/listings/countries/ HTTP/1.1" 401 172
+WARNING 2025-07-11 04:03:34,108 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 401 172
+WARNING 2025-07-11 04:03:34,111 log 1255 6196588544 Unauthorized: /api/listings/categories/
+WARNING 2025-07-11 04:03:34,113 basehttp 1255 6196588544 "GET /api/listings/categories/ HTTP/1.1" 401 172
+WARNING 2025-07-11 04:03:34,112 log 1255 6213414912 Unauthorized: /api/listings/countries/
+WARNING 2025-07-11 04:03:34,116 basehttp 1255 6213414912 "GET /api/listings/countries/ HTTP/1.1" 401 172
+INFO 2025-07-11 04:03:35,536 basehttp 1255 6196588544 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:03:35,536 basehttp 1255 6213414912 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:03:35,540 basehttp 1255 6196588544 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:03:35,542 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:03:35,546 basehttp 1255 6196588544 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:03:35,549 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:03:35,551 basehttp 1255 6196588544 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:03:35,557 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:03:54,375 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:03:54,376 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:03:54,418 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:03:54,418 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:11:54,884 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:11:54,889 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:11:54,896 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:11:54,901 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:11:54,910 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:11:54,919 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:11:54,921 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:11:54,926 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:12:29,331 basehttp 1255 6162935808 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+INFO 2025-07-11 04:21:04,875 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:21:04,877 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:21:04,882 basehttp 1255 6196588544 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:21:04,892 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:22:24,911 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:22:24,912 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:22:24,915 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:22:24,916 basehttp 1255 6162935808 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:24:32,816 basehttp 1255 6162935808 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+INFO 2025-07-11 04:45:33,115 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:45:33,117 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:45:33,121 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 04:45:33,122 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 04:45:53,790 basehttp 1255 6162935808 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+INFO 2025-07-11 04:45:59,732 basehttp 1255 6162935808 "GET /api/listings/states/1/cities/ HTTP/1.1" 200 2
+INFO 2025-07-11 04:57:24,705 basehttp 1255 6162935808 "GET /api/listings/countries/1/states/ HTTP/1.1" 200 213
+INFO 2025-07-11 04:57:26,710 basehttp 1255 6162935808 "GET /api/listings/states/1/cities/ HTTP/1.1" 200 2
+INFO 2025-07-11 05:36:03,795 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 05:36:03,797 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 05:36:03,808 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 05:36:03,809 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 05:37:10,037 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 05:37:10,037 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 05:37:10,041 basehttp 1255 6162935808 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 05:37:10,043 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 312
+INFO 2025-07-11 05:37:41,540 basehttp 1255 6162935808 "GET /admin/listings/category/add/ HTTP/1.1" 200 25613
+INFO 2025-07-11 05:37:41,585 basehttp 1255 6196588544 "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,586 basehttp 1255 6179762176 "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,587 basehttp 1255 6213414912 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,588 basehttp 1255 6230241280 "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,590 basehttp 1255 6196588544 "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,590 basehttp 1255 6179762176 "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,590 basehttp 1255 6213414912 "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,590 basehttp 1255 6247067648 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,590 basehttp 1255 6230241280 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,593 basehttp 1255 6179762176 "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,593 basehttp 1255 6196588544 "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,594 basehttp 1255 6247067648 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,594 basehttp 1255 6162935808 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 05:37:41,594 basehttp 1255 6213414912 "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,596 basehttp 1255 6213414912 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2025-07-11 05:37:41,619 basehttp 1255 6213414912 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+INFO 2025-07-11 05:38:12,054 basehttp 1255 6162935808 "POST /admin/listings/category/add/ HTTP/1.1" 302 0
+INFO 2025-07-11 05:38:12,077 basehttp 1255 6162935808 "GET /admin/listings/category/ HTTP/1.1" 200 28557
+INFO 2025-07-11 05:38:12,123 basehttp 1255 6179762176 "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+INFO 2025-07-11 05:38:12,125 basehttp 1255 6196588544 "GET /static/admin/img/search.svg HTTP/1.1" 304 0
+INFO 2025-07-11 05:38:12,128 basehttp 1255 6196588544 "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+INFO 2025-07-11 05:38:12,128 basehttp 1255 6162935808 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 05:38:12,139 basehttp 1255 6196588544 "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+INFO 2025-07-11 05:38:12,139 basehttp 1255 6179762176 "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 304 0
+INFO 2025-07-11 05:38:12,139 basehttp 1255 6162935808 "GET /static/admin/img/icon-yes.svg HTTP/1.1" 304 0
+INFO 2025-07-11 05:38:12,139 basehttp 1255 6213414912 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
+INFO 2025-07-11 05:38:19,085 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 05:38:19,086 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 410
+INFO 2025-07-11 05:38:19,089 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 410
+INFO 2025-07-11 05:38:19,090 basehttp 1255 6162935808 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 05:39:07,791 basehttp 1255 6162935808 "GET /admin/listings/category/add/ HTTP/1.1" 200 25613
+INFO 2025-07-11 05:39:07,825 basehttp 1255 6162935808 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 05:40:29,908 basehttp 1255 6162935808 "POST /admin/listings/category/add/ HTTP/1.1" 302 0
+INFO 2025-07-11 05:40:29,926 basehttp 1255 6162935808 "GET /admin/listings/category/ HTTP/1.1" 200 29178
+INFO 2025-07-11 05:40:29,965 basehttp 1255 6162935808 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 05:40:40,217 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 05:40:40,218 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 512
+INFO 2025-07-11 05:40:40,231 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 512
+INFO 2025-07-11 05:40:40,233 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 05:42:44,387 basehttp 1255 6162935808 "GET /admin/listings/category/add/ HTTP/1.1" 200 25613
+INFO 2025-07-11 05:42:44,429 basehttp 1255 6162935808 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 05:42:56,984 basehttp 1255 6162935808 "POST /admin/listings/category/add/ HTTP/1.1" 302 0
+INFO 2025-07-11 05:42:57,012 basehttp 1255 6162935808 "GET /admin/listings/category/ HTTP/1.1" 200 29793
+INFO 2025-07-11 05:42:57,046 basehttp 1255 6162935808 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 05:43:04,222 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 05:43:04,223 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-11 05:43:04,226 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 05:43:04,226 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-11 05:45:31,632 basehttp 1255 6162935808 "GET /admin/listings/category/add/ HTTP/1.1" 200 25613
+INFO 2025-07-11 05:45:31,663 basehttp 1255 6162935808 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 05:46:14,312 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 05:46:14,313 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-11 05:46:14,319 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 05:46:14,322 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-11 16:32:29,251 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 16:32:29,252 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-11 16:32:29,255 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 16:32:29,257 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-11 16:37:39,742 basehttp 1255 6179762176 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 16:37:39,742 basehttp 1255 6162935808 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-11 16:37:39,747 basehttp 1255 6179762176 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-11 16:37:39,747 basehttp 1255 6162935808 "GET /api/listings/countries/ HTTP/1.1" 200 58
+INFO 2025-07-11 16:44:59,714 basehttp 1255 6162935808 "GET /admin/listings/listing/ HTTP/1.1" 200 29339
+INFO 2025-07-11 16:44:59,779 basehttp 1255 6162935808 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 16:45:10,824 basehttp 1255 6162935808 "POST /admin/listings/listing/ HTTP/1.1" 200 22783
+INFO 2025-07-11 16:45:10,883 basehttp 1255 6162935808 "GET /static/admin/js/cancel.js HTTP/1.1" 304 0
+INFO 2025-07-11 16:45:11,987 basehttp 1255 6162935808 "POST /admin/listings/listing/ HTTP/1.1" 302 0
+INFO 2025-07-11 16:45:12,002 basehttp 1255 6162935808 "GET /admin/listings/listing/ HTTP/1.1" 200 25528
+INFO 2025-07-11 16:45:12,015 basehttp 1255 6162935808 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 16:45:14,097 basehttp 1255 6162935808 "GET /admin/listings/joblisting/ HTTP/1.1" 200 23690
+INFO 2025-07-11 16:45:14,145 basehttp 1255 6162935808 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 17:34:37,146 autoreload 9992 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:34:53,868 autoreload 9992 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:34:54,310 autoreload 10004 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:35:08,686 basehttp 10004 6185054208 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:35:08,686 basehttp 10004 6168227840 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:35:08,690 basehttp 10004 6168227840 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:35:08,690 basehttp 10004 6185054208 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:35:13,461 basehttp 10004 6185054208 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:35:13,462 basehttp 10004 6168227840 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:35:13,468 basehttp 10004 6185054208 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:35:13,469 basehttp 10004 6168227840 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:35:25,812 autoreload 10004 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:35:26,289 autoreload 10030 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:35:35,903 basehttp 10030 6196621312 "GET /admin/listings/category/ HTTP/1.1" 200 29587
+INFO 2025-07-11 17:35:35,936 basehttp 10030 6196621312 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 17:35:37,693 basehttp 10030 6196621312 "GET /admin/listings/category/ HTTP/1.1" 200 29587
+INFO 2025-07-11 17:35:37,709 basehttp 10030 6196621312 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 17:35:56,727 autoreload 10030 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_urls.py changed, reloading.
+INFO 2025-07-11 17:35:57,188 autoreload 10045 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:36:02,544 autoreload 10045 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/abropi/urls.py changed, reloading.
+INFO 2025-07-11 17:36:02,971 autoreload 10056 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:36:07,953 basehttp 10056 6140801024 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:36:07,956 basehttp 10056 6123974656 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:36:07,960 basehttp 10056 6140801024 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:36:07,961 basehttp 10056 6123974656 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:36:11,414 basehttp 10056 6123974656 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:36:11,940 basehttp 10056 6123974656 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:36:12,304 basehttp 10056 6123974656 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:36:12,520 basehttp 10056 6123974656 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:36:36,677 autoreload 10056 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:36:37,140 autoreload 10079 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:36:40,676 basehttp 10079 6161723392 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:36:40,677 basehttp 10079 6178549760 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:36:40,681 basehttp 10079 6161723392 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:36:40,681 basehttp 10079 6178549760 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:37:09,953 basehttp 10079 6161723392 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:37:26,564 autoreload 10079 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/serializers.py changed, reloading.
+INFO 2025-07-11 17:37:27,023 autoreload 10114 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:37:29,236 basehttp 10114 6162788352 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:37:29,237 basehttp 10114 6179614720 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:37:29,243 basehttp 10114 6162788352 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:37:29,244 basehttp 10114 6179614720 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:37:59,428 autoreload 10114 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:37:59,914 autoreload 10142 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:38:02,571 basehttp 10142 6121795584 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:38:02,571 basehttp 10142 6138621952 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:38:02,576 basehttp 10142 6121795584 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:38:02,576 basehttp 10142 6138621952 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:38:20,970 autoreload 10142 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:38:21,382 autoreload 10167 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:38:26,379 basehttp 10167 6125023232 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:38:26,382 basehttp 10167 6141849600 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:38:26,389 basehttp 10167 6125023232 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:38:26,389 basehttp 10167 6141849600 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:38:49,803 autoreload 10167 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/serializers.py changed, reloading.
+INFO 2025-07-11 17:38:50,264 autoreload 10186 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:38:59,818 autoreload 10186 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:39:00,226 autoreload 10221 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:39:12,979 basehttp 10221 6218854400 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:39:12,980 basehttp 10221 6202028032 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:39:12,984 basehttp 10221 6218854400 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:39:12,984 basehttp 10221 6202028032 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:41:01,625 autoreload 10221 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:41:02,182 autoreload 10290 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:41:09,797 basehttp 10290 6172749824 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:41:09,798 basehttp 10290 6155923456 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:41:09,802 basehttp 10290 6155923456 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:41:09,803 basehttp 10290 6172749824 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:41:58,660 autoreload 10290 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:41:59,135 autoreload 10316 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:44:51,437 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:44:51,437 basehttp 10316 6149206016 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:44:51,440 basehttp 10316 6166032384 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:44:51,441 basehttp 10316 6132379648 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:45:09,747 basehttp 10316 6132379648 "GET /admin/listings/category/ HTTP/1.1" 200 29587
+INFO 2025-07-11 17:45:09,781 basehttp 10316 6132379648 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-07-11 17:45:41,358 basehttp 10316 6149206016 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:45:41,360 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:45:56,065 basehttp 10316 6149206016 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:45:56,066 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:45:56,072 basehttp 10316 6149206016 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:45:56,073 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:46:06,979 basehttp 10316 6149206016 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:46:06,981 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:46:10,825 basehttp 10316 6149206016 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:46:10,825 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:46:10,829 basehttp 10316 6132379648 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:46:10,830 basehttp 10316 6149206016 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:48:22,258 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:48:22,785 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:52:54,935 basehttp 10316 6149206016 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:52:54,936 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:53:07,096 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:53:07,097 basehttp 10316 6149206016 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:53:07,101 basehttp 10316 6166032384 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:53:07,103 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:54:19,091 basehttp 10316 6149206016 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:54:19,094 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:54:22,045 basehttp 10316 6149206016 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:54:22,045 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:54:22,050 basehttp 10316 6149206016 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:54:22,051 basehttp 10316 6132379648 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:56:20,573 autoreload 10316 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:56:21,162 autoreload 10587 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:56:26,464 autoreload 10587 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:56:26,860 autoreload 10597 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:56:30,083 autoreload 10597 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:56:30,351 autoreload 10605 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:56:31,453 autoreload 10605 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:56:31,724 autoreload 10606 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:56:38,083 autoreload 10606 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:56:38,361 autoreload 10616 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:56:46,823 autoreload 10616 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:56:47,107 autoreload 10623 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:56:50,251 autoreload 10623 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:56:50,533 autoreload 10630 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:56:53,749 autoreload 10630 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-11 17:56:54,085 autoreload 10637 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-11 17:57:02,702 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:57:02,704 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:57:02,708 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:57:02,709 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:58:46,450 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:58:46,451 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:58:46,465 basehttp 10637 6197620736 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:58:46,467 basehttp 10637 6214447104 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:58:49,297 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:58:49,299 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 17:58:49,308 basehttp 10637 6231273472 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 17:58:49,310 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 18:00:38,259 basehttp 10637 6197620736 "OPTIONS /api/auth/logout/ HTTP/1.1" 200 0
+WARNING 2025-07-11 18:00:38,267 log 10637 6214447104 Unauthorized: /api/auth/logout/
+WARNING 2025-07-11 18:00:38,267 basehttp 10637 6214447104 "POST /api/auth/logout/ HTTP/1.1" 401 58
+INFO 2025-07-11 18:00:48,281 basehttp 10637 6197620736 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2025-07-11 18:00:48,534 basehttp 10637 6214447104 "POST /api/auth/login/ HTTP/1.1" 200 1093
+INFO 2025-07-11 18:03:30,055 basehttp 10637 6197620736 "POST /api/auth/logout/ HTTP/1.1" 200 31
+WARNING 2025-07-11 18:03:39,780 log 10637 6197620736 Bad Request: /api/auth/login/
+WARNING 2025-07-11 18:03:39,780 basehttp 10637 6197620736 "POST /api/auth/login/ HTTP/1.1" 400 179
+INFO 2025-07-11 18:03:50,405 basehttp 10637 6197620736 "POST /api/auth/login/ HTTP/1.1" 200 1093
+INFO 2025-07-11 18:09:18,019 basehttp 10637 6197620736 "POST /api/auth/logout/ HTTP/1.1" 200 31
+WARNING 2025-07-11 18:09:24,666 log 10637 6197620736 Bad Request: /api/auth/login/
+WARNING 2025-07-11 18:09:24,667 basehttp 10637 6197620736 "POST /api/auth/login/ HTTP/1.1" 400 179
+WARNING 2025-07-11 18:09:59,692 log 10637 6197620736 Bad Request: /api/auth/login/
+WARNING 2025-07-11 18:09:59,693 basehttp 10637 6197620736 "POST /api/auth/login/ HTTP/1.1" 400 179
+WARNING 2025-07-11 18:19:06,862 log 10637 6197620736 Bad Request: /api/auth/login/
+WARNING 2025-07-11 18:19:06,863 basehttp 10637 6197620736 "POST /api/auth/login/ HTTP/1.1" 400 179
+WARNING 2025-07-11 18:19:18,680 log 10637 6197620736 Bad Request: /api/auth/login/
+WARNING 2025-07-11 18:19:18,680 basehttp 10637 6197620736 "POST /api/auth/login/ HTTP/1.1" 400 179
+WARNING 2025-07-11 18:19:21,713 log 10637 6197620736 Bad Request: /api/auth/login/
+WARNING 2025-07-11 18:19:21,713 basehttp 10637 6197620736 "POST /api/auth/login/ HTTP/1.1" 400 179
+INFO 2025-07-11 18:19:32,485 basehttp 10637 6197620736 "POST /api/auth/login/ HTTP/1.1" 200 1093
+INFO 2025-07-11 18:19:41,244 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 18:19:41,244 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 18:19:41,249 basehttp 10637 6197620736 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 18:19:41,250 basehttp 10637 6214447104 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 18:20:04,108 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+WARNING 2025-07-11 18:20:04,323 log 10637 6197620736 Not Found: /favicon.ico
+WARNING 2025-07-11 18:20:04,323 basehttp 10637 6197620736 "GET /favicon.ico HTTP/1.1" 404 4872
+INFO 2025-07-11 18:23:15,826 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 18:23:15,829 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 18:23:15,846 basehttp 10637 6231273472 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 18:23:15,851 basehttp 10637 6197620736 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 18:23:29,027 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 18:23:29,028 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 18:23:29,043 basehttp 10637 6197620736 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 18:23:29,045 basehttp 10637 6214447104 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 18:25:01,005 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 18:25:01,007 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 18:25:05,459 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 18:25:05,460 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+WARNING 2025-07-11 23:30:24,433 log 10637 6197620736 Unauthorized: /api/auth/logout/
+WARNING 2025-07-11 23:30:24,436 basehttp 10637 6197620736 "POST /api/auth/logout/ HTTP/1.1" 401 172
+WARNING 2025-07-11 23:34:02,475 log 10637 6197620736 Bad Request: /api/auth/login/
+WARNING 2025-07-11 23:34:02,477 basehttp 10637 6197620736 "POST /api/auth/login/ HTTP/1.1" 400 179
+INFO 2025-07-11 23:34:07,304 basehttp 10637 6197620736 "POST /api/auth/login/ HTTP/1.1" 200 1093
+INFO 2025-07-11 23:34:27,242 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 23:34:27,242 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 23:34:27,246 basehttp 10637 6197620736 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-11 23:34:27,246 basehttp 10637 6214447104 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-11 23:34:41,382 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:05:47,465 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:05:47,466 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 00:05:47,469 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:05:47,470 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 00:06:51,322 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:11:12,847 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 00:11:12,850 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:48,425 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:48,425 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 00:21:48,430 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 00:21:48,430 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:54,213 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 00:21:54,213 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:54,217 basehttp 10637 6231273472 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 00:21:54,219 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:55,171 basehttp 10637 6231273472 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 00:21:55,172 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:55,175 basehttp 10637 6231273472 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 00:21:55,175 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:56,914 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:57,385 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:57,588 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:57,768 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:57,943 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:58,099 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:58,338 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:58,926 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:21:59,376 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:22:25,555 basehttp 10637 6214447104 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 00:22:25,556 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 00:22:25,568 basehttp 10637 6231273472 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 00:22:25,571 basehttp 10637 6197620736 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 02:11:42,885 autoreload 18258 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-12 02:12:12,651 basehttp 18258 6137704448 "GET /?country=ca&state=british-columbia&origin=bd HTTP/1.1" 200 94007
+INFO 2025-07-12 02:12:14,007 basehttp 18258 6137704448 "GET / HTTP/1.1" 200 94007
+INFO 2025-07-12 02:12:39,119 basehttp 18258 6137704448 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 02:12:39,119 basehttp 18258 6154530816 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:12:39,124 basehttp 18258 6154530816 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 02:12:39,124 basehttp 18258 6137704448 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:13:35,278 basehttp 18258 6137704448 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 02:13:35,279 basehttp 18258 6154530816 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:13:45,447 basehttp 18258 6154530816 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:13:45,448 basehttp 18258 6137704448 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 02:13:45,460 basehttp 18258 6137704448 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 02:13:45,474 basehttp 18258 6154530816 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:14:09,062 basehttp 18258 6154530816 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:14:09,063 basehttp 18258 6137704448 "GET /api/listings/categories/ HTTP/1.1" 200 662
+INFO 2025-07-12 02:15:02,762 autoreload 18258 8468154432 /Users/rahmanazizur/Desktop/abropi/abropi/listings/api_views.py changed, reloading.
+INFO 2025-07-12 02:15:03,496 autoreload 18631 8468154432 Watching for file changes with StatReloader
+INFO 2025-07-12 02:15:07,728 basehttp 18631 6132920320 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-12 02:15:07,728 basehttp 18631 6149746688 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:15:07,736 basehttp 18631 6132920320 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:15:07,737 basehttp 18631 6149746688 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-12 02:16:27,380 basehttp 18631 6132920320 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-12 02:16:27,380 basehttp 18631 6149746688 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:16:27,384 basehttp 18631 6149746688 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-12 02:16:27,385 basehttp 18631 6132920320 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:16:37,579 basehttp 18631 6132920320 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-12 02:16:37,580 basehttp 18631 6149746688 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:16:37,584 basehttp 18631 6149746688 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-12 02:16:37,587 basehttp 18631 6132920320 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:35:41,026 basehttp 18631 6149746688 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:35:41,027 basehttp 18631 6132920320 "GET /api/listings/categories/ HTTP/1.1" 200 612
+INFO 2025-07-12 02:35:41,032 basehttp 18631 6132920320 "GET /api/listings/countries/ HTTP/1.1" 200 108
+INFO 2025-07-12 02:35:41,033 basehttp 18631 6149746688 "GET /api/listings/categories/ HTTP/1.1" 200 612
